@@ -585,8 +585,8 @@
           Alyra Solutions delivers purpose-built software platforms for service industry businesses — from nail salons to restaurants, barbershops to spas. One company, multiple solutions, zero compromise.
         </p>
         <div class="hero-actions">
-          <span class="btn-primary" onclick="scrollToProducts()">Explore Platforms</span>
-          <span class="btn-outline" onclick="showPage('contact')">Request a Demo</span>
+          <button class="btn-primary" id="btn-explore">Explore Platforms</button>
+          <button class="btn-outline" id="btn-demo" style="background:transparent;color:var(--cream);border:1px solid rgba(250,248,244,0.3);cursor:pointer;">Request a Demo</button>
         </div>
       </div>
       <div class="hero-stats">
@@ -1023,4 +1023,39 @@
     <p>For privacy-related questions or requests:<br>
     <a href="/cdn-cgi/l/email-protection#a6cbc7cbcfc3e6c7cadfd4c7d5c9cad3d2cfc9c8d588d3d5"><span class="__cf_email__" data-cfemail="a7cac6cacec2e7c6cbded5c6d4c8cbd2d3cec8c9d489d2d4">[email&#160;protected]</span></a><br>
     Alyra Solutions</p>
-  </d
+  </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-logo">Alyra <span style="color:var(--gold)">Solutions</span></div>
+        <p>© 2025 Alyra Solutions. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function scrollToProducts() {
+    showPage('home');
+    setTimeout(() => {
+      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btnExplore = document.getElementById('btn-explore');
+    var btnDemo = document.getElementById('btn-demo');
+    if (btnExplore) btnExplore.addEventListener('click', scrollToProducts);
+    if (btnDemo) btnDemo.addEventListener('click', function() { showPage('contact'); });
+  });
+</script>
+</body>
+</html>
