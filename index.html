@@ -792,7 +792,7 @@
 
     <h2>Contact Us</h2>
     <p>Alyra Solutions<br>
-    Email: hello@alyrasolutions.us</p>
+    Email: <a href="/cdn-cgi/l/email-protection#19747874707c597875606b786a76756c6d7076776a376c6a"><span class="__cf_email__" data-cfemail="422f232f2b2702232e3b3023312d2e37362b2d2c316c3731">[email&#160;protected]</span></a></p>
   </div>
 
   <footer>
@@ -829,23 +829,23 @@
         <div class="contact-info">
           <h3>Get in touch</h3>
           <p>Reach out to learn more about any of our platforms, request a demo, or discuss a partnership. We respond to all inquiries within one business day.</p>
-          <div class="contact-detail"><span>✉</span><span>hello@alyrasolutions.us</span></div>
+          <div class="contact-detail"><span>✉</span><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef3fff3f7fbdefff2e7ecffedf1f2ebeaf7f1f0edb0ebed">[email&#160;protected]</a></span></div>
           <div class="contact-detail"><span>🌐</span><span>alyrasolutions.us</span></div>
           <br>
           <p style="font-size:0.85rem; color:var(--muted)"><strong>Business hours:</strong><br>Monday – Friday, 9am – 6pm CT</p>
         </div>
-        <div class="contact-form">
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/xkoqewlw" method="POST">
           <div class="form-group">
             <label>Your Name</label>
-            <input type="text" placeholder="Jane Smith">
+            <input type="text" name="name" placeholder="Jane Smith" required>
           </div>
           <div class="form-group">
             <label>Email Address</label>
-            <input type="email" placeholder="jane@yourbusiness.com">
+            <input type="email" name="email" placeholder="jane@yourbusiness.com" required>
           </div>
           <div class="form-group">
             <label>Business Type</label>
-            <select>
+            <select name="business_type">
               <option value="">Select your industry</option>
               <option>Nail Salon</option>
               <option>Restaurant</option>
@@ -856,10 +856,11 @@
           </div>
           <div class="form-group">
             <label>Message</label>
-            <textarea placeholder="Tell us about your business and what you're looking for..."></textarea>
+            <textarea name="message" placeholder="Tell us about your business and what you're looking for..." required></textarea>
           </div>
-          <button class="btn-primary" style="align-self:flex-start" onclick="alert('Thank you! We will be in touch within one business day.')">Send Message</button>
-        </div>
+          <div id="form-success" style="display:none;color:#2d7a3a;font-size:0.9rem;font-weight:500;">✓ Message sent! We'll be in touch within one business day.</div>
+          <button type="submit" class="btn-primary" style="align-self:flex-start">Send Message</button>
+        </form>
       </div>
     </div>
   </section>
@@ -932,7 +933,7 @@
 
     <h2>11. Contact</h2>
     <p>For questions regarding these Terms, contact us at:<br>
-    hello@alyrasolutions.us<br>
+    <a href="/cdn-cgi/l/email-protection#bad7dbd7d3dffadbd6c3c8dbc9d5d6cfced3d5d4c994cfc9"><span class="__cf_email__" data-cfemail="deb3bfb3b7bb9ebfb2a7acbfadb1b2abaab7b1b0adf0abad">[email&#160;protected]</span></a><br>
     Alyra Solutions</p>
   </div>
 
@@ -1008,7 +1009,7 @@
     <p>We retain account and transaction data for as long as your account is active or as required by law. You may request deletion of your account data by contacting us.</p>
 
     <h2>8. Your Rights</h2>
-    <p>Depending on your location, you may have rights to access, correct, or delete your personal data. To exercise these rights, contact us at hello@alyrasolutions.us.</p>
+    <p>Depending on your location, you may have rights to access, correct, or delete your personal data. To exercise these rights, contact us at <a href="/cdn-cgi/l/email-protection#acc1cdc1c5c9eccdc0d5decddfc3c0d9d8c5c3c2df82d9df"><span class="__cf_email__" data-cfemail="553834383c301534392c2734263a3920213c3a3b267b2026">[email&#160;protected]</span></a>.</p>
 
     <h2>9. Cookies</h2>
     <p>We use cookies and similar tracking technologies to maintain sessions and analyze platform usage. You may disable cookies in your browser settings, though some features may not function properly.</p>
@@ -1021,7 +1022,7 @@
 
     <h2>12. Contact Us</h2>
     <p>For privacy-related questions or requests:<br>
-    hello@alyrasolutions.us<br>
+    <a href="/cdn-cgi/l/email-protection#a6cbc7cbcfc3e6c7cadfd4c7d5c9cad3d2cfc9c8d588d3d5"><span class="__cf_email__" data-cfemail="a7cac6cacec2e7c6cbded5c6d4c8cbd2d3cec8c9d489d2d4">[email&#160;protected]</span></a><br>
     Alyra Solutions</p>
   </div>
   </div>
@@ -1055,6 +1056,24 @@
     var btnDemo = document.getElementById('btn-demo');
     if (btnExplore) btnExplore.addEventListener('click', scrollToProducts);
     if (btnDemo) btnDemo.addEventListener('click', function() { showPage('contact'); });
+
+    var form = document.getElementById('contact-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var data = new FormData(form);
+        fetch('https://formspree.io/f/xkoqewlw', {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        }).then(function(res) {
+          if (res.ok) {
+            form.reset();
+            document.getElementById('form-success').style.display = 'block';
+          }
+        });
+      });
+    }
   });
 </script>
 </body>
