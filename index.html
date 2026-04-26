@@ -3,312 +3,522 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alyra Solutions — Service Industry Software</title>
+<title>Alyra Solutions — AI Growth & Service Industry Software</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jura:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --deep:    #2a0d42;
-  --purple:  #4a1c62;
-  --violet:  #8a50a8;
-  --rose:    #d264a0;
-  --lavender:#bc94d2;
-  --gold:    #f0b978;
-  --cream:   #faf8fc;
-  --white:   #ffffff;
-  --muted:   #9a8aaa;
-  --border:  rgba(188,148,210,0.2);
+  --deep:     #06030f;
+  --space:    #0d0820;
+  --purple:   #1a0d35;
+  --violet:   #6d28d9;
+  --violet2:  #8b5cf6;
+  --rose:     #e879a0;
+  --rose2:    #f472b6;
+  --gold:     #f0b978;
+  --cyan:     #22d3ee;
+  --lavender: #c4b5fd;
+  --white:    #ffffff;
+  --off:      #e8e4f0;
+  --muted:    #9d8fbe;
+  --border:   rgba(139,92,246,0.2);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'Jura',sans-serif;background:var(--cream);color:var(--purple);line-height:1.6;overflow-x:hidden;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--deep);color:var(--white);line-height:1.6;overflow-x:hidden;}
 
-/* PAGE ROUTER */
 .page{display:none;}
 .page.active{display:block;}
+
+/* ── CANVAS ── */
+#cosmos{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
 /* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 2.5rem;height:68px;
+  padding:0 2.5rem;height:70px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(42,13,66,0.96);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(188,148,210,0.15);
+  background:rgba(6,3,15,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(139,92,246,0.15);
 }
-.nav-logo{
-  display:flex;align-items:center;gap:0.75rem;
-  cursor:pointer;
+.nav-logo{cursor:pointer;display:flex;align-items:center;gap:0.6rem;}
+.nav-logo-mark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--violet),var(--rose));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:white;
+  font-family:'Outfit',sans-serif;
 }
-.nav-logo img{height:38px;width:auto;}
 .nav-logo-text{
   font-family:'Cormorant Garamond',serif;
   font-size:1.3rem;font-weight:400;
-  color:var(--white);letter-spacing:0.08em;
+  color:var(--white);letter-spacing:0.06em;
 }
 .nav-logo-text span{color:var(--rose);}
 .nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
 .nav-links a{
-  font-size:0.8rem;font-weight:500;
-  color:var(--lavender);text-decoration:none;
-  letter-spacing:0.15em;text-transform:uppercase;
+  font-size:0.78rem;font-weight:500;
+  color:var(--muted);text-decoration:none;
+  letter-spacing:0.12em;text-transform:uppercase;
   cursor:pointer;transition:color 0.2s;
 }
 .nav-links a:hover{color:var(--white);}
 .nav-cta{
-  background:linear-gradient(135deg,var(--rose),var(--violet)) !important;
+  background:linear-gradient(135deg,var(--violet),var(--rose)) !important;
   color:var(--white) !important;
   padding:0.5rem 1.4rem;border-radius:30px;
   font-weight:600 !important;
 }
 
+/* ── PROMO BANNER ── */
+.promo-banner{
+  position:relative;z-index:50;
+  background:linear-gradient(90deg,var(--violet),var(--rose),var(--violet));
+  background-size:200% 100%;
+  animation:shimmer 4s linear infinite;
+  text-align:center;padding:0.6rem 2rem;
+  font-size:0.8rem;font-weight:600;color:white;
+  letter-spacing:0.08em;
+}
+@keyframes shimmer{0%{background-position:0% 0%;}100%{background-position:200% 0%;}}
+.promo-banner strong{color:var(--gold);}
+
 /* ── HERO ── */
 .hero{
-  padding-top:68px;min-height:100vh;
+  position:relative;z-index:1;
+  padding-top:70px;min-height:100vh;
   display:flex;align-items:center;
-  background:var(--deep);
-  position:relative;overflow:hidden;
+  overflow:hidden;
 }
-.hero-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 70% 60% at 100% 40%, rgba(138,80,168,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 70% at 0% 80%, rgba(210,100,160,0.1) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 40% at 50% 0%, rgba(240,185,120,0.06) 0%, transparent 50%);
-}
-.hero-mandala{
-  position:absolute;right:-120px;top:50%;transform:translateY(-50%);
-  width:600px;height:600px;opacity:0.06;
-  background:conic-gradient(from 0deg, var(--violet), var(--rose), var(--lavender), var(--gold), var(--violet));
+.hero-orb{
+  position:absolute;
   border-radius:50%;
-  animation:spin 40s linear infinite;
+  filter:blur(80px);
+  animation:float 8s ease-in-out infinite;
 }
-@keyframes spin{to{transform:translateY(-50%) rotate(360deg);}}
+.hero-orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(109,40,217,0.35),transparent 70%);top:-100px;right:-100px;}
+.hero-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(232,121,160,0.25),transparent 70%);bottom:0;left:-50px;animation-delay:-3s;}
+.hero-orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(34,211,238,0.12),transparent 70%);top:30%;left:40%;animation-delay:-5s;}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.05);}}
 
 .hero-inner{
   position:relative;z-index:1;
   max-width:1100px;margin:0 auto;
   padding:5rem 2.5rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
 }
 .hero-eyebrow{
-  font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;
-  color:var(--gold);font-weight:600;margin-bottom:1.25rem;
+  font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--cyan);font-weight:600;margin-bottom:1.25rem;
   display:flex;align-items:center;gap:0.75rem;
 }
-.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--gold);}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--cyan);}
 .hero-title{
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(3rem,5.5vw,4.8rem);
-  font-weight:300;line-height:1.08;
+  font-weight:300;line-height:1.06;
   color:var(--white);margin-bottom:1.5rem;
-  letter-spacing:0.02em;
+  letter-spacing:0.01em;
 }
-.hero-title em{font-style:italic;color:var(--rose);}
+.hero-title .gradient-text{
+  background:linear-gradient(135deg,var(--violet2),var(--rose),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-style:italic;
+}
 .hero-sub{
-  font-size:1rem;color:rgba(255,255,255,0.55);
-  line-height:1.8;margin-bottom:2.5rem;max-width:440px;
-  font-weight:300;letter-spacing:0.03em;
+  font-size:1rem;color:rgba(255,255,255,0.6);
+  line-height:1.85;margin-bottom:2.5rem;max-width:480px;
+  font-weight:300;
 }
 .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
 .btn-primary{
-  background:linear-gradient(135deg,var(--rose),var(--violet));
+  background:linear-gradient(135deg,var(--violet),var(--rose));
   color:var(--white);padding:0.9rem 2.2rem;
   border-radius:30px;font-size:0.85rem;font-weight:600;
-  text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;
-  cursor:pointer;border:none;
-  transition:opacity 0.2s,transform 0.15s;
+  text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;
+  cursor:pointer;border:none;font-family:'Space Grotesk',sans-serif;
+  transition:opacity 0.2s,transform 0.15s,box-shadow 0.2s;
   display:inline-block;
-  box-shadow:0 8px 24px rgba(210,100,160,0.3);
+  box-shadow:0 0 30px rgba(109,40,217,0.4);
 }
-.btn-primary:hover{opacity:0.9;transform:translateY(-2px);}
+.btn-primary:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 0 50px rgba(109,40,217,0.6);}
 .btn-ghost{
   background:transparent;color:var(--lavender);
   padding:0.9rem 2.2rem;border-radius:30px;
   font-size:0.85rem;font-weight:500;
-  text-decoration:none;border:1px solid rgba(188,148,210,0.4);
-  cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;
-  transition:border-color 0.2s,color 0.2s;display:inline-block;
+  text-decoration:none;border:1px solid rgba(139,92,246,0.4);
+  cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;
+  font-family:'Space Grotesk',sans-serif;
+  transition:all 0.2s;display:inline-block;
 }
-.btn-ghost:hover{border-color:var(--lavender);color:var(--white);}
+.btn-ghost:hover{border-color:var(--violet2);color:var(--white);background:rgba(109,40,217,0.1);}
 
-/* Hero right — stats */
-.hero-right{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.stat-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(188,148,210,0.15);
-  border-radius:12px;padding:1.5rem 1.25rem;
-  position:relative;overflow:hidden;
+/* Hero visual */
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;}
+.hero-orb-main{
+  width:320px;height:320px;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--violet),var(--rose),var(--cyan),var(--gold),var(--violet));
+  animation:spin 20s linear infinite;
+  position:relative;
+  box-shadow:0 0 80px rgba(109,40,217,0.5),0 0 160px rgba(232,121,160,0.2);
 }
-.stat-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--rose),var(--violet));
+@keyframes spin{to{transform:rotate(360deg);}}
+.hero-orb-main::after{
+  content:'';position:absolute;inset:12px;
+  background:var(--deep);border-radius:50%;
 }
-.stat-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.2rem;color:var(--lavender);font-weight:300;line-height:1;
-  margin-bottom:0.3rem;
+.hero-orb-inner{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  z-index:2;flex-direction:column;gap:0.5rem;
 }
-.stat-label{font-size:0.7rem;color:rgba(255,255,255,0.4);letter-spacing:0.12em;text-transform:uppercase;}
+.hero-badge{
+  background:rgba(13,8,32,0.9);border:1px solid rgba(139,92,246,0.3);
+  border-radius:12px;padding:0.75rem 1rem;text-align:center;
+  backdrop-filter:blur(10px);
+}
+.hero-badge-num{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--lavender);line-height:1;}
+.hero-badge-label{font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;}
+.hero-orbit{
+  position:absolute;border:1px solid rgba(139,92,246,0.15);
+  border-radius:50%;animation:spin 30s linear infinite;
+}
+.hero-orbit-1{width:400px;height:400px;}
+.hero-orbit-2{width:500px;height:500px;animation-direction:reverse;animation-duration:40s;}
+.orbit-dot{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  background:var(--violet2);top:0;left:50%;transform:translate(-50%,-50%);
+  box-shadow:0 0 12px var(--violet2);
+}
+.orbit-dot-2{background:var(--rose);box-shadow:0 0 12px var(--rose);}
 
 /* ── TRUST BAR ── */
 .trust-bar{
-  background:var(--purple);
-  padding:1.5rem 2.5rem;
+  position:relative;z-index:1;
+  background:rgba(13,8,32,0.8);
+  padding:1.25rem 2.5rem;
   display:flex;align-items:center;justify-content:center;
   gap:3rem;flex-wrap:wrap;
-  border-top:1px solid rgba(188,148,210,0.1);
-  border-bottom:1px solid rgba(188,148,210,0.1);
+  border-top:1px solid rgba(139,92,246,0.1);
+  border-bottom:1px solid rgba(139,92,246,0.1);
+  backdrop-filter:blur(10px);
 }
 .trust-item{
-  font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--lavender);display:flex;align-items:center;gap:0.5rem;
+  font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:0.5rem;
 }
-.trust-item span{color:var(--gold);font-size:1rem;}
+.trust-item span{color:var(--rose);}
 
 /* ── SECTIONS ── */
 .section-label{
-  font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;
-  color:var(--rose);font-weight:600;margin-bottom:0.75rem;
+  font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--cyan);font-weight:600;margin-bottom:0.75rem;
   display:flex;align-items:center;gap:0.75rem;
+  font-family:'Space Grotesk',sans-serif;
 }
-.section-label::before{content:'';width:24px;height:1px;background:var(--rose);}
+.section-label::before{content:'';width:24px;height:1px;background:var(--cyan);}
 .section-title{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2rem,3.5vw,2.8rem);
-  font-weight:400;line-height:1.15;margin-bottom:1rem;
-  color:var(--purple);
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:300;line-height:1.12;margin-bottom:1rem;
+  color:var(--white);
 }
-.section-sub{
-  font-size:0.95rem;color:var(--muted);max-width:520px;
-  line-height:1.8;font-weight:300;
+.section-title .gradient-text{
+  background:linear-gradient(135deg,var(--violet2),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
+.section-sub{font-size:0.95rem;color:rgba(255,255,255,0.55);max-width:520px;line-height:1.85;font-weight:300;}
 .container{max-width:1100px;margin:0 auto;}
 
-/* ── PRODUCTS ── */
-.products{background:var(--cream);padding:6rem 2.5rem;}
-.products-header{margin-bottom:3.5rem;}
-.products-grid{
+/* ── GROWTHAI FLAGSHIP ── */
+.growthai{
+  position:relative;z-index:1;
+  padding:8rem 2.5rem;
+  background:linear-gradient(180deg,var(--deep) 0%,var(--space) 50%,var(--deep) 100%);
+}
+.growthai-header{text-align:center;margin-bottom:5rem;}
+.growthai-header .section-label{justify-content:center;}
+.growthai-header .section-label::before{display:none;}
+.growthai-header .section-sub{margin:0 auto;}
+
+/* Pricing cards */
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-bottom:4rem;
+  position:relative;z-index:1;
+}
+.pricing-card{
+  border-radius:20px;padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  border:1px solid rgba(139,92,246,0.2);
+  background:rgba(13,8,32,0.8);
+  backdrop-filter:blur(10px);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.pricing-card:hover{transform:translateY(-6px);}
+.pricing-card.featured{
+  border-color:var(--violet2);
+  background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(232,121,160,0.08));
+  box-shadow:0 0 60px rgba(109,40,217,0.2);
+}
+.pricing-card.featured::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(109,40,217,0.08),transparent);
+  pointer-events:none;
+}
+.pricing-glow{
+  position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,40,217,0.3),transparent 70%);
+  pointer-events:none;
+}
+.featured .pricing-glow{background:radial-gradient(circle,rgba(232,121,160,0.3),transparent 70%);}
+.pricing-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--violet),var(--rose));
+  color:white;font-size:0.6rem;font-weight:700;
+  letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.3rem 0.8rem;border-radius:20px;margin-bottom:1.5rem;
+}
+.pricing-badge.gold-badge{
+  background:linear-gradient(135deg,var(--gold),#e89a3c);
+  color:var(--deep);
+}
+.pricing-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:400;color:var(--white);
+  margin-bottom:0.5rem;letter-spacing:0.04em;
+}
+.pricing-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;line-height:1.7;}
+.pricing-price{margin-bottom:0.5rem;}
+.pricing-original{
+  font-size:0.85rem;color:rgba(255,255,255,0.3);
+  text-decoration:line-through;margin-bottom:0.25rem;
+  font-family:'Space Grotesk',sans-serif;
+}
+.pricing-amount{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3.2rem;font-weight:300;color:var(--white);line-height:1;
+}
+.pricing-amount span{font-size:1.2rem;vertical-align:top;margin-top:0.6rem;display:inline-block;color:var(--muted);}
+.pricing-amount em{font-size:1rem;font-style:normal;color:var(--muted);}
+.pricing-promo{
+  font-size:0.72rem;color:var(--cyan);letter-spacing:0.1em;
+  text-transform:uppercase;font-weight:600;margin-bottom:2rem;
+}
+.pricing-divider{height:1px;background:rgba(139,92,246,0.15);margin:1.5rem 0;}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;}
+.pricing-features li{
+  font-size:0.85rem;color:rgba(255,255,255,0.75);
+  display:flex;align-items:flex-start;gap:0.6rem;line-height:1.5;
+}
+.pricing-features li::before{
+  content:'✦';color:var(--violet2);font-size:0.6rem;
+  flex-shrink:0;margin-top:3px;
+}
+.pricing-features li.highlight::before{color:var(--gold);}
+.pricing-cta{
+  display:block;width:100%;text-align:center;
+  padding:0.9rem;border-radius:12px;font-size:0.85rem;font-weight:600;
+  font-family:'Space Grotesk',sans-serif;letter-spacing:0.06em;text-transform:uppercase;
+  cursor:pointer;border:none;text-decoration:none;transition:all 0.2s;
+}
+.pricing-cta-primary{
+  background:linear-gradient(135deg,var(--violet),var(--rose));
+  color:white;box-shadow:0 0 30px rgba(109,40,217,0.3);
+}
+.pricing-cta-primary:hover{box-shadow:0 0 50px rgba(109,40,217,0.5);transform:translateY(-2px);}
+.pricing-cta-outline{
+  background:transparent;color:var(--lavender);
+  border:1px solid rgba(139,92,246,0.4);
+}
+.pricing-cta-outline:hover{border-color:var(--violet2);background:rgba(109,40,217,0.1);}
+.pricing-cta-gold{
+  background:linear-gradient(135deg,var(--gold),#e89a3c);
+  color:var(--deep);font-weight:700;
+}
+.pricing-cta-gold:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(240,185,120,0.4);}
+
+/* promo note */
+.promo-note{
+  text-align:center;
+  background:rgba(109,40,217,0.1);
+  border:1px solid rgba(139,92,246,0.25);
+  border-radius:14px;padding:1.25rem 2rem;
+  font-size:0.85rem;color:rgba(255,255,255,0.7);
+  max-width:600px;margin:0 auto;line-height:1.7;
+}
+.promo-note strong{color:var(--gold);}
+
+/* ── BEHAVIOR SHIFT ── */
+.behavior{
+  position:relative;z-index:1;
+  padding:8rem 2.5rem;
+  background:var(--space);
+}
+.behavior-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+.behavior-stats{display:flex;flex-direction:column;gap:1.5rem;}
+.stat-row{
+  display:flex;align-items:center;gap:1.5rem;
+  padding:1.5rem;border-radius:14px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(139,92,246,0.15);
+  transition:border-color 0.3s;
+}
+.stat-row:hover{border-color:rgba(139,92,246,0.4);}
+.stat-row-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;color:var(--violet2);font-weight:300;
+  line-height:1;min-width:110px;
+}
+.stat-row-text{font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.6;}
+.stat-row-text strong{color:white;display:block;margin-bottom:2px;}
+.behavior-content{}
+.behavior-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:300;font-style:italic;
+  color:rgba(255,255,255,0.85);line-height:1.5;
+  border-left:2px solid var(--rose);
+  padding-left:1.5rem;margin-bottom:2rem;
+}
+.behavior-body{font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.85;margin-bottom:2rem;}
+
+/* ── PLATFORMS ── */
+.platforms{
+  position:relative;z-index:1;
+  padding:8rem 2.5rem;
+  background:var(--deep);
+}
+.platforms-header{margin-bottom:4rem;}
+.platforms-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:1.5rem;
 }
-.product-card{
-  border:1px solid var(--border);border-radius:16px;
-  padding:2rem 1.75rem;position:relative;overflow:hidden;
-  background:var(--white);
-  transition:box-shadow 0.25s,transform 0.25s,border-color 0.25s;
+.platform-card{
+  border:1px solid rgba(139,92,246,0.15);border-radius:16px;
+  padding:2rem 1.75rem;
+  background:rgba(255,255,255,0.02);
+  transition:all 0.3s;position:relative;overflow:hidden;
 }
-.product-card:hover{
-  box-shadow:0 12px 40px rgba(138,80,168,0.1);
-  transform:translateY(-3px);
-  border-color:rgba(188,148,210,0.5);
+.platform-card:hover{
+  border-color:rgba(139,92,246,0.4);
+  background:rgba(109,40,217,0.06);
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px rgba(109,40,217,0.1);
 }
-.product-card.active-card{
-  border-color:var(--rose);
-  background:linear-gradient(135deg,#fdfbff 0%,#f9f0fd 100%);
+.platform-card.active-card{
+  border-color:rgba(232,121,160,0.3);
+  background:linear-gradient(135deg,rgba(232,121,160,0.06),rgba(109,40,217,0.06));
 }
-.product-badge{
-  position:absolute;top:1rem;right:1rem;
-  font-size:0.6rem;font-weight:700;letter-spacing:0.12em;
+.platform-badge{
+  display:inline-block;
+  font-size:0.58rem;font-weight:700;letter-spacing:0.12em;
   text-transform:uppercase;padding:0.25rem 0.65rem;border-radius:20px;
+  margin-bottom:1.25rem;
 }
-.badge-available{background:var(--rose);color:var(--white);}
-.badge-coming{background:rgba(188,148,210,0.15);color:var(--muted);}
-.product-icon{font-size:1.6rem;margin-bottom:1.25rem;}
-.product-name{
+.badge-available{background:rgba(232,121,160,0.2);color:var(--rose);}
+.badge-coming{background:rgba(139,92,246,0.1);color:var(--muted);}
+.platform-icon{font-size:1.6rem;margin-bottom:1rem;}
+.platform-name{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.3rem;font-weight:500;margin-bottom:0.5rem;color:var(--purple);
+  font-size:1.25rem;font-weight:500;margin-bottom:0.5rem;color:var(--white);
 }
-.product-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;}
-.product-features{list-style:none;}
-.product-features li{
-  font-size:0.8rem;color:var(--muted);padding:0.2rem 0;
+.platform-desc{font-size:0.83rem;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:1.25rem;}
+.platform-features{list-style:none;}
+.platform-features li{
+  font-size:0.8rem;color:rgba(255,255,255,0.5);padding:0.2rem 0;
   display:flex;align-items:center;gap:0.5rem;
 }
-.product-features li::before{content:'✦';color:var(--rose);font-size:0.6rem;}
+.platform-features li::before{content:'✦';color:var(--rose);font-size:0.55rem;}
 
-/* ── HOW IT WORKS ── */
-.how{background:var(--purple);padding:6rem 2.5rem;}
-.how .section-title{color:var(--white);}
-.how .section-sub{color:rgba(255,255,255,0.5);}
-.how .section-label{color:var(--gold);}
-.how .section-label::before{background:var(--gold);}
+/* ── HOW ── */
+.how{
+  position:relative;z-index:1;
+  background:var(--space);padding:8rem 2.5rem;
+}
 .steps{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:2rem;margin-top:3.5rem;
+  gap:1.5rem;margin-top:3.5rem;
 }
 .step{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(188,148,210,0.15);
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(139,92,246,0.12);
   border-radius:16px;padding:2rem 1.5rem;
-  position:relative;
+  transition:border-color 0.3s;
 }
+.step:hover{border-color:rgba(139,92,246,0.35);}
 .step-num{
   font-family:'Cormorant Garamond',serif;
-  font-size:3.5rem;font-weight:300;
-  color:rgba(188,148,210,0.2);line-height:1;margin-bottom:1rem;
+  font-size:3rem;font-weight:300;
+  color:rgba(139,92,246,0.25);line-height:1;margin-bottom:1rem;
 }
-.step-title{font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;letter-spacing:0.05em;}
-.step-desc{font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.7;font-weight:300;}
+.step-title{font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;letter-spacing:0.04em;}
+.step-desc{font-size:0.85rem;color:rgba(255,255,255,0.55);line-height:1.75;font-weight:300;}
 
-/* ── WHY ALYRA ── */
-.why{background:var(--cream);padding:6rem 2.5rem;}
-.why-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
-  align-items:center;margin-top:3rem;
-}
+/* ── WHY ── */
+.why{position:relative;z-index:1;background:var(--deep);padding:8rem 2.5rem;}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:3rem;}
 .why-visual{
   position:relative;
-  background:linear-gradient(135deg,var(--deep),var(--purple));
-  border-radius:20px;padding:3rem;
+  background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(232,121,160,0.08));
+  border:1px solid rgba(139,92,246,0.2);
+  border-radius:24px;padding:3rem;
   display:flex;align-items:center;justify-content:center;
-  min-height:340px;overflow:hidden;
+  min-height:360px;overflow:hidden;
 }
-.why-visual::before{
-  content:'';position:absolute;inset:0;
-  background:conic-gradient(from 45deg,rgba(210,100,160,0.15),rgba(138,80,168,0.15),rgba(240,185,120,0.08),rgba(210,100,160,0.15));
-  border-radius:20px;
+.why-ring{
+  position:absolute;border:1px solid rgba(139,92,246,0.15);border-radius:50%;
 }
-.why-mandala{
-  position:relative;z-index:1;
-  width:200px;height:200px;
-  background:conic-gradient(from 0deg,var(--violet),var(--rose),var(--lavender),var(--gold),var(--violet));
-  border-radius:50%;opacity:0.4;
-  animation:spin 20s linear infinite;
+.why-ring-1{width:200px;height:200px;animation:spin 20s linear infinite;}
+.why-ring-2{width:300px;height:300px;animation:spin 30s linear infinite reverse;}
+.why-ring-3{width:400px;height:400px;animation:spin 40s linear infinite;}
+.why-center{
+  position:relative;z-index:1;text-align:center;
 }
+.why-center-icon{
+  width:80px;height:80px;border-radius:20px;
+  background:linear-gradient(135deg,var(--violet),var(--rose));
+  margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;
+  font-size:2rem;box-shadow:0 0 40px rgba(109,40,217,0.4);
+}
+.why-center-text{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);font-style:italic;}
 .why-list{list-style:none;display:flex;flex-direction:column;gap:1.25rem;}
-.why-item{
-  display:flex;gap:1rem;align-items:flex-start;
-}
+.why-item{display:flex;gap:1rem;align-items:flex-start;}
 .why-icon{
-  width:36px;height:36px;border-radius:8px;flex-shrink:0;
-  background:linear-gradient(135deg,rgba(210,100,160,0.15),rgba(138,80,168,0.15));
-  display:flex;align-items:center;justify-content:center;
-  font-size:1rem;
-  border:1px solid rgba(188,148,210,0.2);
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(109,40,217,0.2),rgba(232,121,160,0.1));
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  border:1px solid rgba(139,92,246,0.2);
 }
-.why-item-title{font-size:0.9rem;font-weight:600;color:var(--purple);margin-bottom:0.2rem;}
-.why-item-desc{font-size:0.82rem;color:var(--muted);line-height:1.6;font-weight:300;}
+.why-item-title{font-size:0.95rem;font-weight:600;color:var(--white);margin-bottom:0.2rem;}
+.why-item-desc{font-size:0.83rem;color:rgba(255,255,255,0.55);line-height:1.65;font-weight:300;}
 
 /* ── CTA BAND ── */
 .cta-band{
-  background:linear-gradient(135deg,var(--deep) 0%,var(--purple) 100%);
-  padding:6rem 2.5rem;text-align:center;position:relative;overflow:hidden;
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,var(--space),var(--purple));
+  padding:8rem 2.5rem;text-align:center;overflow:hidden;
 }
-.cta-band::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(210,100,160,0.12) 0%,transparent 70%);
+.cta-band-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,40,217,0.2),transparent 70%);
+  pointer-events:none;
 }
-.cta-band .section-title{color:var(--white);position:relative;z-index:1;}
-.cta-band .section-sub{color:rgba(255,255,255,0.5);margin:0 auto 2.5rem;position:relative;z-index:1;}
-.cta-band .section-label{justify-content:center;position:relative;z-index:1;}
+.cta-band .section-label{justify-content:center;}
 .cta-band .section-label::before{display:none;}
+.cta-band-sub{font-size:1rem;color:rgba(255,255,255,0.55);margin:0 auto 2.5rem;line-height:1.85;max-width:520px;}
 
 /* ── FOOTER ── */
 footer{
-  background:var(--deep);
-  border-top:1px solid rgba(188,148,210,0.1);
+  position:relative;z-index:1;
+  background:rgba(6,3,15,0.95);
+  border-top:1px solid rgba(139,92,246,0.12);
   padding:3.5rem 2.5rem 2rem;
 }
 .footer-inner{
@@ -316,78 +526,57 @@ footer{
   display:flex;justify-content:space-between;align-items:flex-start;
   flex-wrap:wrap;gap:2.5rem;
 }
-.footer-brand .nav-logo-text{color:var(--white);}
-.footer-brand p{font-size:0.8rem;color:rgba(255,255,255,0.3);margin-top:0.5rem;font-weight:300;}
+.footer-brand p{font-size:0.8rem;color:rgba(255,255,255,0.25);margin-top:0.5rem;font-weight:300;}
 .footer-links{display:flex;gap:3rem;flex-wrap:wrap;}
-.footer-col h4{
-  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:1rem;
-}
-.footer-col a{
-  display:block;font-size:0.82rem;color:rgba(255,255,255,0.4);
-  text-decoration:none;margin-bottom:0.5rem;cursor:pointer;
-  transition:color 0.2s;font-weight:300;
-}
+.footer-col h4{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.footer-col a{display:block;font-size:0.82rem;color:rgba(255,255,255,0.35);text-decoration:none;margin-bottom:0.5rem;cursor:pointer;transition:color 0.2s;font-weight:300;}
 .footer-col a:hover{color:var(--lavender);}
 .footer-bottom{
   max-width:1100px;margin:2rem auto 0;
-  padding-top:1.5rem;
-  border-top:1px solid rgba(255,255,255,0.05);
+  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.04);
   display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:1rem;
-  font-size:0.75rem;color:rgba(255,255,255,0.25);font-weight:300;
+  flex-wrap:wrap;gap:1rem;font-size:0.75rem;color:rgba(255,255,255,0.2);font-weight:300;
 }
 
 /* ── INNER PAGES ── */
 .inner-hero{
-  padding-top:68px;background:var(--deep);
-  padding:68px 2.5rem 4rem;
+  padding-top:70px;
+  background:linear-gradient(180deg,var(--space),var(--deep));
+  padding-bottom:4rem;position:relative;overflow:hidden;
 }
-.inner-hero-inner{max-width:800px;margin:0 auto;padding-top:4rem;}
-.inner-hero .section-title{color:var(--white);font-size:2.4rem;}
+.inner-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(109,40,217,0.15),transparent 60%);
+}
+.inner-hero-inner{max-width:800px;margin:0 auto;padding:5rem 2.5rem 2rem;position:relative;z-index:1;}
+.inner-hero .section-title{color:var(--white);}
 .inner-hero .section-sub{color:rgba(255,255,255,0.5);}
 
 .prose{max-width:800px;margin:0 auto;padding:4rem 2.5rem;}
-.prose h2{
-  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;
-  margin:2.5rem 0 0.75rem;color:var(--purple);
-}
+.prose h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;margin:2.5rem 0 0.75rem;color:var(--white);}
 .prose h2:first-child{margin-top:0;}
-.prose p{font-size:0.95rem;color:#555;line-height:1.9;margin-bottom:1rem;font-weight:300;}
+.prose p{font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.9;margin-bottom:1rem;font-weight:300;}
 .prose ul{margin:0.5rem 0 1rem 1.5rem;}
-.prose ul li{font-size:0.95rem;color:#555;line-height:1.9;font-weight:300;}
-.prose a{color:var(--violet);}
+.prose ul li{font-size:0.95rem;color:rgba(255,255,255,0.6);line-height:1.9;font-weight:300;}
+.prose a{color:var(--violet2);}
 
 /* ── CONTACT ── */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
-.contact-info h3{
-  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
-  margin-bottom:1rem;color:var(--purple);
-}
-.contact-info p{font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;font-weight:300;}
-.contact-detail{
-  display:flex;align-items:center;gap:0.75rem;
-  margin-bottom:0.75rem;font-size:0.9rem;color:var(--purple);
-}
+.contact-info h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:1rem;color:var(--white);}
+.contact-info p{font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:1.5rem;font-weight:300;}
+.contact-detail{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;font-size:0.9rem;color:rgba(255,255,255,0.7);}
 .contact-detail span:first-child{color:var(--rose);}
 .contact-form{display:flex;flex-direction:column;gap:1rem;}
 .form-group{display:flex;flex-direction:column;gap:0.4rem;}
-.form-group label{
-  font-size:0.7rem;font-weight:600;letter-spacing:0.12em;
-  text-transform:uppercase;color:var(--muted);
-}
-.form-group input,
-.form-group select,
-.form-group textarea{
-  border:1px solid var(--border);border-radius:8px;
-  padding:0.8rem 1rem;
-  font-family:'Jura',sans-serif;font-size:0.9rem;
-  background:var(--white);color:var(--purple);
+.form-group label{font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.form-group input,.form-group select,.form-group textarea{
+  border:1px solid rgba(139,92,246,0.2);border-radius:10px;
+  padding:0.8rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:0.9rem;
+  background:rgba(255,255,255,0.04);color:var(--white);
   transition:border-color 0.2s;font-weight:300;
 }
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{outline:none;border-color:var(--rose);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--violet2);}
+.form-group select option{background:var(--space);color:var(--white);}
 .form-group textarea{resize:vertical;min-height:120px;}
 
 /* ── ANIMATIONS ── */
@@ -396,99 +585,235 @@ footer{
 .hero-title{animation:fadeUp 0.7s 0.1s ease both;}
 .hero-sub{animation:fadeUp 0.7s 0.2s ease both;}
 .hero-actions{animation:fadeUp 0.7s 0.3s ease both;}
-.hero-right{animation:fadeUp 0.7s 0.4s ease both;}
+.hero-visual{animation:fadeUp 0.7s 0.4s ease both;}
 
-@media(max-width:768px){
-  .hero-inner{grid-template-columns:1fr;}
-  .hero-right{display:none;}
-  .why-grid{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;}
+/* glow pulse on featured card */
+@keyframes pulse{0%,100%{box-shadow:0 0 60px rgba(109,40,217,0.2);}50%{box-shadow:0 0 100px rgba(109,40,217,0.4);}}
+.pricing-card.featured{animation:pulse 4s ease-in-out infinite;}
+
+@media(max-width:900px){
+  .hero-inner,.behavior-grid,.why-grid,.contact-grid{grid-template-columns:1fr;}
+  .hero-visual{display:none;}
+  .pricing-grid{grid-template-columns:1fr;}
   .footer-links{flex-direction:column;gap:1.5rem;}
   .nav-links{display:none;}
-  .trust-bar{gap:1.5rem;}
 }
 </style>
 </head>
 <body>
 
+<canvas id="cosmos"></canvas>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  🚀 Launch Special — <strong>50% off for our first 10 customers.</strong> Spots filling fast. Limited availability.
+</div>
+
 <nav>
   <div class="nav-logo" onclick="showPage('home')">
-    <div class="nav-logo-text">Alyra <span>Solutions</span></div>
+    
+    <img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions" style="height:48px;width:auto;" />
   </div>
   <ul class="nav-links">
     <li><a onclick="showPage('home')">Home</a></li>
-    <li><a onclick="scrollToProducts()">Products</a></li>
+    <li><a onclick="scrollTo('growthai')">GrowthAI</a></li>
+    <li><a onclick="scrollTo('platforms')">Platforms</a></li>
     <li><a onclick="showPage('about')">About</a></li>
-    <li><a onclick="showPage('contact')" class="nav-cta">Contact Us</a></li>
+    <li><a onclick="showPage('contact')" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
 
 <!-- ══════════ HOME ══════════ -->
 <div id="page-home" class="page active">
 
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-mandala"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
     <div class="hero-inner">
       <div>
-        <div class="hero-eyebrow">Service Industry SaaS Platform</div>
+        <div class="hero-eyebrow">AI Growth & Service Industry Software</div>
         <h1 class="hero-title">
-          Software crafted for<br>
-          businesses that <em>serve</em>
+          One platform.<br>
+          <span class="gradient-text">Infinite growth.</span>
         </h1>
         <p class="hero-sub">
-          Alyra Solutions builds purpose-driven software platforms for the service industry — from nail salons to restaurants, barbershops to spas. Elegant technology. Real results.
+          Alyra Solutions combines AI-powered growth services with purpose-built software for service businesses. Get found by AI. Run smarter operations. Grow faster.
         </p>
         <div class="hero-actions">
-          <button class="btn-primary" id="btn-explore">Explore Platforms</button>
-          <button class="btn-ghost" id="btn-demo">Request a Demo</button>
+          <button class="btn-primary" onclick="scrollTo('growthai')">Explore GrowthAI</button>
+          <button class="btn-ghost" onclick="scrollTo('platforms')">View Platforms</button>
         </div>
       </div>
-      <div class="hero-right">
-        <div class="stat-card">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Industry Platforms</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">SaaS</div>
-          <div class="stat-label">Cloud-Based</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">Multi</div>
-          <div class="stat-label">Tenant Architecture</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">24/7</div>
-          <div class="stat-label">Platform Access</div>
+      <div class="hero-visual">
+        <div class="hero-orbit hero-orbit-1"><div class="orbit-dot"></div></div>
+        <div class="hero-orbit hero-orbit-2"><div class="orbit-dot orbit-dot-2"></div></div>
+        <div class="hero-orb-main">
+          <div class="hero-orb-inner">
+            <div class="hero-badge">
+              <div class="hero-badge-num">AI</div>
+              <div class="hero-badge-label">Powered</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- TRUST BAR -->
   <div class="trust-bar">
     <div class="trust-item"><span>✦</span> Female Founded</div>
-    <div class="trust-item"><span>✦</span> Stripe Powered Payments</div>
-    <div class="trust-item"><span>✦</span> Multi-Tenant Architecture</div>
+    <div class="trust-item"><span>✦</span> Stripe Powered</div>
+    <div class="trust-item"><span>✦</span> AI Growth Services</div>
     <div class="trust-item"><span>✦</span> Cloud-Based & Secure</div>
     <div class="trust-item"><span>✦</span> Service Industry Specialists</div>
   </div>
 
-  <!-- PRODUCTS -->
-  <section class="products" id="products">
+  <!-- GROWTHAI FLAGSHIP -->
+  <section class="growthai" id="growthai">
     <div class="container">
-      <div class="products-header">
-        <div class="section-label">Our Platforms</div>
-        <h2 class="section-title">Purpose-built for every<br>service business</h2>
-        <p class="section-sub">Each Alyra platform is tailored to the specific workflows, payment needs, and customer experience of its industry.</p>
+      <div class="growthai-header">
+        <div class="section-label">Flagship Service</div>
+        <h2 class="section-title">Alyra <span class="gradient-text">GrowthAI</span></h2>
+        <p class="section-sub" style="margin:0 auto 1rem;">Your customers stopped Googling. They're asking ChatGPT, Gemini, and Perplexity instead. We make sure your business is the answer they get.</p>
       </div>
-      <div class="products-grid">
 
-        <div class="product-card active-card">
-          <span class="product-badge badge-available">Available Now</span>
-          <div class="product-icon">💅</div>
-          <div class="product-name">Nail Salon Software</div>
-          <p class="product-desc">Complete salon management with virtual color try-on, appointment booking, inventory, and client management.</p>
-          <ul class="product-features">
+      <!-- PRICING GRID -->
+      <div class="pricing-grid">
+
+        <!-- STARTER -->
+        <div class="pricing-card">
+          <div class="pricing-glow"></div>
+          <div class="pricing-badge">Starter</div>
+          <div class="pricing-name">Ignite</div>
+          <div class="pricing-desc">For service businesses ready to establish their AI presence and get found by the next generation of customers.</div>
+          <div class="pricing-price">
+            <div class="pricing-original">$1,200/mo</div>
+            <div class="pricing-amount"><span>$</span>600<em>/mo</em></div>
+          </div>
+          <div class="pricing-promo">✦ 50% off — first 10 customers</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>AI Visibility Audit & Score Report</li>
+            <li>GEO Optimization (ChatGPT, Gemini, Perplexity)</li>
+            <li>Google Business Profile Optimization</li>
+            <li>NAP & Citation Consistency Audit</li>
+            <li>Schema & Structured Data Deployment</li>
+            <li>Review Velocity Program Setup</li>
+            <li class="highlight">Custom Website + Domain Included</li>
+            <li>Monthly AI Visibility Report</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-outline" onclick="showPage('contact')">Get Started →</button>
+        </div>
+
+        <!-- GROWTH (FEATURED) -->
+        <div class="pricing-card featured">
+          <div class="pricing-glow"></div>
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-name">Ascend</div>
+          <div class="pricing-desc">For businesses ready to dominate their local AI market and convert visibility into consistent revenue growth.</div>
+          <div class="pricing-price">
+            <div class="pricing-original">$2,500/mo</div>
+            <div class="pricing-amount"><span>$</span>1,250<em>/mo</em></div>
+          </div>
+          <div class="pricing-promo">✦ 50% off — first 10 customers</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Everything in Ignite</li>
+            <li>Full Entity Authority Building</li>
+            <li>Editorial Outreach (Eater, Infatuation, local press)</li>
+            <li>GBP Content Calendar — Posts + Q&A</li>
+            <li>Reputation Defense & Service Recovery SOP</li>
+            <li>Visual Trust Campaign Strategy</li>
+            <li class="highlight">Custom Website + Domain Included</li>
+            <li>Bi-Weekly Report + Strategy Call</li>
+            <li>Competitor GEO Gap Analysis</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-primary" onclick="showPage('contact')">Get Started →</button>
+        </div>
+
+        <!-- ELITE -->
+        <div class="pricing-card">
+          <div class="pricing-glow"></div>
+          <div class="pricing-badge gold-badge">Elite</div>
+          <div class="pricing-name">Apex</div>
+          <div class="pricing-desc">For multi-location operators and high-revenue businesses that demand market leadership across every AI engine.</div>
+          <div class="pricing-price">
+            <div style="height:1.4rem;"></div>
+            <div class="pricing-amount" style="font-size:2.2rem;">Custom</div>
+          </div>
+          <div class="pricing-promo" style="color:var(--gold);">✦ Tailored to your market</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Everything in Ascend</li>
+            <li>Multi-Location AI Visibility Management</li>
+            <li>Custom AI Visibility Dashboard</li>
+            <li>Dedicated Account Manager</li>
+            <li>Priority Support & Response</li>
+            <li>Quarterly Business Review</li>
+            <li class="highlight">Custom Website + Domain Included</li>
+            <li>Full Market Domination Strategy</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-gold" onclick="showPage('contact')">Let's Talk →</button>
+        </div>
+
+      </div>
+
+      <div class="promo-note">
+        <strong>🎉 Launch Special:</strong> The first 10 businesses to sign up receive 50% off their first 3 months — locking in rates that will never be available again. This is your early mover advantage.
+      </div>
+    </div>
+  </section>
+
+  <!-- BEHAVIOR SHIFT -->
+  <section class="behavior">
+    <div class="container">
+      <div class="behavior-grid">
+        <div>
+          <div class="section-label">The Shift</div>
+          <h2 class="section-title">The way customers find businesses has <span class="gradient-text">changed forever</span></h2>
+          <div class="behavior-quote">"What's the best restaurant near me?" used to go to Google. Now it goes to AI.</div>
+          <p class="behavior-body">ChatGPT, Gemini, and Perplexity answer millions of local discovery queries every day. The businesses getting recommended aren't the biggest — they're the ones with the strongest AI visibility signals. Most businesses have zero strategy for this. The window to get in early is open right now.</p>
+          <button class="btn-primary" onclick="scrollTo('growthai')">See GrowthAI Plans →</button>
+        </div>
+        <div class="behavior-stats">
+          <div class="stat-row">
+            <div class="stat-row-num">67%</div>
+            <div class="stat-row-text"><strong>of consumers under 40</strong> now use AI assistants for local business discovery</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-row-num">&lt;5%</div>
+            <div class="stat-row-text"><strong>of service businesses</strong> have any deliberate AI visibility strategy in place today</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-row-num">4–6%</div>
+            <div class="stat-row-text"><strong>average new customer lift</strong> in 90 days from GEO optimization</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-row-num">$0</div>
+            <div class="stat-row-text"><strong>ad spend required</strong> — AI recommendations are organic, not paid placements</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section class="platforms" id="platforms">
+    <div class="container">
+      <div class="platforms-header">
+        <div class="section-label">SaaS Platforms</div>
+        <h2 class="section-title">Purpose-built software for<br><span class="gradient-text">every service business</span></h2>
+        <p class="section-sub">Beyond AI growth, Alyra builds best-in-class operational software — tailored to the specific workflows and payment needs of your industry.</p>
+      </div>
+      <div class="platforms-grid">
+        <div class="platform-card active-card">
+          <span class="platform-badge badge-available">Available Now</span>
+          <div class="platform-icon">💅</div>
+          <div class="platform-name">Nail Salon Software</div>
+          <p class="platform-desc">Complete salon management with virtual color try-on, appointment booking, inventory, and client management.</p>
+          <ul class="platform-features">
             <li>Virtual nail color try-on (AI)</li>
             <li>Online appointment booking</li>
             <li>OPI & brand color inventory</li>
@@ -496,13 +821,12 @@ footer{
             <li>Integrated payments</li>
           </ul>
         </div>
-
-        <div class="product-card active-card">
-          <span class="product-badge badge-available">Available Now</span>
-          <div class="product-icon">🍽️</div>
-          <div class="product-name">Restaurant Solutions</div>
-          <p class="product-desc">End-to-end restaurant management built for single and multi-location operators.</p>
-          <ul class="product-features">
+        <div class="platform-card active-card">
+          <span class="platform-badge badge-available">Available Now</span>
+          <div class="platform-icon">🍽️</div>
+          <div class="platform-name">Restaurant Solutions</div>
+          <p class="platform-desc">End-to-end restaurant management built for single and multi-location operators.</p>
+          <ul class="platform-features">
             <li>Online ordering</li>
             <li>POS & payment processing</li>
             <li>Menu management</li>
@@ -510,13 +834,12 @@ footer{
             <li>Tipping & receipts</li>
           </ul>
         </div>
-
-        <div class="product-card">
-          <span class="product-badge badge-coming">Coming Soon</span>
-          <div class="product-icon">✂️</div>
-          <div class="product-name">Barbershop Solutions</div>
-          <p class="product-desc">Scheduling and client management designed for barbershops and men's grooming businesses.</p>
-          <ul class="product-features">
+        <div class="platform-card">
+          <span class="platform-badge badge-coming">Coming Soon</span>
+          <div class="platform-icon">✂️</div>
+          <div class="platform-name">Barbershop Solutions</div>
+          <p class="platform-desc">Scheduling and client management designed for barbershops and men's grooming businesses.</p>
+          <ul class="platform-features">
             <li>Chair booking & waitlist</li>
             <li>Barber-level scheduling</li>
             <li>Service menu management</li>
@@ -524,13 +847,12 @@ footer{
             <li>Mobile-first experience</li>
           </ul>
         </div>
-
-        <div class="product-card">
-          <span class="product-badge badge-coming">Coming Soon</span>
-          <div class="product-icon">🧖</div>
-          <div class="product-name">Spa Solutions</div>
-          <p class="product-desc">Luxury spa and wellness software for managing appointments, memberships, and guest experiences.</p>
-          <ul class="product-features">
+        <div class="platform-card">
+          <span class="platform-badge badge-coming">Coming Soon</span>
+          <div class="platform-icon">🧖</div>
+          <div class="platform-name">Spa Solutions</div>
+          <p class="platform-desc">Luxury spa and wellness software for managing appointments, memberships, and guest experiences.</p>
+          <ul class="platform-features">
             <li>Multi-service booking</li>
             <li>Membership & packages</li>
             <li>Staff & room scheduling</li>
@@ -538,142 +860,36 @@ footer{
             <li>Retail & product sales</li>
           </ul>
         </div>
-
       </div>
     </div>
   </section>
-
-  <!-- ✦ ALYRA GROWTHAI SECTION ✦ -->
-  <section id="growthai" style="padding: 6rem 2rem; background: #0a0a0f;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-
-      <!-- Behavior Shift Banner -->
-      <div style="background: #7c3aed; border-radius: 12px; padding: 1.25rem 1.75rem; display: flex; align-items: center; gap: 1.25rem; margin-bottom: 4rem; flex-wrap: wrap;">
-        <div style="font-size: 1.5rem;">📱</div>
-        <div style="flex: 1; min-width: 260px;">
-          <div style="font-size: 14px; color: #ffffff; font-weight: 700; margin-bottom: 4px;">The shift is already happening</div>
-          <div style="font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.6;">Consumers are replacing "Google it" with "Ask ChatGPT." Service businesses not positioned in AI results are losing customers they never knew they had.</div>
-        </div>
-      </div>
-
-      <!-- Main Heading -->
-      <div style="text-align: center; margin-bottom: 4.5rem;">
-        <div style="display: inline-block; background: #7c3aed; border-radius: 100px; padding: 6px 20px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffffff; font-weight: 700; margin-bottom: 1.5rem;">
-          Alyra GrowthAI — AI Growth Services
-        </div>
-        <h2 style="font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 800; color: #ffffff; line-height: 1.12; margin-bottom: 1.5rem; letter-spacing: -0.02em;">
-          Your customers stopped Googling.<br>
-          <span style="color: #a78bfa;">Is your business answering<br>when they ask AI?</span>
-        </h2>
-        <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 620px; margin: 0 auto 1.25rem; line-height: 1.8;">
-          ChatGPT, Gemini, and Perplexity now answer millions of "where should I eat," "best salon near me," and "top-rated spa in [city]" questions every day. The businesses showing up in those answers aren't the biggest — they're the best optimized.
-        </p>
-        <p style="font-size: 1.1rem; color: #ffffff; max-width: 560px; margin: 0 auto; line-height: 1.8; font-weight: 600;">
-          Alyra GrowthAI positions your business to be the answer — before your competitors realize the question has changed.
-        </p>
-      </div>
-
-      <!-- Stats Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 4.5rem;">
-        <div style="background: #1e1b4b; border: 1px solid #4338ca; border-radius: 14px; padding: 1.75rem; text-align: center;">
-          <div style="font-size: 2.5rem; font-weight: 800; color: #a78bfa; line-height: 1; margin-bottom: 10px;">67%</div>
-          <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">of consumers under 40 now use AI assistants for local business discovery</div>
-        </div>
-        <div style="background: #1e1b4b; border: 1px solid #4338ca; border-radius: 14px; padding: 1.75rem; text-align: center;">
-          <div style="font-size: 2.5rem; font-weight: 800; color: #a78bfa; line-height: 1; margin-bottom: 10px;">&lt;5%</div>
-          <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">of service businesses have any deliberate AI visibility strategy in place today</div>
-        </div>
-        <div style="background: #1e1b4b; border: 1px solid #4338ca; border-radius: 14px; padding: 1.75rem; text-align: center;">
-          <div style="font-size: 2.5rem; font-weight: 800; color: #a78bfa; line-height: 1; margin-bottom: 10px;">90</div>
-          <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">days to measurable improvement in AI engine visibility with GrowthAI</div>
-        </div>
-        <div style="background: #1e1b4b; border: 1px solid #4338ca; border-radius: 14px; padding: 1.75rem; text-align: center;">
-          <div style="font-size: 2.5rem; font-weight: 800; color: #a78bfa; line-height: 1; margin-bottom: 10px;">$0</div>
-          <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">in ad spend required — AI recommendations are organic, not paid</div>
-        </div>
-      </div>
-
-      <!-- How It Works -->
-      <div style="margin-bottom: 4.5rem;">
-        <div style="text-align: center; margin-bottom: 3rem;">
-          <h3 style="font-size: 2rem; font-weight: 700; color: #ffffff; letter-spacing: -0.01em;">How Alyra GrowthAI works</h3>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-
-          <div style="background: #111827; border-radius: 14px; padding: 1.75rem; border-top: 3px solid #7c3aed;">
-            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #a78bfa; margin-bottom: 10px; font-weight: 700;">01 — Audit</div>
-            <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;">AI Visibility Score</h4>
-            <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.7;">We run a full GEO audit — scoring your business across ChatGPT, Gemini, and Perplexity. You see exactly where you stand and what revenue it's costing you.</p>
-          </div>
-
-          <div style="background: #111827; border-radius: 14px; padding: 1.75rem; border-top: 3px solid #7c3aed;">
-            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #a78bfa; margin-bottom: 10px; font-weight: 700;">02 — Optimize</div>
-            <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;">Entity Authority Building</h4>
-            <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.7;">We fix the signals AI engines use to identify and recommend your business — schema, citations, reviews, visual content, and editorial presence.</p>
-          </div>
-
-          <div style="background: #111827; border-radius: 14px; padding: 1.75rem; border-top: 3px solid #7c3aed;">
-            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #a78bfa; margin-bottom: 10px; font-weight: 700;">03 — Defend</div>
-            <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;">Reputation Protection</h4>
-            <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.7;">We deploy a service recovery system that resolves friction before it becomes a bad review — protecting the sentiment signals AI uses to rank you.</p>
-          </div>
-
-          <div style="background: #111827; border-radius: 14px; padding: 1.75rem; border-top: 3px solid #7c3aed;">
-            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #a78bfa; margin-bottom: 10px; font-weight: 700;">04 — Grow</div>
-            <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 10px;">Revenue Impact</h4>
-            <p style="font-size: 0.9rem; color: #94a3b8; line-height: 1.7;">More AI recommendations mean more customers finding you organically. We project and track the revenue impact every 90 days with real numbers.</p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Early Mover Urgency Block -->
-      <div style="background: #1e1b4b; border: 2px solid #7c3aed; border-radius: 16px; padding: 3rem 2.5rem; margin-bottom: 3.5rem; text-align: center;">
-        <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
-        <h3 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 1rem; letter-spacing: -0.01em;">The window to get in early is open right now</h3>
-        <p style="font-size: 1rem; color: #cbd5e1; max-width: 600px; margin: 0 auto; line-height: 1.8;">
-          AI search behavior is in its early adoption phase. The businesses that establish AI visibility now will hold those positions for years — the same way early SEO adopters dominated Google for a decade. This is that moment. Most of your competitors haven't moved yet.
-        </p>
-      </div>
-
-      <!-- CTA -->
-      <div style="text-align: center;">
-        <a href="#contact" style="display: inline-block; background: #7c3aed; color: #ffffff; font-weight: 700; font-size: 1.1rem; padding: 18px 42px; border-radius: 10px; text-decoration: none; letter-spacing: 0.01em; margin-bottom: 1rem;">
-          Get Your Free AI Visibility Audit →
-        </a>
-        <div style="font-size: 13px; color: #64748b; margin-top: 0.75rem;">No commitment. We show you your score and what it's costing you.</div>
-      </div>
-
-    </div>
-  </section>
-  <!-- ✦ END ALYRA GROWTHAI SECTION ✦ -->
 
   <!-- HOW IT WORKS -->
   <section class="how">
     <div class="container">
       <div class="section-label">How It Works</div>
-      <h2 class="section-title">Up and running in minutes</h2>
+      <h2 class="section-title">Up and running <span class="gradient-text">in minutes</span></h2>
       <p class="section-sub">Alyra's multi-tenant architecture gives each business a secure, isolated environment with shared, scalable infrastructure.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
-          <div class="step-title">Choose Your Platform</div>
-          <p class="step-desc">Select the Alyra solution built for your industry and business type.</p>
+          <div class="step-title">Choose Your Service</div>
+          <p class="step-desc">Select GrowthAI for AI-powered growth, a SaaS platform for operations, or both. We tailor the package to your business.</p>
         </div>
         <div class="step">
           <div class="step-num">02</div>
-          <div class="step-title">Set Up Your Account</div>
-          <p class="step-desc">Onboard your team, configure your services, and connect your payment account.</p>
+          <div class="step-title">Onboard in Days</div>
+          <p class="step-desc">We handle setup — your custom website, domain, and all integrations. You're live and operational within the first week.</p>
         </div>
         <div class="step">
           <div class="step-num">03</div>
-          <div class="step-title">Accept Payments</div>
-          <p class="step-desc">Securely process payments through your dedicated tenant environment powered by Stripe.</p>
+          <div class="step-title">AI Starts Working</div>
+          <p class="step-desc">We optimize your AI engine presence from day one. By day 30 you'll see movement. By day 90 you'll see revenue impact.</p>
         </div>
         <div class="step">
           <div class="step-num">04</div>
-          <div class="step-title">Grow Your Business</div>
-          <p class="step-desc">Use analytics, client data, and automation to serve more customers and increase revenue.</p>
+          <div class="step-title">Grow & Scale</div>
+          <p class="step-desc">Monthly reporting, strategy calls, and continuous optimization keep your AI visibility compounding over time.</p>
         </div>
       </div>
     </div>
@@ -683,10 +899,16 @@ footer{
   <section class="why">
     <div class="container">
       <div class="section-label">Why Alyra</div>
-      <h2 class="section-title">Built different,<br>by design</h2>
+      <h2 class="section-title">Built different,<br><span class="gradient-text">by design</span></h2>
       <div class="why-grid">
         <div class="why-visual">
-          <div class="why-mandala"></div>
+          <div class="why-ring why-ring-1"><div class="orbit-dot"></div></div>
+          <div class="why-ring why-ring-2"><div class="orbit-dot orbit-dot-2"></div></div>
+          <div class="why-ring why-ring-3"></div>
+          <div class="why-center">
+            <div class="why-center-icon">✦</div>
+            <div class="why-center-text">Service industry<br>intelligence</div>
+          </div>
         </div>
         <ul class="why-list">
           <li class="why-item">
@@ -697,10 +919,17 @@ footer{
             </div>
           </li>
           <li class="why-item">
+            <div class="why-icon">🤖</div>
+            <div>
+              <div class="why-item-title">AI-First Approach</div>
+              <p class="why-item-desc">We don't just use AI — we optimize for it. Every service we deliver is designed to improve your AI engine visibility.</p>
+            </div>
+          </li>
+          <li class="why-item">
             <div class="why-icon">🔒</div>
             <div>
               <div class="why-item-title">Secure Multi-Tenant Architecture</div>
-              <p class="why-item-desc">Each business gets a fully isolated environment. Your data stays yours.</p>
+              <p class="why-item-desc">Each business gets a fully isolated environment. Your data stays yours, always.</p>
             </div>
           </li>
           <li class="why-item">
@@ -710,49 +939,51 @@ footer{
               <p class="why-item-desc">Funds go directly to your bank account. We never hold or commingle tenant funds.</p>
             </div>
           </li>
-          <li class="why-item">
-            <div class="why-icon">⚡</div>
-            <div>
-              <div class="why-item-title">Industry-Specific, Not Generic</div>
-              <p class="why-item-desc">Every feature was designed for your business type — not adapted from a one-size-fits-all tool.</p>
-            </div>
-          </li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA BAND -->
   <section class="cta-band">
-    <div class="container">
+    <div class="cta-band-glow"></div>
+    <div class="container" style="position:relative;z-index:1;">
       <div class="section-label">Get Started</div>
-      <h2 class="section-title">Ready to elevate your business?</h2>
-      <p class="section-sub">Join service businesses using Alyra Solutions to streamline operations and delight their customers.</p>
-      <button class="btn-primary" onclick="showPage('contact')">Request a Demo Today</button>
+      <h2 class="section-title" style="margin-bottom:1rem;">Ready to lead your market?</h2>
+      <p class="cta-band-sub">Join the first wave of service businesses using Alyra GrowthAI to dominate AI-powered customer discovery — before your competitors wake up.</p>
+      <button class="btn-primary" onclick="showPage('contact')" style="font-size:0.95rem;padding:1rem 2.8rem;">
+        Claim Your 50% Launch Discount →
+      </button>
     </div>
   </section>
 
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="nav-logo-text" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></div>
-        <p>Service Industry SaaS Platform<br>© 2025 Alyra Solutions. All rights reserved.</p>
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.5rem;">
+          <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--violet),var(--rose));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;">A</div>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></span>
+        </div>
+        <p>AI Growth & Service Industry Software<br>© 2025 Alyra Solutions. All rights reserved.</p>
       </div>
       <div class="footer-links">
         <div class="footer-col">
+          <h4>GrowthAI</h4>
+          <a onclick="scrollTo('growthai')">Ignite Plan</a>
+          <a onclick="scrollTo('growthai')">Ascend Plan</a>
+          <a onclick="scrollTo('growthai')">Apex Plan</a>
+        </div>
+        <div class="footer-col">
           <h4>Platforms</h4>
-          <a>Nail Salon Software</a>
-          <a>Restaurant Solutions</a>
-          <a>Barbershop Solutions</a>
-          <a>Spa Solutions</a>
+          <a onclick="scrollTo('platforms')">Nail Salon Software</a>
+          <a onclick="scrollTo('platforms')">Restaurant Solutions</a>
+          <a onclick="scrollTo('platforms')">Barbershop Solutions</a>
+          <a onclick="scrollTo('platforms')">Spa Solutions</a>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
           <a onclick="showPage('about')">About Us</a>
           <a onclick="showPage('contact')">Contact</a>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
           <a onclick="showPage('tos')">Terms of Service</a>
           <a onclick="showPage('privacy')">Privacy Policy</a>
         </div>
@@ -772,30 +1003,21 @@ footer{
 <div id="page-about" class="page">
   <div class="inner-hero">
     <div class="inner-hero-inner">
-      <div class="section-label" style="color:var(--gold);"> <span style="background:var(--gold);display:inline-block;width:24px;height:1px;vertical-align:middle;margin-right:0.75rem"></span>About Us</div>
-      <h1 class="section-title" style="color:var(--white);font-size:2.4rem;">Built by service industry<br>insiders, for owners</h1>
-      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Alyra Solutions was founded with a single mission: give every service business the software infrastructure that enterprise companies take for granted.</p>
+      <div class="section-label" style="color:var(--gold);">About Us</div>
+      <h1 class="section-title">Built by service industry<br>insiders, for owners</h1>
+      <p class="section-sub">Alyra Solutions was founded with a single mission: give every service business the AI-powered tools and software infrastructure that enterprise companies take for granted.</p>
     </div>
   </div>
   <div class="prose">
     <h2>Our Mission</h2>
-    <p>Alyra Solutions builds cloud-based software platforms tailored specifically to service industry businesses. We believe every salon owner, restaurant operator, barber, and spa director deserves software designed for their world — not adapted from something else.</p>
+    <p>Alyra Solutions builds AI growth services and cloud-based software platforms tailored specifically to service industry businesses. We believe every salon owner, restaurant operator, barber, and spa director deserves tools designed for their world — not adapted from something else.</p>
     <h2>What We Build</h2>
-    <p>We develop and operate a suite of multi-tenant SaaS platforms, each purpose-built for a specific segment of the service industry:</p>
     <ul>
-      <li><strong>Alyra Nail Salon Software</strong> — appointment management, virtual color try-on, and inventory</li>
-      <li><strong>Alyra Restaurant Solutions</strong> — online ordering, POS integration, and payments</li>
-      <li><strong>Alyra Barbershop Solutions</strong> — scheduling, chair management, and client tracking</li>
-      <li><strong>Alyra Spa Solutions</strong> — booking, memberships, and guest experience tools</li>
-    </ul>
-    <h2>How Our Platform Works</h2>
-    <p>Alyra Solutions operates as a multi-tenant SaaS platform. Each business receives a fully isolated, secure tenant environment. Payment processing is facilitated through Stripe Connect, allowing each tenant to receive payouts directly into their connected Stripe account. Alyra Solutions acts as the platform operator and does not hold or commingle tenant funds beyond the applicable platform service fee.</p>
-    <h2>Payment & Fund Flow</h2>
-    <ul>
-      <li>Customers pay through the business's Alyra-powered storefront or booking page</li>
-      <li>Funds are collected and processed by Stripe on behalf of the connected business (tenant)</li>
-      <li>Alyra Solutions collects a platform service fee per transaction</li>
-      <li>Net funds are paid out directly to the tenant's bank account on Stripe's standard payout schedule</li>
+      <li><strong style="color:var(--lavender);">Alyra GrowthAI</strong> — AI visibility optimization, reputation defense, and revenue growth services</li>
+      <li><strong style="color:var(--lavender);">Alyra Nail Salon Software</strong> — appointment management, virtual color try-on, and inventory</li>
+      <li><strong style="color:var(--lavender);">Alyra Restaurant Solutions</strong> — online ordering, POS integration, and payments</li>
+      <li><strong style="color:var(--lavender);">Alyra Barbershop Solutions</strong> — scheduling, chair management, and client tracking</li>
+      <li><strong style="color:var(--lavender);">Alyra Spa Solutions</strong> — booking, memberships, and guest experience tools</li>
     </ul>
     <h2>Contact Us</h2>
     <p>Alyra Solutions<br>Email: <a href="mailto:hello@alyrasolutions.us">hello@alyrasolutions.us</a></p>
@@ -803,7 +1025,7 @@ footer{
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></div>
+        <img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions" style="height:36px;width:auto;" />
         <p>© 2025 Alyra Solutions. All rights reserved.</p>
       </div>
     </div>
@@ -814,21 +1036,21 @@ footer{
 <div id="page-contact" class="page">
   <div class="inner-hero">
     <div class="inner-hero-inner">
-      <div class="section-label" style="color:var(--gold);"><span style="background:var(--gold);display:inline-block;width:24px;height:1px;vertical-align:middle;margin-right:0.75rem"></span>Contact Us</div>
-      <h1 class="section-title" style="color:var(--white);font-size:2.4rem;">Let's talk about your business</h1>
-      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Whether you're ready to get started or just have questions, we'd love to hear from you.</p>
+      <div class="section-label" style="color:var(--gold);">Contact Us</div>
+      <h1 class="section-title">Let's talk about your business</h1>
+      <p class="section-sub">Whether you're ready to claim your launch discount or just have questions, we'd love to hear from you. We respond within one business day.</p>
     </div>
   </div>
-  <section style="padding:4rem 2.5rem;">
+  <section style="padding:4rem 2.5rem;position:relative;z-index:1;">
     <div class="container">
       <div class="contact-grid">
         <div class="contact-info">
           <h3>Get in touch</h3>
-          <p>Reach out to learn more about any of our platforms, request a demo, or discuss a partnership. We respond within one business day.</p>
+          <p>Reach out to learn more about GrowthAI plans, our SaaS platforms, or to claim your 50% launch discount. Spots are limited.</p>
           <div class="contact-detail"><span>✉</span><span>hello@alyrasolutions.us</span></div>
           <div class="contact-detail"><span>🌐</span><span>alyrasolutions.us</span></div>
           <br>
-          <p style="font-size:0.82rem;"><strong>Business hours:</strong><br>Monday – Friday, 9am – 6pm CT</p>
+          <p style="font-size:0.82rem;color:rgba(255,255,255,0.4);"><strong style="color:rgba(255,255,255,0.6);">Business hours:</strong><br>Monday – Friday, 9am – 6pm CT</p>
         </div>
         <form class="contact-form" id="contact-form" action="https://formspree.io/f/xkoqewlw" method="POST">
           <div class="form-group">
@@ -851,11 +1073,22 @@ footer{
             </select>
           </div>
           <div class="form-group">
+            <label>I'm interested in</label>
+            <select name="interest">
+              <option value="">Select a service</option>
+              <option>GrowthAI — Ignite Plan ($600/mo)</option>
+              <option>GrowthAI — Ascend Plan ($1,250/mo)</option>
+              <option>GrowthAI — Apex Plan (Custom)</option>
+              <option>SaaS Platform</option>
+              <option>Both GrowthAI + Platform</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label>Message</label>
             <textarea name="message" placeholder="Tell us about your business..." required></textarea>
           </div>
-          <div id="form-success" style="display:none;color:var(--violet);font-size:0.9rem;font-weight:500;">✦ Message sent! We'll be in touch within one business day.</div>
-          <button type="submit" class="btn-primary" style="align-self:flex-start;border:none;">Send Message</button>
+          <div id="form-success" style="display:none;color:var(--violet2);font-size:0.9rem;font-weight:500;">✦ Message sent! We'll be in touch within one business day.</div>
+          <button type="submit" class="btn-primary" style="align-self:flex-start;border:none;">Send Message →</button>
         </form>
       </div>
     </div>
@@ -863,7 +1096,7 @@ footer{
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></div>
+        <img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions" style="height:36px;width:auto;" />
         <p>© 2025 Alyra Solutions. All rights reserved.</p>
       </div>
     </div>
@@ -874,119 +1107,136 @@ footer{
 <div id="page-tos" class="page">
   <div class="inner-hero">
     <div class="inner-hero-inner">
-      <div class="section-label" style="color:var(--gold);"><span style="background:var(--gold);display:inline-block;width:24px;height:1px;vertical-align:middle;margin-right:0.75rem"></span>Legal</div>
-      <h1 class="section-title" style="color:var(--white);font-size:2.4rem;">Terms of Service</h1>
-      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Effective Date: January 1, 2025</p>
+      <div class="section-label" style="color:var(--gold);">Legal</div>
+      <h1 class="section-title">Terms of Service</h1>
+      <p class="section-sub">Effective Date: January 1, 2025</p>
     </div>
   </div>
   <div class="prose">
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing or using any product or service provided by Alyra Solutions, you agree to be bound by these Terms of Service. If you do not agree, do not use our services.</p>
-    <h2>2. Description of Services</h2>
-    <p>Alyra Solutions provides cloud-based, multi-tenant SaaS platforms for service industry businesses including Alyra Nail Salon Software, Alyra Restaurant Solutions, Alyra Barbershop Solutions, and Alyra Spa Solutions.</p>
-    <h2>3. Account Registration</h2>
-    <p>You must register for an account and provide accurate, complete information. You are responsible for maintaining the confidentiality of your credentials and all activity under your account.</p>
-    <h2>4. Payment Processing</h2>
-    <p>Alyra Solutions uses Stripe, Inc. as its third-party payment processor. By using payment features, you agree to Stripe's Terms of Service and Connected Account Agreement. Fund Flow: Customer payments are collected by Stripe on behalf of the Tenant's connected Stripe account. Alyra Solutions deducts a platform service fee. Remaining funds are disbursed directly to the Tenant's connected bank account per Stripe's standard payout schedule. Alyra Solutions does not hold or commingle Tenant funds.</p>
-    <h2>5. Tenant Responsibilities</h2>
-    <ul>
-      <li>Use the platform only for lawful business purposes</li>
-      <li>Comply with all applicable laws including consumer protection and data privacy</li>
-      <li>Maintain accurate business and banking information</li>
-      <li>Not misrepresent your business, services, or pricing to End Users</li>
-    </ul>
-    <h2>6. Prohibited Uses</h2>
-    <p>You may not use Alyra Solutions platforms to engage in fraudulent, deceptive, or illegal activity, including money laundering or violating Stripe's Prohibited Business list.</p>
-    <h2>7. Intellectual Property</h2>
-    <p>All software, content, and technology are the exclusive property of Alyra Solutions. Tenants retain ownership of their business data.</p>
-    <h2>8. Termination</h2>
-    <p>We reserve the right to suspend or terminate your account at any time for violation of these Terms or fraudulent activity.</p>
-    <h2>9. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, Alyra Solutions shall not be liable for any indirect, incidental, or consequential damages arising from your use of our services.</p>
-    <h2>10. Governing Law</h2>
-    <p>These Terms shall be governed by the laws of the State of Texas.</p>
-    <h2>11. Contact</h2>
-    <p>hello@alyrasolutions.us — Alyra Solutions</p>
+    <h2>1. Acceptance of Terms</h2><p>By accessing or using any product or service provided by Alyra Solutions, you agree to be bound by these Terms of Service.</p>
+    <h2>2. Description of Services</h2><p>Alyra Solutions provides AI growth services (Alyra GrowthAI) and cloud-based, multi-tenant SaaS platforms for service industry businesses.</p>
+    <h2>3. Account Registration</h2><p>You must register for an account and provide accurate, complete information. You are responsible for maintaining the confidentiality of your credentials.</p>
+    <h2>4. Payment Processing</h2><p>Alyra Solutions uses Stripe, Inc. as its third-party payment processor. Customer payments are collected by Stripe on behalf of the Tenant's connected Stripe account. Alyra Solutions deducts a platform service fee. Remaining funds are disbursed directly to the Tenant's connected bank account.</p>
+    <h2>5. Tenant Responsibilities</h2><ul><li>Use the platform only for lawful business purposes</li><li>Comply with all applicable laws</li><li>Maintain accurate business and banking information</li></ul>
+    <h2>6. Intellectual Property</h2><p>All software, content, and technology are the exclusive property of Alyra Solutions. Tenants retain ownership of their business data.</p>
+    <h2>7. Limitation of Liability</h2><p>To the maximum extent permitted by law, Alyra Solutions shall not be liable for any indirect, incidental, or consequential damages.</p>
+    <h2>8. Governing Law</h2><p>These Terms shall be governed by the laws of the State of Texas.</p>
+    <h2>9. Contact</h2><p>hello@alyrasolutions.us — Alyra Solutions</p>
   </div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></div>
-        <p>© 2025 Alyra Solutions. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <footer><div class="footer-inner"><div class="footer-brand"><img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions" style="height:36px;width:auto;" /><p>© 2025 Alyra Solutions. All rights reserved.</p></div></div></footer>
 </div>
 
 <!-- ══════════ PRIVACY ══════════ -->
 <div id="page-privacy" class="page">
   <div class="inner-hero">
     <div class="inner-hero-inner">
-      <div class="section-label" style="color:var(--gold);"><span style="background:var(--gold);display:inline-block;width:24px;height:1px;vertical-align:middle;margin-right:0.75rem"></span>Legal</div>
-      <h1 class="section-title" style="color:var(--white);font-size:2.4rem;">Privacy Policy</h1>
-      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Effective Date: January 1, 2025</p>
+      <div class="section-label" style="color:var(--gold);">Legal</div>
+      <h1 class="section-title">Privacy Policy</h1>
+      <p class="section-sub">Effective Date: January 1, 2025</p>
     </div>
   </div>
   <div class="prose">
-    <h2>1. Introduction</h2>
-    <p>Alyra Solutions is committed to protecting your privacy. This policy explains how we collect, use, and safeguard information when you use our platforms.</p>
-    <h2>2. Information We Collect</h2>
-    <p><strong>From Business Tenants:</strong> business name, address, contact info, account credentials, billing records. <strong>From End Users:</strong> name, email, phone (when booking or ordering), service history. <strong>Automatically:</strong> log data, IP address, browser type, usage analytics.</p>
-    <h2>3. How We Use Information</h2>
-    <ul>
-      <li>Provide, operate, and improve our platforms</li>
-      <li>Process payments and manage subscriptions</li>
-      <li>Send transactional and service notifications</li>
-      <li>Comply with legal obligations and detect fraud</li>
-    </ul>
-    <h2>4. Payment Data</h2>
-    <p>All payment card data is processed directly by Stripe, Inc. Alyra Solutions does not collect, store, or transmit raw payment card information.</p>
-    <h2>5. Data Sharing</h2>
-    <p>We do not sell your personal information. We share data only with Stripe (payment processing), service providers (under confidentiality obligations), and law enforcement (when required by law).</p>
-    <h2>6. Data Security</h2>
-    <p>We implement industry-standard security including encryption in transit (TLS) and access controls.</p>
-    <h2>7. Your Rights</h2>
-    <p>You may have rights to access, correct, or delete your personal data. Contact hello@alyrasolutions.us to exercise these rights.</p>
-    <h2>8. Children's Privacy</h2>
-    <p>Our services are not directed to individuals under 13. We do not knowingly collect data from children.</p>
-    <h2>9. Contact</h2>
-    <p>hello@alyrasolutions.us — Alyra Solutions</p>
+    <h2>1. Introduction</h2><p>Alyra Solutions is committed to protecting your privacy. This policy explains how we collect, use, and safeguard information when you use our platforms.</p>
+    <h2>2. Information We Collect</h2><p><strong style="color:var(--lavender);">From Business Tenants:</strong> business name, address, contact info, account credentials, billing records. <strong style="color:var(--lavender);">From End Users:</strong> name, email, phone, service history. <strong style="color:var(--lavender);">Automatically:</strong> log data, IP address, browser type, usage analytics.</p>
+    <h2>3. How We Use Information</h2><ul><li>Provide, operate, and improve our platforms</li><li>Process payments and manage subscriptions</li><li>Send transactional and service notifications</li><li>Comply with legal obligations and detect fraud</li></ul>
+    <h2>4. Payment Data</h2><p>All payment card data is processed directly by Stripe, Inc. Alyra Solutions does not collect, store, or transmit raw payment card information.</p>
+    <h2>5. Data Sharing</h2><p>We do not sell your personal information. We share data only with Stripe, service providers under confidentiality obligations, and law enforcement when required by law.</p>
+    <h2>6. Contact</h2><p>hello@alyrasolutions.us — Alyra Solutions</p>
   </div>
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);">Alyra <span style="color:var(--rose)">Solutions</span></div>
-        <p>© 2025 Alyra Solutions. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <footer><div class="footer-inner"><div class="footer-brand"><img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions" style="height:36px;width:auto;" /><p>© 2025 Alyra Solutions. All rights reserved.</p></div></div></footer>
 </div>
 
 <script>
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  window.scrollTo(0,0);
+// ── COSMOS CANVAS ──
+const canvas = document.getElementById('cosmos');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
-function scrollToProducts(){
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 180; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.2,
+      o: Math.random() * 0.6 + 0.1,
+      speed: Math.random() * 0.3 + 0.05,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawCosmos(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.pulse += 0.01;
+    const opacity = s.o * (0.7 + 0.3 * Math.sin(s.pulse));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(196,181,253,${opacity})`;
+    ctx.fill();
+    s.y -= s.speed;
+    if (s.y < -2) { s.y = canvas.height + 2; s.x = Math.random() * canvas.width; }
+  });
+  requestAnimationFrame(drawCosmos);
+}
+
+resizeCanvas();
+initStars();
+requestAnimationFrame(drawCosmos);
+window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+
+// ── PAGE ROUTER ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function scrollTo(id) {
   showPage('home');
-  setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),50);
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 50);
 }
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('btn-explore').addEventListener('click',scrollToProducts);
-  document.getElementById('btn-demo').addEventListener('click',function(){showPage('contact');});
-  var form=document.getElementById('contact-form');
-  if(form){
-    form.addEventListener('submit',function(e){
+
+// ── CONTACT FORM ──
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      fetch('https://formspree.io/f/xkoqewlw',{
-        method:'POST',body:new FormData(form),
-        headers:{'Accept':'application/json'}
-      }).then(function(r){
-        if(r.ok){form.reset();document.getElementById('form-success').style.display='block';}
+      fetch('https://formspree.io/f/xkoqewlw', {
+        method: 'POST', body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(r => {
+        if (r.ok) { form.reset(); document.getElementById('form-success').style.display = 'block'; }
       });
     });
   }
+});
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.pricing-card, .stat-row, .platform-card, .step, .why-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
 });
 </script>
 </body>
