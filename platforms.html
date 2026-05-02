@@ -3,31 +3,227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alyra Solutions | Platforms</title>
+<title>Alyra Solutions | Platforms — Software for Salons, Restaurants, Barbershops & Spas</title>
+<meta name="description" content="Purpose-built software platforms for nail salons, restaurants, barbershops, and spas. Booking, payments, inventory, and operations — built for service businesses.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#06030f;--panel:#120a24;--text:#f4efff;--muted:#a79bc8;--line:rgba(139,92,246,.25);--violet:#7c3aed}
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-.container{max-width:1120px;margin:0 auto;padding:0 1.5rem}
-nav{position:sticky;top:0;z-index:20;background:rgba(8,4,18,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.nav-inner{height:74px;display:flex;align-items:center;justify-content:space-between}.logo img{height:52px;width:auto;max-width:180px;object-fit:contain;display:block;filter:brightness(2.05) saturate(1.45) drop-shadow(0 0 8px rgba(196,181,253,.65))}
-.nav-links{display:flex;gap:1.25rem;list-style:none}.nav-links a{color:var(--muted);text-decoration:none;font-size:.77rem;letter-spacing:.12em;text-transform:uppercase;padding:.45rem .7rem;border-radius:999px}.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(124,58,237,.2)}
-header{padding:4rem 0 2rem}h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);margin-bottom:.7rem}.lead{max-width:760px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;padding:1.3rem 0 4rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.2rem}.card h2{font-family:'Cormorant Garamond',serif;font-size:1.7rem;margin-bottom:.5rem}.card p{color:var(--muted);font-size:.9rem;margin-bottom:.8rem}.card ul{margin-left:1rem}.card li{margin:.32rem 0;color:#d2cae6;font-size:.9rem}
-footer{border-top:1px solid var(--line);padding:2rem 0;color:#8f84af;font-size:.8rem}
-@media(max-width:820px){.logo img{height:58px}.nav-links{gap:.4rem;flex-wrap:wrap;justify-content:flex-end}.nav-links a{font-size:.65rem;padding:.35rem .45rem}}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{--deep:#06030f;--space:#0d0820;--purple:#1a0d35;--violet:#6d28d9;--violet2:#8b5cf6;--rose:#e879a0;--gold:#f0b978;--cyan:#22d3ee;--lavender:#c4b5fd;--white:#ffffff;--muted:#9d8fbe;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--deep);color:var(--white);line-height:1.6;overflow-x:hidden;}
+#cosmos{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,3,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(139,92,246,0.15);}
+.nav-logo{display:flex;align-items:center;text-decoration:none;}
+.nav-logo img{height:58px;width:auto;max-width:180px;object-fit:contain;filter:brightness(2) saturate(1.5) drop-shadow(0 0 10px rgba(196,181,253,0.8));}
+.nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+.nav-links a{font-size:0.78rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-cta{background:linear-gradient(135deg,var(--violet),var(--rose)) !important;color:var(--white) !important;padding:0.5rem 1.4rem;border-radius:30px;font-weight:600 !important;}
+.container{max-width:1100px;margin:0 auto;}
+.btn-primary{background:linear-gradient(135deg,var(--violet),var(--rose));color:var(--white);padding:0.9rem 2.2rem;border-radius:30px;font-size:0.85rem;font-weight:600;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;display:inline-block;transition:opacity 0.2s,transform 0.15s;box-shadow:0 0 30px rgba(109,40,217,0.4);}
+.btn-primary:hover{opacity:0.9;transform:translateY(-2px);}
+.section-label{font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}
+.section-label::before{content:'';width:24px;height:1px;background:var(--cyan);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:300;line-height:1.12;margin-bottom:1rem;color:var(--white);}
+.gradient-text{background:linear-gradient(135deg,var(--violet2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.section-sub{font-size:0.95rem;color:rgba(255,255,255,0.55);max-width:580px;line-height:1.85;font-weight:300;}
+
+/* HERO */
+.page-hero{position:relative;z-index:1;padding:140px 2.5rem 5rem;background:linear-gradient(180deg,var(--space),var(--deep));overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(109,40,217,0.12),transparent 60%);}
+.page-hero-inner{max-width:700px;position:relative;z-index:1;}
+
+/* PLATFORM CARDS */
+.platforms-section{position:relative;z-index:1;padding:5rem 2.5rem 8rem;background:var(--deep);}
+.platforms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:3rem;}
+.platform-card{border:1px solid rgba(139,92,246,0.2);border-radius:24px;padding:2.5rem 2rem;background:rgba(13,8,32,0.7);text-decoration:none;display:block;transition:all 0.3s;position:relative;overflow:hidden;}
+.platform-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;border-radius:24px;}
+.platform-card:hover{transform:translateY(-6px);border-color:rgba(139,92,246,0.5);box-shadow:0 20px 60px rgba(109,40,217,0.15);}
+.platform-card.nail::before{background:linear-gradient(135deg,rgba(244,114,182,0.06),transparent);}
+.platform-card.nail:hover{border-color:rgba(244,114,182,0.4);}
+.platform-card.restaurant::before{background:linear-gradient(135deg,rgba(251,146,60,0.06),transparent);}
+.platform-card.restaurant:hover{border-color:rgba(251,146,60,0.4);}
+.platform-card.barbershop::before{background:linear-gradient(135deg,rgba(52,211,153,0.06),transparent);}
+.platform-card.barbershop:hover{border-color:rgba(52,211,153,0.4);}
+.platform-card.spa::before{background:linear-gradient(135deg,rgba(167,139,250,0.08),transparent);}
+.platform-card.spa:hover{border-color:rgba(167,139,250,0.5);}
+.platform-card:hover::before{opacity:1;}
+.card-inner{position:relative;z-index:1;}
+.card-emoji{font-size:2.5rem;margin-bottom:1.25rem;display:block;}
+.card-category{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;margin-bottom:0.5rem;}
+.nail .card-category{color:#f472b6;}
+.restaurant .card-category{color:#fb923c;}
+.barbershop .card-category{color:#34d399;}
+.spa .card-category{color:#a78bfa;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:var(--white);margin-bottom:0.75rem;line-height:1.1;}
+.card-desc{font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.75;margin-bottom:1.75rem;font-weight:300;}
+.card-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:2rem;}
+.card-features li{font-size:0.82rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:0.5rem;}
+.card-features li::before{content:'✦';font-size:0.55rem;color:var(--violet2);}
+.nail .card-features li::before{color:#f472b6;}
+.restaurant .card-features li::before{color:#fb923c;}
+.barbershop .card-features li::before{color:#34d399;}
+.spa .card-features li::before{color:#a78bfa;}
+.card-cta{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;}
+.nail .card-cta{color:#f472b6;}
+.restaurant .card-cta{color:#fb923c;}
+.barbershop .card-cta{color:#34d399;}
+.spa .card-cta{color:#a78bfa;}
+.card-pricing-tag{position:absolute;top:2rem;right:2rem;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,0.4);}
+
+/* CTA */
+.cta-band{position:relative;z-index:1;background:linear-gradient(135deg,var(--space),var(--purple));padding:7rem 2.5rem;text-align:center;overflow:hidden;}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,40,217,0.2),transparent 70%);pointer-events:none;}
+
+/* FOOTER */
+footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px solid rgba(139,92,246,0.12);padding:2.5rem;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;}
+.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.25);}
+.footer-links-row{display:flex;gap:1.5rem;}
+.footer-links-row a{font-size:0.8rem;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.2s;}
+.footer-links-row a:hover{color:var(--lavender);}
+
+@media(max-width:900px){.platforms-grid{grid-template-columns:1fr;}.nav-links{display:none;}}
 </style>
 </head>
 <body>
-<nav><div class="container nav-inner"><a class="logo" href="index.html"><img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions"></a><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="growthai.html">GrowthAI</a></li><li><a class="active" href="platforms.html">Platforms</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="tos.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li></ul></div></nav>
-<header><div class="container"><h1>Dedicated software platforms for service operators</h1><p class="lead">Every Alyra platform is designed around real operational workflows, staff execution, and customer experience.</p></div></header>
-<section><div class="container grid">
-<article class="card"><h2>Nail Salon Software</h2><p>Client-focused workflow from booking through checkout.</p><ul><li>Appointment and tech scheduling</li><li>Virtual color try-on support</li><li>Color and inventory tracking</li><li>Client notes and service history</li><li>Integrated payment flow</li></ul></article>
-<article class="card"><h2>Restaurant Solutions</h2><p>Control service flow, menu ops, and digital ordering in one place.</p><ul><li>Online ordering and menu updates</li><li>Table and shift operations</li><li>POS and payment integration</li><li>Modifiers and item availability</li><li>Order tracking and receipts</li></ul></article>
-<article class="card"><h2>Barbershop Solutions</h2><p>Built for chair utilization and repeat customer growth.</p><ul><li>Chair-based scheduling</li><li>Queue and waitlist handling</li><li>Service and add-on menus</li><li>Loyalty and return visit tracking</li><li>Mobile-ready customer flow</li></ul></article>
-<article class="card"><h2>Spa Solutions</h2><p>Designed for high-touch wellness operations and packages.</p><ul><li>Multi-service booking logic</li><li>Room and staff balancing</li><li>Membership and package management</li><li>Guest preference and profile tracking</li><li>Retail and gift card support</li></ul></article>
-</div></section>
-<footer><div class="container">Copyright 2026 Alyra Solutions. All rights reserved.</div></footer>
+<canvas id="cosmos"></canvas>
+
+<nav>
+  <a class="nav-logo" href="/index.html"><img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions"></a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/growthai.html">GrowthAI</a></li>
+    <li><a href="/platforms.html" class="active">Platforms</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/contact.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Software Platforms</div>
+    <h1 class="section-title">Purpose-built software<br>for <span class="gradient-text">every service category</span></h1>
+    <p class="section-sub">Four dedicated platforms — each designed around the real operational workflows, staff execution, and customer experience demands of its specific industry. Pick yours and go deep.</p>
+  </div>
+</section>
+
+<section class="platforms-section">
+  <div class="container">
+    <div class="platforms-grid">
+
+      <!-- NAIL SALON -->
+      <a href="/nail-salon.html" class="platform-card nail">
+        <div class="card-pricing-tag">From $79/mo</div>
+        <div class="card-inner">
+          <span class="card-emoji">💅</span>
+          <div class="card-category">SaaS Platform</div>
+          <h2 class="card-title">Nail Salon Software</h2>
+          <p class="card-desc">Client-focused workflow from booking through checkout. Built for nail techs who want to spend less time on admin and more time on clients.</p>
+          <ul class="card-features">
+            <li>Appointment & tech scheduling</li>
+            <li>Virtual color try-on</li>
+            <li>Color & inventory tracking</li>
+            <li>Client notes & service history</li>
+            <li>Integrated payments</li>
+          </ul>
+          <span class="card-cta">View Platform & Pricing →</span>
+        </div>
+      </a>
+
+      <!-- RESTAURANT -->
+      <a href="/restaurant.html" class="platform-card restaurant">
+        <div class="card-pricing-tag">From $129/mo</div>
+        <div class="card-inner">
+          <span class="card-emoji">🍽️</span>
+          <div class="card-category">SaaS Platform</div>
+          <h2 class="card-title">Restaurant Solutions</h2>
+          <p class="card-desc">End-to-end restaurant management — own your ordering channel, control your menu, and run your floor without third-party dependencies.</p>
+          <ul class="card-features">
+            <li>Online ordering (no commission)</li>
+            <li>Menu management & real-time updates</li>
+            <li>Table & shift operations</li>
+            <li>POS & payment integration</li>
+            <li>Revenue & cover reporting</li>
+          </ul>
+          <span class="card-cta">View Platform & Pricing →</span>
+        </div>
+      </a>
+
+      <!-- BARBERSHOP -->
+      <a href="/barbershop.html" class="platform-card barbershop">
+        <div class="card-pricing-tag">From $59/mo</div>
+        <div class="card-inner">
+          <span class="card-emoji">✂️</span>
+          <div class="card-category">SaaS Platform</div>
+          <h2 class="card-title">Barbershop Solutions</h2>
+          <p class="card-desc">Built for chair utilization and repeat customer growth — the two metrics that actually drive barbershop revenue.</p>
+          <ul class="card-features">
+            <li>Chair-based scheduling</li>
+            <li>Digital queue & waitlist</li>
+            <li>Service & add-on menus</li>
+            <li>Loyalty & return visit tracking</li>
+            <li>Mobile-ready client flow</li>
+          </ul>
+          <span class="card-cta">View Platform & Pricing →</span>
+        </div>
+      </a>
+
+      <!-- SPA -->
+      <a href="/spa.html" class="platform-card spa">
+        <div class="card-pricing-tag">From $99/mo</div>
+        <div class="card-inner">
+          <span class="card-emoji">🧖</span>
+          <div class="card-category">SaaS Platform</div>
+          <h2 class="card-title">Spa Solutions</h2>
+          <p class="card-desc">Designed for high-touch wellness operations — multi-service booking logic, memberships, guest profiles, and retail all in one place.</p>
+          <ul class="card-features">
+            <li>Multi-service booking logic</li>
+            <li>Room & staff balancing</li>
+            <li>Memberships & packages</li>
+            <li>Guest preference profiles</li>
+            <li>Retail & gift card support</li>
+          </ul>
+          <span class="card-cta">View Platform & Pricing →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label" style="justify-content:center;"><span style="width:0"></span>Not sure which platform fits?</div>
+    <h2 class="section-title" style="margin-bottom:1rem;">Talk to us.<br><span class="gradient-text">We'll figure it out together.</span></h2>
+    <p style="font-size:1rem;color:rgba(255,255,255,0.55);margin:0 auto 2.5rem;max-width:460px;line-height:1.85;">Tell us about your business and we'll recommend the right platform and tier for where you are today.</p>
+    <a href="/contact.html" class="btn-primary">Get in Touch →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Alyra Solutions. All rights reserved.</div>
+    <div class="footer-links-row">
+      <a href="/growthai.html">GrowthAI</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/tos.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const canvas=document.getElementById('cosmos'),ctx=canvas.getContext('2d');let stars=[];
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+function init(){stars=[];for(let i=0;i<160;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.4+0.2,o:Math.random()*0.5+0.1,speed:Math.random()*0.3+0.05,pulse:Math.random()*Math.PI*2});}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.pulse+=0.01;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(196,181,253,${s.o*(0.7+0.3*Math.sin(s.pulse))})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=canvas.height+2;s.x=Math.random()*canvas.width;}});requestAnimationFrame(draw);}
+resize();init();draw();window.addEventListener('resize',()=>{resize();init();});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';}});},{threshold:0.1});
+document.querySelectorAll('.platform-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity 0.6s ease,transform 0.6s ease';obs.observe(el);});
+</script>
 </body>
 </html>

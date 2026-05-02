@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alyra — Nail Salon Software | Appointments, Color Try-On & Payments</title>
+<meta name="description" content="Alyra's nail salon software handles appointments, virtual color try-on, inventory tracking, client records, and integrated payments — built for nail salons.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{--deep:#06030f;--space:#0d0820;--purple:#1a0d35;--violet:#6d28d9;--violet2:#8b5cf6;--rose:#e879a0;--gold:#f0b978;--cyan:#22d3ee;--lavender:#c4b5fd;--white:#ffffff;--muted:#9d8fbe;--border:rgba(139,92,246,0.2);--accent:#f472b6;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--deep);color:var(--white);line-height:1.6;overflow-x:hidden;}
+#cosmos{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,3,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(139,92,246,0.15);}
+.nav-logo{display:flex;align-items:center;text-decoration:none;}
+.nav-logo img{height:58px;width:auto;max-width:180px;object-fit:contain;filter:brightness(2) saturate(1.5) drop-shadow(0 0 10px rgba(196,181,253,0.8));}
+.nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+.nav-links a{font-size:0.78rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-cta{background:linear-gradient(135deg,var(--violet),var(--rose)) !important;color:var(--white) !important;padding:0.5rem 1.4rem;border-radius:30px;font-weight:600 !important;}
+.container{max-width:1100px;margin:0 auto;}
+.btn-primary{background:linear-gradient(135deg,var(--violet),var(--rose));color:var(--white);padding:0.9rem 2.2rem;border-radius:30px;font-size:0.85rem;font-weight:600;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;display:inline-block;transition:opacity 0.2s,transform 0.15s;box-shadow:0 0 30px rgba(109,40,217,0.4);}
+.btn-primary:hover{opacity:0.9;transform:translateY(-2px);}
+.btn-ghost{background:transparent;color:var(--lavender);padding:0.9rem 2.2rem;border-radius:30px;font-size:0.85rem;font-weight:500;text-decoration:none;border:1px solid rgba(139,92,246,0.4);display:inline-block;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.2s;}
+.btn-ghost:hover{border-color:var(--violet2);color:var(--white);background:rgba(109,40,217,0.1);}
+.section-label{font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}
+.section-label::before{content:'';width:24px;height:1px;background:var(--cyan);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.12;margin-bottom:1rem;color:var(--white);}
+.gradient-text{background:linear-gradient(135deg,var(--violet2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.section-sub{font-size:0.95rem;color:rgba(255,255,255,0.55);max-width:520px;line-height:1.85;font-weight:300;}
+/* HERO */
+.hero{position:relative;z-index:1;padding-top:130px;min-height:90vh;display:flex;align-items:center;overflow:hidden;}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:float 8s ease-in-out infinite;pointer-events:none;}
+.hero-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(244,114,182,0.3),transparent 70%);top:-80px;right:-80px;}
+.hero-orb-2{width:350px;height:350px;background:radial-gradient(circle,rgba(109,40,217,0.25),transparent 70%);bottom:0;left:-40px;animation-delay:-3s;}
+.hero-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:4rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero-eyebrow{font-size:0.68rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5vw,4.5rem);font-weight:300;line-height:1.06;color:var(--white);margin-bottom:1.5rem;}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,0.6);line-height:1.85;margin-bottom:2.5rem;font-weight:300;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-visual{display:flex;flex-direction:column;gap:1rem;}
+.feature-pill{background:rgba(255,255,255,0.04);border:1px solid rgba(244,114,182,0.2);border-radius:12px;padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;color:rgba(255,255,255,0.75);}
+.feature-pill-icon{font-size:1.2rem;}
+/* FEATURES */
+.features-section{position:relative;z-index:1;padding:8rem 2.5rem;background:var(--space);}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.feature-card{border:1px solid rgba(139,92,246,0.15);border-radius:20px;padding:2rem 1.75rem;background:rgba(255,255,255,0.02);transition:all 0.3s;}
+.feature-card:hover{border-color:rgba(244,114,182,0.4);transform:translateY(-4px);}
+.feature-icon{font-size:2rem;margin-bottom:1rem;}
+.feature-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--white);margin-bottom:0.5rem;}
+.feature-desc{font-size:0.85rem;color:rgba(255,255,255,0.55);line-height:1.75;}
+/* PRICING */
+.pricing-section{position:relative;z-index:1;padding:8rem 2.5rem;background:var(--deep);}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.pricing-card{border-radius:20px;padding:2.5rem 2rem;border:1px solid rgba(139,92,246,0.2);background:rgba(13,8,32,0.8);transition:transform 0.3s;}
+.pricing-card:hover{transform:translateY(-6px);}
+.pricing-card.featured{border-color:var(--violet2);background:linear-gradient(135deg,rgba(109,40,217,0.15),rgba(232,121,160,0.08));box-shadow:0 0 60px rgba(109,40,217,0.2);}
+.pricing-badge{display:inline-block;background:linear-gradient(135deg,var(--violet),var(--rose));color:white;font-size:0.6rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:20px;margin-bottom:1.5rem;}
+.pricing-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--white);margin-bottom:0.5rem;}
+.pricing-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;line-height:1.7;}
+.pricing-amount{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--white);line-height:1;margin-bottom:0.5rem;}
+.pricing-amount span{font-size:1.1rem;vertical-align:top;margin-top:0.5rem;display:inline-block;color:var(--muted);}
+.pricing-amount em{font-size:1rem;font-style:normal;color:var(--muted);}
+.pricing-divider{height:1px;background:rgba(139,92,246,0.15);margin:1.5rem 0;}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;}
+.pricing-features li{font-size:0.85rem;color:rgba(255,255,255,0.75);display:flex;align-items:flex-start;gap:0.6rem;line-height:1.5;}
+.pricing-features li::before{content:'✦';color:var(--violet2);font-size:0.6rem;flex-shrink:0;margin-top:3px;}
+.pricing-cta{display:block;width:100%;text-align:center;padding:0.9rem;border-radius:12px;font-size:0.85rem;font-weight:600;font-family:'Space Grotesk',sans-serif;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:none;text-decoration:none;transition:all 0.2s;}
+.cta-primary{background:linear-gradient(135deg,var(--violet),var(--rose));color:white;}
+.cta-outline{background:transparent;color:var(--lavender);border:1px solid rgba(139,92,246,0.4);}
+.cta-outline:hover{border-color:var(--violet2);background:rgba(109,40,217,0.1);}
+/* CTA BAND */
+.cta-band{position:relative;z-index:1;background:linear-gradient(135deg,var(--space),var(--purple));padding:7rem 2.5rem;text-align:center;overflow:hidden;}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(109,40,217,0.2),transparent 70%);pointer-events:none;}
+footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px solid rgba(139,92,246,0.12);padding:2.5rem 2.5rem;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;}
+.footer-copy{font-size:0.8rem;color:rgba(255,255,255,0.25);}
+.footer-links-row{display:flex;gap:1.5rem;}
+.footer-links-row a{font-size:0.8rem;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.2s;}
+.footer-links-row a:hover{color:var(--lavender);}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;}.hero-visual{display:none;}.features-grid{grid-template-columns:1fr;}.pricing-grid{grid-template-columns:1fr;}.nav-links{display:none;}}
+</style>
+</head>
+<body>
+<canvas id="cosmos"></canvas>
+<nav>
+  <a class="nav-logo" href="/index.html"><img src="Alyra_Logo_NoBG.png" alt="Alyra Solutions"></a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/growthai.html">GrowthAI</a></li>
+    <li><a href="/platforms.html" class="active">Platforms</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/contact.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">💅 Nail Salon Software</div>
+      <h1 class="hero-title">Built for the salon.<br><span class="gradient-text">Not the back office.</span></h1>
+      <p class="hero-sub">Appointment scheduling, virtual color try-on, inventory tracking, client history, and integrated payments — everything your nail salon needs to run smoother and grow faster.</p>
+      <div class="hero-actions">
+        <a href="/contact.html" class="btn-primary">Get Started</a>
+        <a href="/platforms.html" class="btn-ghost">All Platforms</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="feature-pill"><span class="feature-pill-icon">📅</span> Smart appointment & tech scheduling</div>
+      <div class="feature-pill"><span class="feature-pill-icon">🎨</span> Virtual color try-on for clients</div>
+      <div class="feature-pill"><span class="feature-pill-icon">📦</span> Inventory & supply tracking</div>
+      <div class="feature-pill"><span class="feature-pill-icon">👤</span> Client notes & service history</div>
+      <div class="feature-pill"><span class="feature-pill-icon">💳</span> Integrated payments at checkout</div>
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything your salon<br>needs to <span class="gradient-text">run at its best</span></h2>
+    <p class="section-sub">Designed around real salon workflows — from the first booking to final checkout.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-name">Appointment & Tech Scheduling</div>
+        <p class="feature-desc">Assign clients to specific techs, manage time slots, handle walk-ins, and avoid double bookings — all from one calendar view.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-name">Virtual Color Try-On</div>
+        <p class="feature-desc">Let clients visualize nail colors before their appointment. Reduce change-of-mind moments and increase satisfaction at checkout.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <div class="feature-name">Color & Inventory Tracking</div>
+        <p class="feature-desc">Track gel colors, acrylics, and supplies by quantity. Get low-stock alerts before you run out mid-service.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <div class="feature-name">Client Notes & Service History</div>
+        <p class="feature-desc">Store preferences, allergy notes, past services, and color history per client. Every tech knows exactly what the client had last time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💳</div>
+        <div class="feature-name">Integrated Payment Flow</div>
+        <p class="feature-desc">Accept cards, digital wallets, and tips at checkout. Funds go directly to your account — we never hold payments.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-name">Reporting & Insights</div>
+        <p class="feature-desc">See your top services, busiest hours, revenue by tech, and client retention rates — all in a clean dashboard built for operators.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple pricing.<br><span class="gradient-text">No hidden fees.</span></h2>
+    <p class="section-sub">Choose the tier that fits your salon today. Upgrade any time as you grow.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-badge">Starter</div>
+        <div class="pricing-name">Essential</div>
+        <p class="pricing-desc">For independent nail techs and small salons getting started with software.</p>
+        <div class="pricing-amount"><span>$</span>79<em>/mo</em></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Up to 2 techs</li>
+          <li>Appointment scheduling</li>
+          <li>Client profiles & history</li>
+          <li>Basic inventory tracking</li>
+          <li>Integrated payments</li>
+        </ul>
+        <a href="/contact.html" class="pricing-cta cta-outline">Get Started →</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Studio</div>
+        <p class="pricing-desc">For growing salons with multiple techs and a full client book.</p>
+        <div class="pricing-amount"><span>$</span>149<em>/mo</em></div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Up to 8 techs</li>
+          <li>Everything in Essential</li>
+          <li>Virtual color try-on</li>
+          <li>Advanced inventory & alerts</li>
+          <li>Revenue & retention reports</li>
+          <li>SMS appointment reminders</li>
+        </ul>
+        <a href="/contact.html" class="pricing-cta cta-primary">Get Started →</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-badge">Enterprise</div>
+        <div class="pricing-name">Pro</div>
+        <p class="pricing-desc">For multi-location salons and high-volume operations.</p>
+        <div class="pricing-amount" style="font-size:2.2rem;margin-top:1.5rem;">Custom</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Unlimited techs & locations</li>
+          <li>Everything in Studio</li>
+          <li>Multi-location dashboard</li>
+          <li>Dedicated account support</li>
+          <li>Custom integrations</li>
+        </ul>
+        <a href="/contact.html" class="pricing-cta cta-outline">Contact Us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label" style="justify-content:center;"><span style="width:0;"></span>Ready to upgrade your salon?</div>
+    <h2 class="section-title" style="margin-bottom:1rem;">Less admin.<br><span class="gradient-text">More clients.</span></h2>
+    <p style="font-size:1rem;color:rgba(255,255,255,0.55);margin:0 auto 2.5rem;max-width:480px;line-height:1.85;">Get set up in days, not months. No IT team required.</p>
+    <a href="/contact.html" class="btn-primary">Get Started Today →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Alyra Solutions. All rights reserved.</div>
+    <div class="footer-links-row">
+      <a href="/platforms.html">All Platforms</a>
+      <a href="/growthai.html">GrowthAI</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/tos.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const canvas=document.getElementById('cosmos'),ctx=canvas.getContext('2d');let stars=[];
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+function init(){stars=[];for(let i=0;i<160;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.4+0.2,o:Math.random()*0.5+0.1,speed:Math.random()*0.3+0.05,pulse:Math.random()*Math.PI*2});}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.pulse+=0.01;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(196,181,253,${s.o*(0.7+0.3*Math.sin(s.pulse))})`;ctx.fill();s.y-=s.speed;if(s.y<-2){s.y=canvas.height+2;s.x=Math.random()*canvas.width;}});requestAnimationFrame(draw);}
+resize();init();draw();window.addEventListener('resize',()=>{resize();init();});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';}});},{threshold:0.1});
+document.querySelectorAll('.feature-card,.pricing-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity 0.6s ease,transform 0.6s ease';obs.observe(el);});
+</script>
+</body>
+</html>
