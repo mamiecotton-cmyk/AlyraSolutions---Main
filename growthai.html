@@ -374,5 +374,440 @@ document.querySelectorAll('.pricing-card,.stat-row,.platform-card,.step,.why-ite
 const form=document.getElementById('contact-form');
 if(form){form.addEventListener('submit',function(e){e.preventDefault();fetch('https://formspree.io/f/xkoqewlw',{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(r=>{if(r.ok){form.reset();const s=document.getElementById('form-success');if(s)s.style.display='block';}});});}
 </script>
+
+<!-- 
+  ALYRA SOLUTIONS — FAQ SECTION
+  Drop this block into growthai.html, just before the closing </body>.
+  Uses: Cormorant Garamond + Space Grotesk (already loaded on your site).
+  No external dependencies.
+-->
+
+<style>
+  .faq-section {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 2rem 8rem;
+  }
+
+  .faq-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c084fc;
+    margin-bottom: 1rem;
+  }
+
+  .faq-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 600;
+    line-height: 1.08;
+    color: #f5f0ff;
+    margin-bottom: 0.5rem;
+  }
+
+  .faq-heading em {
+    font-style: italic;
+    color: #d8b4fe;
+  }
+
+  .faq-subhead {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    color: #a89bc2;
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid rgba(192, 132, 252, 0.18);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(192, 132, 252, 0.18);
+  }
+
+  .faq-trigger {
+    all: unset;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 2.2vw, 21px);
+    font-weight: 600;
+    color: #ede9f8;
+    line-height: 1.3;
+    transition: color 0.2s;
+    box-sizing: border-box;
+  }
+
+  .faq-trigger:hover {
+    color: #d8b4fe;
+  }
+
+  .faq-trigger[aria-expanded="true"] {
+    color: #c084fc;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(192, 132, 252, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, transform 0.3s;
+    position: relative;
+  }
+
+  .faq-trigger[aria-expanded="true"] .faq-icon {
+    background: rgba(192, 132, 252, 0.15);
+    border-color: #c084fc;
+    transform: rotate(45deg);
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    background: #c084fc;
+    border-radius: 2px;
+    transition: opacity 0.2s;
+  }
+
+  .faq-icon::before {
+    width: 10px;
+    height: 1.5px;
+  }
+
+  .faq-icon::after {
+    width: 1.5px;
+    height: 10px;
+  }
+
+  .faq-trigger[aria-expanded="true"] .faq-icon::after {
+    opacity: 0;
+  }
+
+  .faq-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-body.open {
+    max-height: 600px;
+  }
+
+  .faq-answer {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #b8aed0;
+    padding-bottom: 1.75rem;
+    max-width: 680px;
+  }
+
+  .faq-answer strong {
+    color: #d8b4fe;
+    font-weight: 500;
+  }
+
+  .faq-answer a {
+    color: #c084fc;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .faq-cta-row {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .faq-cta-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+
+  .faq-cta-primary:hover {
+    opacity: 0.85;
+  }
+
+  .faq-cta-secondary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: #a89bc2;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .faq-cta-secondary:hover {
+    color: #d8b4fe;
+  }
+
+  .faq-schema {
+    display: none;
+  }
+</style>
+
+<section class="faq-section" aria-labelledby="faq-heading">
+
+  <p class="faq-eyebrow">Frequently Asked Questions</p>
+  <h2 class="faq-heading" id="faq-heading">Everything you need<br>to <em>make the decision.</em></h2>
+  <p class="faq-subhead">Questions about AI visibility, pricing, platforms, and how Alyra works — answered directly.</p>
+
+  <ul class="faq-list" role="list">
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">
+        What is GEO — Generative Engine Optimization — and why does it matter for my business?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a1" role="region" aria-labelledby="faq-q1">
+        <p class="faq-answer">GEO is the practice of optimizing your business to be discovered and recommended by AI tools like <strong>ChatGPT, Gemini, and Perplexity</strong>. When someone asks an AI "best Italian restaurant in Silver Lake" or "top nail salon near me," those answers are generated from signals your business either has or doesn't. GEO closes that gap. Unlike traditional SEO, GEO focuses on entity authority — making your business a recognized, trusted subject in AI knowledge systems — rather than chasing keyword rankings on a results page.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">
+        How do AI tools like ChatGPT and Gemini decide which local businesses to recommend?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a2" role="region" aria-labelledby="faq-q2">
+        <p class="faq-answer">AI engines pull from a combination of signals: <strong>citation consistency across directories</strong>, structured data on your website, editorial coverage on third-party platforms, review velocity, and the overall authority of your online entity. Businesses with complete, consistent, and well-cited profiles across the web are far more likely to appear in AI-generated recommendations. Most independent service businesses have significant gaps in these areas — which is exactly the opportunity Alyra is designed to close.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">
+        How is AI visibility different from traditional SEO or Google Ads?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a3" role="region" aria-labelledby="faq-q3">
+        <p class="faq-answer">Traditional SEO targets blue-link search results on Google. Paid ads require ongoing spend and disappear the moment you stop paying. <strong>AI visibility is entirely organic</strong> — there is no ad slot to buy inside a ChatGPT or Gemini answer. You either have the authority signals to be recommended, or you don't. GEO builds those signals systematically, creating a durable competitive advantage that compounds over time and does not require a media budget.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">
+        What types of businesses does Alyra GrowthAI serve?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a4" role="region" aria-labelledby="faq-q4">
+        <p class="faq-answer">GrowthAI is built for <strong>service-based businesses</strong> that depend on local discovery — primarily upscale independent restaurants, nail salons, spas, and barbershops. These categories are ideal because customers search for them by type and location constantly, and AI-generated answers are already influencing booking decisions. If your revenue depends on new and repeat guests finding you, AI visibility directly affects your bottom line.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">
+        How much does GrowthAI cost, and is there a discount right now?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a5" role="region" aria-labelledby="faq-q5">
+        <p class="faq-answer">GrowthAI offers three tiers: <strong>Ignite at $600/mo</strong> (normally $1,200), <strong>Ascend at $1,250/mo</strong> (normally $2,500), and <strong>Apex</strong> for multi-location and enterprise clients at custom pricing. Ignite and Ascend are currently at 50% off for the first 10 clients only. Ignite covers your audit, schema and citation cleanup, review velocity setup, and monthly reporting. Ascend adds authority building, editorial outreach, competitor GEO gap analysis, and bi-weekly strategy calls.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">
+        How long does it take to see results from GEO optimization?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a6" role="region" aria-labelledby="faq-q6">
+        <p class="faq-answer">Measurable visibility progress typically appears within <strong>90 days</strong>. Citation cleanup and schema improvements can start influencing AI signals within 30–45 days. Authority building and editorial outreach compounds over a longer arc. Alyra tracks your AI engine scores monthly so you can see the lift numerically, not just anecdotally. The GEO Audit report shows your current score and a projected 90-day target so expectations are grounded in data from day one.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">
+        What is the free GEO Audit and what does it show me?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a7" role="region" aria-labelledby="faq-q7">
+        <p class="faq-answer">The GEO Audit is a scored report that analyzes your business's current AI visibility across ChatGPT, Gemini, and Perplexity. It produces an <strong>AI Visibility Score from 0 to 100</strong>, breaks down seven entity authority signal categories, identifies your top five priority actions with projected score impact, and calculates a 90-day revenue projection based on your current cover count and average check. You get a full picture of where you stand and exactly what needs to happen to improve it.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">
+        Does GrowthAI include a website, or do I need one already?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a8" role="region" aria-labelledby="faq-q8">
+        <p class="faq-answer">Every GrowthAI plan includes a <strong>custom website and domain</strong>. You do not need an existing site to get started. The website is built as part of the optimization infrastructure — structured correctly from the start with the schema markup, entity signals, and authority architecture that AI engines recognize. If you already have a site, Alyra audits and improves it as part of the onboarding process.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a9" id="faq-q9">
+        What are the Alyra software platforms, and are they separate from GrowthAI?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a9" role="region" aria-labelledby="faq-q9">
+        <p class="faq-answer">Yes — Alyra offers two distinct product lines. <strong>GrowthAI</strong> is the managed AI visibility service. The <strong>Platforms</strong> are industry-specific SaaS software for daily operations: Nail Salon Software (appointments, color try-on, inventory), Restaurant Solutions (online ordering, table flow, POS), Barbershop Solutions (chair scheduling, waitlist, loyalty), and Spa Solutions (multi-service booking, memberships, guest profiles). You can subscribe to either product independently, or use both together for full operational and growth coverage.</p>
+      </div>
+    </li>
+
+    <li class="faq-item">
+      <button class="faq-trigger" aria-expanded="false" aria-controls="faq-a10" id="faq-q10">
+        Who built Alyra, and why should I trust this over a large marketing agency?
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body" id="faq-a10" role="region" aria-labelledby="faq-q10">
+        <p class="faq-answer">Alyra was built by an operations management specialist with <strong>25 years in customer service leadership</strong> and over a decade in technical support — someone who has run teams, managed service recovery at scale, and understands what independent businesses actually need versus what agencies try to sell them. The GrowthAI model is built on operational rigor, not marketing fluff. Every deliverable ties to a metric. The audit report shows you the math. The goal is measurable revenue impact, not vanity impressions.</p>
+      </div>
+    </li>
+
+  </ul>
+
+  <div class="faq-cta-row">
+    <a href="https://resonant-platypus-71a931.netlify.app/" class="faq-cta-primary" target="_blank" rel="noopener">Run Your Free GEO Audit</a>
+    <a href="mailto:hello@alyrasolutions.us" class="faq-cta-secondary">Or email us with questions →</a>
+  </div>
+
+</section>
+
+<!-- FAQ Schema Markup — improves Google rich result eligibility -->
+<script type="application/ld+json" class="faq-schema">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is GEO — Generative Engine Optimization — and why does it matter for my business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GEO is the practice of optimizing your business to be discovered and recommended by AI tools like ChatGPT, Gemini, and Perplexity. It focuses on entity authority — making your business a recognized, trusted subject in AI knowledge systems — rather than chasing keyword rankings on a results page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do AI tools like ChatGPT and Gemini decide which local businesses to recommend?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI engines pull from citation consistency across directories, structured data on your website, editorial coverage on third-party platforms, review velocity, and the overall authority of your online entity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is AI visibility different from traditional SEO or Google Ads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional SEO targets blue-link search results. Paid ads require ongoing spend. AI visibility is entirely organic — there is no ad slot to buy inside a ChatGPT or Gemini answer. GEO builds authority signals systematically, creating a durable competitive advantage that does not require a media budget."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of businesses does Alyra GrowthAI serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GrowthAI serves service-based businesses that depend on local discovery — primarily upscale independent restaurants, nail salons, spas, and barbershops."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does GrowthAI cost, and is there a discount right now?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GrowthAI offers three tiers: Ignite at $600/mo (normally $1,200), Ascend at $1,250/mo (normally $2,500), and Apex for multi-location clients at custom pricing. Ignite and Ascend are currently 50% off for the first 10 clients only."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to see results from GEO optimization?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Measurable visibility progress typically appears within 90 days. Citation cleanup and schema improvements can start influencing AI signals within 30 to 45 days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the free GEO Audit and what does it show me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GEO Audit produces an AI Visibility Score from 0 to 100, breaks down seven entity authority signal categories, identifies your top five priority actions, and calculates a 90-day revenue projection based on your cover count and average check."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does GrowthAI include a website, or do I need one already?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every GrowthAI plan includes a custom website and domain, built with the correct schema markup and entity signals from the start. If you already have a site, Alyra audits and improves it during onboarding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the Alyra software platforms, and are they separate from GrowthAI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. GrowthAI is the managed AI visibility service. The Platforms are industry-specific SaaS software: Nail Salon Software, Restaurant Solutions, Barbershop Solutions, and Spa Solutions. You can subscribe to either independently or use both together."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who built Alyra, and why should I trust this over a large marketing agency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Alyra was built by an operations management specialist with 25 years in customer service leadership and over a decade in technical support. Every deliverable ties to a metric and the goal is measurable revenue impact, not vanity impressions."
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+  (function() {
+    var triggers = document.querySelectorAll('.faq-trigger');
+    triggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function() {
+        var expanded = this.getAttribute('aria-expanded') === 'true';
+        var bodyId = this.getAttribute('aria-controls');
+        var body = document.getElementById(bodyId);
+
+        triggers.forEach(function(t) {
+          t.setAttribute('aria-expanded', 'false');
+          var b = document.getElementById(t.getAttribute('aria-controls'));
+          if (b) b.classList.remove('open');
+        });
+
+        if (!expanded) {
+          this.setAttribute('aria-expanded', 'true');
+          body.classList.add('open');
+        }
+      });
+    });
+  })();
+</script>
+
 </body>
 </html>
