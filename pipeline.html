@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alyra Intelligence — Agent Pipeline</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:#0a0a0f;
+  --bg2:#0f0f1a;
+  --bg3:#141420;
+  --border:#1e1e30;
+  --border2:#2a2a40;
+  --purple:#7c3aed;
+  --purple-light:#a78bfa;
+  --rose:#f43f5e;
+  --rose-light:#fb7185;
+  --gold:#d4a853;
+  --gold-light:#fbbf24;
+  --text:#e8e6f0;
+  --text2:#9490b0;
+  --text3:#5a5575;
+  --green:#10b981;
+  --green-light:#34d399;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --card:#111118;
+}
+
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* stars background */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(244,63,94,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(212,168,83,0.05) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{position:relative;z-index:1;}
+
+/* HEADER */
+header{
+  border-bottom:1px solid var(--border);
+  padding:1.25rem 2rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(10,10,15,0.95);
+  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:300;
+  letter-spacing:0.05em;
+  background:linear-gradient(135deg,var(--purple-light),var(--rose-light),var(--gold));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.logo-sub{
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-top:2px;
+  font-weight:400;
+}
+
+.header-badge{
+  font-size:10px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--text3);
+  border:1px solid var(--border2);
+  padding:5px 12px;
+  border-radius:100px;
+}
+
+/* PIPELINE NAV */
+.pipeline-nav{
+  display:flex;
+  align-items:center;
+  gap:0;
+  padding:2rem 2rem 0;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.pipe-step{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 20px;
+  border:1px solid var(--border);
+  background:var(--card);
+  cursor:pointer;
+  transition:all 0.2s;
+  flex:1;
+  position:relative;
+}
+
+.pipe-step:first-child{border-radius:10px 0 0 10px;}
+.pipe-step:last-child{border-radius:0 10px 10px 0;}
+
+.pipe-step.active{
+  border-color:var(--purple);
+  background:rgba(124,58,237,0.1);
+}
+
+.pipe-step.done{
+  border-color:var(--green);
+  background:rgba(16,185,129,0.05);
+}
+
+.pipe-arrow{
+  width:1px;
+  height:100%;
+  background:var(--border2);
+  flex-shrink:0;
+}
+
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;
+  font-weight:300;
+  color:var(--text3);
+  line-height:1;
+}
+
+.pipe-step.active .step-num{color:var(--purple-light);}
+.pipe-step.done .step-num{color:var(--green);}
+
+.step-info{}
+.step-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:2px;}
+.step-name{font-size:14px;font-weight:500;color:var(--text);}
+.pipe-step.active .step-name{color:var(--purple-light);}
+.pipe-step.done .step-name{color:var(--green-light);}
+
+.step-check{margin-left:auto;color:var(--green);font-size:16px;display:none;}
+.pipe-step.done .step-check{display:block;}
+
+/* MAIN LAYOUT */
+.main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:2rem;
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:1.5rem;
+  align-items:start;
+}
+
+/* PANELS */
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.panel-header{
+  padding:1rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.panel-icon{
+  width:28px;height:28px;
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.icon-prospector{background:rgba(124,58,237,0.2);color:var(--purple-light);}
+.icon-analyst{background:rgba(212,168,83,0.2);color:var(--gold);}
+.icon-deployer{background:rgba(244,63,94,0.2);color:var(--rose-light);}
+.icon-output{background:rgba(16,185,129,0.2);color:var(--green-light);}
+
+.panel-title{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);font-weight:500;}
+
+.panel-body{padding:1.25rem;}
+
+/* FORM */
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+
+.field select, .field input{
+  width:100%;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;
+  padding:10px 12px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  color:var(--text);
+  outline:none;
+  transition:border-color 0.15s;
+  appearance:none;
+}
+
+.field select:focus, .field input:focus{border-color:var(--purple);}
+
+.field select option{background:var(--bg2);}
+
+.btn{
+  width:100%;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  font-weight:500;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;
+}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+.btn-secondary{
+  background:transparent;
+  border:1px solid var(--border2);
+  color:var(--text2);
+  margin-top:8px;
+}
+.btn-secondary:hover{border-color:var(--purple);color:var(--purple-light);}
+
+.spinner{
+  width:12px;height:12px;
+  border:2px solid rgba(255,255,255,0.3);
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  display:none;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* PROSPECT LIST */
+.prospect-list{margin-top:1rem;}
+
+.prospect-card{
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  margin-bottom:8px;
+  cursor:pointer;
+  transition:all 0.15s;
+  background:var(--bg2);
+}
+
+.prospect-card:hover{border-color:var(--purple);background:rgba(124,58,237,0.08);}
+.prospect-card.selected{border-color:var(--gold);background:rgba(212,168,83,0.08);}
+
+.prospect-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.prospect-meta{font-size:11px;color:var(--text3);}
+.prospect-risk{
+  display:inline-block;
+  font-size:9px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:100px;
+  margin-top:5px;
+  font-weight:500;
+}
+.risk-high{background:rgba(244,63,94,0.15);color:var(--rose-light);}
+.risk-medium{background:rgba(245,158,11,0.15);color:var(--amber);}
+
+/* OUTPUT AREA */
+.output-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
+
+.output-panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  display:none;
+}
+
+.output-panel.visible{display:block;}
+
+.output-tabs{
+  display:flex;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+}
+
+.tab{
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:10px 16px;
+  cursor:pointer;
+  color:var(--text3);
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:all 0.15s;
+}
+
+.tab.active{color:var(--purple-light);border-bottom-color:var(--purple);}
+.tab:hover:not(.active){color:var(--text2);}
+
+.tab-content{display:none;padding:1.25rem;}
+.tab-content.active{display:block;}
+
+/* SCORE DISPLAY */
+.score-hero{
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+  padding:1.5rem;
+  background:var(--bg2);
+  border-radius:10px;
+  margin-bottom:1.25rem;
+}
+
+.score-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:80px;
+  font-weight:300;
+  line-height:1;
+  min-width:120px;
+}
+
+.score-bar-wrap{flex:1;}
+.score-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.score-track{height:4px;background:var(--border2);border-radius:100px;margin-bottom:10px;overflow:hidden;}
+.score-fill{height:100%;border-radius:100px;transition:width 1s ease;}
+.score-verdict{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--text2);}
+
+/* ENGINE GRID */
+.engine-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem;}
+
+.engine-box{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1rem;
+  text-align:center;
+}
+
+.eng-name{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.eng-score{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;line-height:1;margin-bottom:4px;}
+.eng-status{font-size:11px;color:var(--text3);}
+
+/* SIGNAL TABLE */
+.signal-table{width:100%;border-collapse:collapse;font-size:13px;}
+.signal-table th{text-align:left;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:0 0 10px;border-bottom:1px solid var(--border);font-weight:400;}
+.signal-table td{padding:10px 12px 10px 0;border-bottom:1px solid var(--border);vertical-align:top;}
+.signal-table td:first-child{font-weight:500;width:38%;color:var(--text2);}
+
+.pill{display:inline-block;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px;font-weight:500;}
+.pill-critical{background:rgba(239,68,68,0.15);color:#fca5a5;}
+.pill-weak{background:rgba(245,158,11,0.15);color:var(--amber);}
+.pill-moderate{background:rgba(124,58,237,0.15);color:var(--purple-light);}
+.pill-strong{background:rgba(16,185,129,0.15);color:var(--green-light);}
+
+/* ACTIONS */
+.action-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.action-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--text3);min-width:24px;padding-top:1px;}
+.action-body{flex:1;}
+.action-body strong{display:block;font-size:13px;font-weight:500;margin-bottom:2px;color:var(--text);}
+.action-body span{font-size:12px;color:var(--text3);line-height:1.5;}
+.action-pts{font-size:12px;color:var(--green-light);white-space:nowrap;padding-top:2px;min-width:50px;text-align:right;}
+
+/* PROJECTION */
+.proj-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;}
+.proj-box{background:var(--bg2);border-radius:8px;padding:1rem;text-align:center;}
+.proj-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.proj-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;}
+.proj-math{font-size:11px;color:var(--text3);line-height:1.7;background:var(--bg2);border-radius:8px;padding:10px 14px;}
+
+/* OUTREACH */
+.outreach-block{margin-bottom:1.25rem;}
+.outreach-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.outreach-text{font-size:13px;color:var(--text2);line-height:1.8;white-space:pre-wrap;background:var(--bg2);border-radius:8px;padding:1rem;}
+
+.copy-btn{
+  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--border2);
+  color:var(--text3);padding:5px 12px;border-radius:6px;
+  cursor:pointer;margin-top:8px;transition:all 0.15s;
+  font-family:'Space Grotesk',sans-serif;
+}
+.copy-btn:hover{border-color:var(--purple);color:var(--purple-light);}
+
+/* DELIVERABLE */
+.deliverable-block{margin-bottom:1.5rem;}
+.deliverable-title{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.deliverable-content{
+  font-size:12px;color:var(--text2);line-height:1.8;
+  background:var(--bg2);border-radius:8px;padding:1rem;
+  white-space:pre-wrap;font-family:'Space Grotesk',monospace;
+  border:1px solid var(--border);
+  max-height:300px;overflow-y:auto;
+}
+
+/* LOG */
+.log-box{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1rem;
+  font-family:monospace;
+  font-size:11px;
+  color:var(--text3);
+  line-height:2;
+  max-height:120px;
+  overflow-y:auto;
+  margin-top:1rem;
+  display:none;
+}
+.log-line-done{color:var(--green);}
+.log-line-active{color:var(--text);}
+.log-line::before{content:'› ';color:var(--text3);}
+
+/* EMPTY STATE */
+.empty{
+  text-align:center;
+  padding:3rem 1.5rem;
+  color:var(--text3);
+}
+.empty-icon{font-size:32px;margin-bottom:1rem;opacity:0.4;}
+.empty-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;}
+
+/* SECTION DIVIDER */
+.section-div{
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);border-top:1px solid var(--border);
+  padding-top:1rem;margin-bottom:0.75rem;margin-top:1.25rem;
+}
+
+@media(max-width:768px){
+  .main{grid-template-columns:1fr;}
+  .pipeline-nav{flex-direction:column;}
+  .proj-row{grid-template-columns:repeat(2,1fr);}
+  .engine-row{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="logo">Alyra Intelligence</div>
+    <div class="logo-sub">Multi-Agent Pipeline</div>
+  </div>
+  <div class="header-badge" id="pipeline-status">Ready</div>
+</header>
+
+<!-- PIPELINE NAV -->
+<div class="pipeline-nav">
+  <div class="pipe-step active" id="nav-1" onclick="goToStep(1)">
+    <div class="step-num">01</div>
+    <div class="step-info">
+      <div class="step-label">Agent</div>
+      <div class="step-name">Prospector</div>
+    </div>
+    <div class="step-check">✓</div>
+  </div>
+  <div class="pipe-step" id="nav-2" onclick="goToStep(2)">
+    <div class="step-num">02</div>
+    <div class="step-info">
+      <div class="step-label">Agent</div>
+      <div class="step-name">Analyst</div>
+    </div>
+    <div class="step-check">✓</div>
+  </div>
+  <div class="pipe-step" id="nav-3" onclick="goToStep(3)">
+    <div class="step-num">03</div>
+    <div class="step-info">
+      <div class="step-label">Agent</div>
+      <div class="step-name">Deployer</div>
+    </div>
+    <div class="step-check">✓</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: CONTROL PANEL -->
+  <div>
+    <!-- PROSPECTOR -->
+    <div class="panel" id="panel-prospector">
+      <div class="panel-header">
+        <div class="panel-icon icon-prospector">◈</div>
+        <div class="panel-title">Prospector</div>
+      </div>
+      <div class="panel-body">
+        <div class="field">
+          <label>Business Vertical</label>
+          <select id="vertical">
+            <option value="restaurant">Restaurant</option>
+            <option value="nail-salon">Nail Salon</option>
+            <option value="spa">Spa</option>
+            <option value="law-firm">Law Firm</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>City / Market</label>
+          <input type="text" id="city" placeholder="e.g. Los Angeles" value="Los Angeles" />
+        </div>
+        <div class="field">
+          <label>Neighborhood (optional)</label>
+          <input type="text" id="neighborhood" placeholder="e.g. Silver Lake, West Hollywood" />
+        </div>
+        <div class="field">
+          <label>Number of Prospects</label>
+          <select id="prospect-count">
+            <option value="5">5 prospects</option>
+            <option value="8">8 prospects</option>
+            <option value="10">10 prospects</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="prospect-btn" onclick="runProspector()">
+          <div class="spinner" id="p-spinner"></div>
+          <span id="p-btn-text">Find Prospects</span>
+        </button>
+        <div class="log-box" id="p-log"></div>
+        <div class="prospect-list" id="prospect-list"></div>
+      </div>
+    </div>
+
+    <!-- ANALYST TRIGGER -->
+    <div class="panel" id="panel-analyst-ctrl" style="margin-top:1rem;display:none;">
+      <div class="panel-header">
+        <div class="panel-icon icon-analyst">◎</div>
+        <div class="panel-title">Analyst</div>
+      </div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text3);margin-bottom:1rem;">Selected: <span id="selected-name" style="color:var(--gold);font-weight:500;">—</span></p>
+        <button class="btn btn-primary" id="analyst-btn" onclick="runAnalyst()">
+          <div class="spinner" id="a-spinner"></div>
+          <span id="a-btn-text">Run GEO Audit</span>
+        </button>
+        <div class="log-box" id="a-log"></div>
+      </div>
+    </div>
+
+    <!-- DEPLOYER TRIGGER -->
+    <div class="panel" id="panel-deployer-ctrl" style="margin-top:1rem;display:none;">
+      <div class="panel-header">
+        <div class="panel-icon icon-deployer">◉</div>
+        <div class="panel-title">Deployer</div>
+      </div>
+      <div class="panel-body">
+        <button class="btn btn-primary" id="deployer-btn" onclick="runDeployer()">
+          <div class="spinner" id="d-spinner"></div>
+          <span id="d-btn-text">Generate Outreach + Deliverables</span>
+        </button>
+        <button class="btn btn-secondary" onclick="markClientSigned()">
+          <span>✓ Client Signed — Generate Full Onboarding</span>
+        </button>
+        <div class="log-box" id="d-log"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: OUTPUT -->
+  <div class="output-wrap" id="output-wrap">
+    <div class="empty" id="empty-state">
+      <div class="empty-icon">◈</div>
+      <div class="empty-text">Select a vertical and find prospects to begin the pipeline.</div>
+    </div>
+
+    <!-- ANALYST OUTPUT -->
+    <div class="output-panel" id="analyst-output">
+      <div class="output-tabs">
+        <div class="tab active" onclick="switchTab('audit','score')">Score</div>
+        <div class="tab" onclick="switchTab('audit','engines')">Engines</div>
+        <div class="tab" onclick="switchTab('audit','signals')">Signals</div>
+        <div class="tab" onclick="switchTab('audit','actions')">Actions</div>
+        <div class="tab" onclick="switchTab('audit','projection')">Projection</div>
+      </div>
+      <div class="tab-content active" id="audit-score"></div>
+      <div class="tab-content" id="audit-engines"></div>
+      <div class="tab-content" id="audit-signals"></div>
+      <div class="tab-content" id="audit-actions"></div>
+      <div class="tab-content" id="audit-projection"></div>
+    </div>
+
+    <!-- DEPLOYER OUTPUT -->
+    <div class="output-panel" id="deployer-output">
+      <div class="output-tabs">
+        <div class="tab active" onclick="switchTab('deploy','outreach')">Outreach</div>
+        <div class="tab" onclick="switchTab('deploy','schema')">Schema</div>
+        <div class="tab" onclick="switchTab('deploy','gbp')">GBP Calendar</div>
+        <div class="tab" onclick="switchTab('deploy','reviews')">Review Templates</div>
+        <div class="tab" onclick="switchTab('deploy','nap')">NAP Checklist</div>
+      </div>
+      <div class="tab-content active" id="deploy-outreach"></div>
+      <div class="tab-content" id="deploy-schema"></div>
+      <div class="tab-content" id="deploy-gbp"></div>
+      <div class="tab-content" id="deploy-reviews"></div>
+      <div class="tab-content" id="deploy-nap"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const API_KEY = localStorage.getItem('alyra_api_key') || promptForKey();
+
+function promptForKey() {
+  const key = prompt('Enter your Anthropic API key to begin:');
+  if (key) localStorage.setItem('alyra_api_key', key);
+  return key;
+}
+
+let selectedProspect = null;
+let auditData = null;
+let clientSigned = false;
+
+// ── UTILS ──────────────────────────────────────────────────────────
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function log(id, text, state){
+  const box = document.getElementById(id);
+  box.style.display = 'block';
+  const line = document.createElement('div');
+  line.className = 'log-line ' + (state==='done'?'log-line-done':state==='active'?'log-line-active':'');
+  line.textContent = text;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function clearLog(id){
+  const box = document.getElementById(id);
+  box.innerHTML='';
+  box.style.display='none';
+}
+
+function setBtn(btnId, spinnerId, textId, loading, text){
+  document.getElementById(btnId).disabled = loading;
+  document.getElementById(spinnerId).style.display = loading?'block':'none';
+  document.getElementById(textId).textContent = text;
+}
+
+async function apiCall(messages, system, maxTokens, useWebSearch){
+  const body = {
+    model:'claude-sonnet-4-20250514',
+    max_tokens: maxTokens||1500,
+    messages
+  };
+  if(system) body.system = system;
+  if(useWebSearch) body.tools = [{type:'web_search_20250305',name:'web_search'}];
+
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key': API_KEY,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify(body)
+  });
+  if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}
+  return res.json();
+}
+
+function extractJSON(text){
+  const match = text.match(/\{[\s\S]*\}/);
+  if(!match) throw new Error('No JSON found in response');
+  return JSON.parse(match[0]);
+}
+
+function extractText(result){
+  return result.content.filter(b=>b.type==='text').map(b=>b.text).join('\n');
+}
+
+// ── STEP NAV ───────────────────────────────────────────────────────
+function goToStep(n){
+  // visual only, actual flow is controlled by buttons
+}
+
+function markStepDone(n){
+  const el = document.getElementById('nav-'+n);
+  el.classList.remove('active');
+  el.classList.add('done');
+  if(n<3) document.getElementById('nav-'+(n+1)).classList.add('active');
+}
+
+function updateStatus(text){
+  document.getElementById('pipeline-status').textContent = text;
+}
+
+// ── VERTICAL CONFIG ────────────────────────────────────────────────
+function getVerticalConfig(vertical){
+  const configs = {
+    'restaurant':{
+      label:'Restaurant',
+      prospectDesc:'upscale independent restaurants',
+      priceSignal:'avg check per person',
+      revenueMetric:'monthly covers',
+      searchTerms:['upscale restaurant','fine dining','independent restaurant'],
+      entitySignals:['Google Business Profile','Citation Consistency (NAP)','Structured Data / Schema','Review Velocity & Sentiment','Visual Content Density','Third-Party Editorial Coverage','Website Authority Signals'],
+    },
+    'nail-salon':{
+      label:'Nail Salon',
+      prospectDesc:'upscale nail salons and nail studios',
+      priceSignal:'avg service ticket',
+      revenueMetric:'monthly appointments',
+      searchTerms:['nail salon','nail studio','nail bar','luxury nail'],
+      entitySignals:['Google Business Profile','Booking Platform Presence','Instagram Visual Authority','Citation Consistency (NAP)','Review Velocity & Sentiment','Local Influencer Coverage','Website Booking Integration'],
+    },
+    'spa':{
+      label:'Spa',
+      prospectDesc:'day spas, med spas, and wellness studios',
+      priceSignal:'avg service ticket',
+      revenueMetric:'monthly appointments',
+      searchTerms:['day spa','med spa','wellness spa','luxury spa'],
+      entitySignals:['Google Business Profile','Booking Platform Presence','Visual Content Quality','Citation Consistency (NAP)','Review Velocity & Sentiment','Press & Editorial Coverage','Website Authority Signals'],
+    },
+    'law-firm':{
+      label:'Law Firm',
+      prospectDesc:'independent law firms and boutique practices',
+      priceSignal:'avg case value',
+      revenueMetric:'monthly consultations',
+      searchTerms:['law firm','attorney','lawyer','legal services'],
+      entitySignals:['Google Business Profile','Avvo / Martindale Presence','Practice Area Schema Markup','Client Review Velocity','Attorney Bio Authority','Press & Case Coverage','Website Trust Signals'],
+    }
+  };
+  return configs[vertical] || configs['restaurant'];
+}
+
+// ── PROSPECTOR ─────────────────────────────────────────────────────
+async function runProspector(){
+  const vertical = document.getElementById('vertical').value;
+  const city = document.getElementById('city').value.trim();
+  const hood = document.getElementById('neighborhood').value.trim();
+  const count = document.getElementById('prospect-count').value;
+
+  if(!city){alert('Enter a city to search.');return;}
+
+  setBtn('prospect-btn','p-spinner','p-btn-text',true,'Finding prospects...');
+  clearLog('p-log');
+  document.getElementById('prospect-list').innerHTML='';
+  document.getElementById('empty-state').style.display='none';
+
+  const cfg = getVerticalConfig(vertical);
+  const location = hood ? `${hood}, ${city}` : city;
+
+  log('p-log','Initializing prospector...','active');
+  await delay(300);
+
+  const prompt = `You are a business intelligence agent for Alyra Solutions, an AI Growth Agency.
+
+Find ${count} ${cfg.prospectDesc} in ${location} that likely have poor AI visibility and would benefit from GEO (Generative Engine Optimization) services.
+
+Use web search to find real businesses. Look for:
+- Independent businesses (not chains or franchises)
+- Established 2-8 years
+- Good but not exceptional online presence (3.8-4.4 stars)
+- Limited editorial or press coverage
+- Weak or outdated websites
+
+Return ONLY valid JSON:
+{
+  "prospects": [
+    {
+      "name": "<business name>",
+      "location": "<neighborhood, city>",
+      "type": "<specific type e.g. Italian Restaurant, Nail Studio>",
+      "stars": <number or null>,
+      "reviews": <integer or null>,
+      "website": "<url or null>",
+      "instagram": "<@handle or null>",
+      "geoRisk": "<High|Medium>",
+      "riskReason": "<one sentence why they need GEO>",
+      "contactMethod": "<Direct visit|Instagram DM|Phone|Email>"
+    }
+  ]
+}`;
+
+  try {
+    log('p-log','Searching '+location+' for '+cfg.label+' prospects...','active');
+    const result = await apiCall([{role:'user',content:prompt}],
+      'You are a business research specialist. Return only valid JSON with real businesses.',
+      2000, true);
+    
+    const text = extractText(result);
+    const data = extractJSON(text);
+
+    log('p-log','Found '+data.prospects.length+' prospects','done');
+    renderProspects(data.prospects, cfg);
+    markStepDone(1);
+    updateStatus('Prospects found — select one');
+
+  } catch(e){
+    log('p-log','Error: '+e.message,'');
+  }
+
+  setBtn('prospect-btn','p-spinner','p-btn-text',false,'Find Prospects');
+}
+
+function renderProspects(prospects, cfg){
+  const list = document.getElementById('prospect-list');
+  list.innerHTML = '<div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;padding-top:10px;border-top:1px solid var(--border);">'+prospects.length+' Prospects Found</div>';
+  
+  prospects.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className = 'prospect-card';
+    card.onclick = ()=>selectProspect(p, card, cfg);
+    card.innerHTML = `
+      <div class="prospect-name">${p.name}</div>
+      <div class="prospect-meta">${p.type} · ${p.location}</div>
+      <div class="prospect-meta">${p.stars?'★ '+p.stars:''} ${p.reviews?'('+p.reviews+' reviews)':''}</div>
+      <div><span class="prospect-risk risk-${p.geoRisk.toLowerCase()}">${p.geoRisk} GEO Risk</span></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:5px;">${p.riskReason}</div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function selectProspect(prospect, cardEl, cfg){
+  document.querySelectorAll('.prospect-card').forEach(c=>c.classList.remove('selected'));
+  cardEl.classList.add('selected');
+  selectedProspect = {...prospect, cfg};
+  document.getElementById('selected-name').textContent = prospect.name;
+  document.getElementById('panel-analyst-ctrl').style.display='block';
+  document.getElementById('panel-deployer-ctrl').style.display='none';
+  document.getElementById('analyst-output').classList.remove('visible');
+  document.getElementById('deployer-output').classList.remove('visible');
+  auditData = null;
+}
+
+// ── ANALYST ────────────────────────────────────────────────────────
+async function runAnalyst(){
+  if(!selectedProspect){alert('Select a prospect first.');return;}
+
+  setBtn('analyst-btn','a-spinner','a-btn-text',true,'Analyzing...');
+  clearLog('a-log');
+
+  const p = selectedProspect;
+  const cfg = p.cfg;
+
+  log('a-log','Researching '+p.name+'...','active');
+
+  const signalsList = cfg.entitySignals.map(s=>
+    `{"category":"${s}","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"}`
+  ).join(',\n    ');
+
+  const prompt = `You are a senior GEO analyst at Alyra Solutions. Analyze this ${cfg.label} and produce a complete GEO audit.
+
+Business: ${p.name}
+Location: ${p.location}
+Type: ${p.type}
+Stars: ${p.stars||'unknown'} (${p.reviews||'unknown'} reviews)
+Website: ${p.website||'unknown'}
+Instagram: ${p.instagram||'unknown'}
+
+Research this business thoroughly using web search. Check their online presence, reviews, website, social media, and any press coverage.
+
+Return ONLY valid JSON:
+{
+  "overallScore": <0-100>,
+  "verdict": "<one sentence italic verdict>",
+  "engines": {
+    "chatgpt": {"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific observation>"},
+    "gemini": {"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific observation>"},
+    "perplexity": {"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific observation>"}
+  },
+  "entitySignals": [
+    ${signalsList}
+  ],
+  "actions": [
+    {"title":"<action>","detail":"<ops detail>","pts":"+<N> pts"},
+    {"title":"<action>","detail":"<ops detail>","pts":"+<N> pts"},
+    {"title":"<action>","detail":"<ops detail>","pts":"+<N> pts"},
+    {"title":"<action>","detail":"<ops detail>","pts":"+<N> pts"},
+    {"title":"<action>","detail":"<ops detail>","pts":"+<N> pts"}
+  ],
+  "projection": {
+    "currentScore": <same as overallScore>,
+    "targetScore": <90-day projected>,
+    "avgTicket": <conservative estimate>,
+    "monthlyVolume": <est. monthly ${cfg.revenueMetric}>,
+    "liftRate": <0.04-0.06>,
+    "newVolumePerMonth": <integer>,
+    "monthlyRevenueImpact": <integer>,
+    "math": "<full calculation string>"
+  },
+  "salesPoints": ["<revenue-loss framed point>","<revenue-loss framed point>","<revenue-loss framed point>"]
+}`;
+
+  try {
+    log('a-log','Querying AI engine visibility...','active');
+    const result = await apiCall([{role:'user',content:prompt}],
+      'You are a GEO analyst. Be conservative and specific. All numbers must be defensible.',
+      2500, true);
+
+    const text = extractText(result);
+    auditData = extractJSON(text);
+
+    log('a-log','Scoring entity authority signals...','done');
+    log('a-log','Report ready','done');
+
+    renderAudit(auditData, p);
+    markStepDone(2);
+    document.getElementById('panel-deployer-ctrl').style.display='block';
+    document.getElementById('analyst-output').classList.add('visible');
+    document.getElementById('empty-state').style.display='none';
+    updateStatus('Audit complete — run Deployer');
+
+  }catch(e){
+    log('a-log','Error: '+e.message,'');
+  }
+
+  setBtn('analyst-btn','a-spinner','a-btn-text',false,'Run GEO Audit');
+}
+
+function scoreColor(s){
+  return s<30?'var(--red)':s<50?'var(--amber)':s<70?'var(--purple-light)':'var(--green-light)';
+}
+
+function pillClass(r){
+  const l=r.toLowerCase();
+  return l==='critical'?'pill-critical':l==='weak'?'pill-weak':l==='moderate'?'pill-moderate':'pill-strong';
+}
+
+function renderAudit(d, p){
+  const color = scoreColor(d.overallScore);
+
+  // SCORE TAB
+  document.getElementById('audit-score').innerHTML = `
+    <div class="score-hero">
+      <div class="score-num" style="color:${color}">${d.overallScore}</div>
+      <div class="score-bar-wrap">
+        <div class="score-label">AI Visibility Score — out of 100</div>
+        <div class="score-track"><div class="score-fill" style="width:${d.overallScore}%;background:${color}"></div></div>
+        <div class="score-verdict">${d.verdict}</div>
+      </div>
+    </div>
+    <div class="section-div">Sales Talking Points</div>
+    ${(d.salesPoints||[]).map(pt=>`<div style="font-size:13px;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border);line-height:1.6;">→ ${pt}</div>`).join('')}
+  `;
+
+  // ENGINES TAB
+  document.getElementById('audit-engines').innerHTML = `
+    <div class="engine-row">
+      ${['chatgpt','gemini','perplexity'].map(k=>{
+        const e=d.engines[k];
+        return `<div class="engine-box">
+          <div class="eng-name">${k.charAt(0).toUpperCase()+k.slice(1)}</div>
+          <div class="eng-score" style="color:${scoreColor(e.score)}">${e.score}</div>
+          <div class="eng-status">${e.status}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${['chatgpt','gemini','perplexity'].map(k=>{
+      const e=d.engines[k];
+      return `<div style="padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;">
+        <span style="color:var(--text2);font-weight:500;text-transform:capitalize;">${k}</span>
+        <span style="color:var(--text3);margin-left:8px;">${e.note}</span>
+      </div>`;
+    }).join('')}
+  `;
+
+  // SIGNALS TAB
+  document.getElementById('audit-signals').innerHTML = `
+    <table class="signal-table">
+      <thead><tr><th>Signal</th><th>Finding</th><th>Rating</th></tr></thead>
+      <tbody>
+        ${d.entitySignals.map(s=>`
+          <tr>
+            <td>${s.category}</td>
+            <td style="color:var(--text2)">${s.status}</td>
+            <td><span class="pill ${pillClass(s.rating)}">${s.rating}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  // ACTIONS TAB
+  document.getElementById('audit-actions').innerHTML = d.actions.map((a,i)=>`
+    <div class="action-item">
+      <div class="action-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="action-body">
+        <strong>${a.title}</strong>
+        <span>${a.detail}</span>
+      </div>
+      <div class="action-pts">${a.pts}</div>
+    </div>
+  `).join('');
+
+  // PROJECTION TAB
+  const proj = d.projection;
+  document.getElementById('audit-projection').innerHTML = `
+    <div class="proj-row">
+      <div class="proj-box">
+        <div class="proj-label">Current Score</div>
+        <div class="proj-val" style="color:${scoreColor(proj.currentScore)}">${proj.currentScore}</div>
+      </div>
+      <div class="proj-box">
+        <div class="proj-label">90-Day Target</div>
+        <div class="proj-val" style="color:var(--green-light)">${proj.targetScore}</div>
+      </div>
+      <div class="proj-box">
+        <div class="proj-label">New Volume/Mo</div>
+        <div class="proj-val">+${proj.newVolumePerMonth}</div>
+      </div>
+      <div class="proj-box">
+        <div class="proj-label">Revenue Lift/Mo</div>
+        <div class="proj-val" style="color:var(--green-light)">$${Number(proj.monthlyRevenueImpact).toLocaleString()}</div>
+      </div>
+    </div>
+    <div class="proj-math">${proj.math}</div>
+  `;
+}
+
+// ── DEPLOYER ───────────────────────────────────────────────────────
+async function runDeployer(fullOnboarding){
+  if(!auditData||!selectedProspect){alert('Run the audit first.');return;}
+
+  setBtn('deployer-btn','d-spinner','d-btn-text',true,'Generating...');
+  clearLog('d-log');
+
+  const p = selectedProspect;
+  const d = auditData;
+  const cfg = p.cfg;
+
+  log('d-log','Building outreach scripts...','active');
+
+  const prompt = `You are the Deployer agent for Alyra Solutions. Generate all sales outreach and client deliverables for this prospect.
+
+BUSINESS: ${p.name} | ${p.type} | ${p.location}
+GEO SCORE: ${d.overallScore}/100
+REVENUE OPPORTUNITY: $${Number(d.projection.monthlyRevenueImpact).toLocaleString()}/mo
+TOP ACTIONS: ${d.actions.slice(0,3).map(a=>a.title).join(', ')}
+VERTICAL: ${cfg.label}
+
+${fullOnboarding?'Generate ALL sections including full deliverables.':'Generate outreach + schema + brief deliverable outlines.'}
+
+Return ONLY valid JSON:
+{
+  "outreach": {
+    "visitScript": "<30-second opener through soft close — natural, peer-to-peer, ops-focused. Lead with score and dollar amount.>",
+    "instagramDM": "<under 150 words. Specific compliment → score → revenue number → CTA. No emojis.>",
+    "emailSubjects": ["<curiosity subject>","<urgency subject>","<direct subject>"],
+    "emailBody": "<under 200 words. Score → meaning → revenue impact → one CTA.>"
+  },
+  "schema": "<complete JSON-LD Restaurant/LocalBusiness schema script tag ready to paste in <head>>",
+  "gbpCalendar": "<8 GBP posts, 2/week for 4 weeks. Each: POST N: [Title] | Caption (150 words) | Best time>",
+  "reviewTemplates": "<5 review response templates: 5-star enthusiastic, 5-star brief, 4-star minor complaint, 3-star service issue, 1-2 star de-escalation>",
+  "napChecklist": "<NAP audit checklist for 12 directories with what to verify for ${p.name}>"
+}`;
+
+  try {
+    const result = await apiCall([{role:'user',content:prompt}],
+      'You are an operations specialist. Every output must be ready to use with zero editing.',
+      3000, false);
+
+    const text = extractText(result);
+    const data = extractJSON(text);
+
+    log('d-log','Outreach scripts ready','done');
+    log('d-log','Deliverables generated','done');
+
+    renderDeployer(data, p);
+    markStepDone(3);
+    document.getElementById('deployer-output').classList.add('visible');
+    updateStatus('Pipeline complete ✓');
+
+  }catch(e){
+    log('d-log','Error: '+e.message,'');
+  }
+
+  setBtn('deployer-btn','d-spinner','d-btn-text',false,'Generate Outreach + Deliverables');
+}
+
+function markClientSigned(){
+  clientSigned = true;
+  runDeployer(true);
+}
+
+function renderDeployer(data, p){
+  // OUTREACH TAB
+  const o = data.outreach;
+  document.getElementById('deploy-outreach').innerHTML = `
+    <div class="outreach-block">
+      <div class="outreach-label">Direct Visit Script</div>
+      <div class="outreach-text">${o.visitScript}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(o.visitScript)}')">Copy Script</button>
+    </div>
+    <div class="outreach-block">
+      <div class="outreach-label">Instagram DM</div>
+      <div class="outreach-text">${o.instagramDM}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(o.instagramDM)}')">Copy DM</button>
+    </div>
+    <div class="outreach-block">
+      <div class="outreach-label">Email Subject Lines</div>
+      ${o.emailSubjects.map(s=>`<div class="outreach-text" style="margin-bottom:6px;">${s}</div>`).join('')}
+    </div>
+    <div class="outreach-block">
+      <div class="outreach-label">Email Body</div>
+      <div class="outreach-text">${o.emailBody}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(o.emailBody)}')">Copy Email</button>
+    </div>
+  `;
+
+  // SCHEMA TAB
+  document.getElementById('deploy-schema').innerHTML = `
+    <div class="deliverable-block">
+      <div class="deliverable-title">JSON-LD Schema — Paste into &lt;head&gt;</div>
+      <div class="deliverable-content">${escapeHtml(data.schema)}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(data.schema)}')">Copy Schema</button>
+    </div>
+  `;
+
+  // GBP CALENDAR
+  document.getElementById('deploy-gbp').innerHTML = `
+    <div class="deliverable-block">
+      <div class="deliverable-title">30-Day Google Business Profile Post Calendar</div>
+      <div class="deliverable-content">${data.gbpCalendar}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(data.gbpCalendar)}')">Copy Calendar</button>
+    </div>
+  `;
+
+  // REVIEW TEMPLATES
+  document.getElementById('deploy-reviews').innerHTML = `
+    <div class="deliverable-block">
+      <div class="deliverable-title">Review Response Templates</div>
+      <div class="deliverable-content">${data.reviewTemplates}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(data.reviewTemplates)}')">Copy Templates</button>
+    </div>
+  `;
+
+  // NAP CHECKLIST
+  document.getElementById('deploy-nap').innerHTML = `
+    <div class="deliverable-block">
+      <div class="deliverable-title">NAP Audit Checklist — ${p.name}</div>
+      <div class="deliverable-content">${data.napChecklist}</div>
+      <button class="copy-btn" onclick="copyText(this, '${escapeForAttr(data.napChecklist)}')">Copy Checklist</button>
+    </div>
+  `;
+}
+
+// ── TAB SWITCHING ──────────────────────────────────────────────────
+function switchTab(panel, tabId){
+  const prefix = panel==='audit'?'audit':'deploy';
+  const container = document.getElementById(panel==='audit'?'analyst-output':'deployer-output');
+  
+  container.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  container.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  
+  document.getElementById(prefix+'-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── HELPERS ────────────────────────────────────────────────────────
+function copyText(btn, text){
+  navigator.clipboard.writeText(text.replace(/\\n/g,'\n'));
+  btn.textContent = 'Copied ✓';
+  setTimeout(()=>btn.textContent=btn.textContent.includes('Copy')?btn.textContent:'Copy',2000);
+}
+
+function escapeHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escapeForAttr(str){
+  return String(str||'').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
