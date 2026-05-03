@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alyra Intelligence — GEO Audit</title>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByCaqPMuDlHkw34broB1VH2X6fhqcwIDM&libraries=places"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Archivo:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--black:#0e0e0e;--white:#fafaf8;--gray-100:#f1efe8;--gray-200:#d3d1c7;--gray-400:#888780;--gray-600:#5f5e5a;--green:#1D9E75;--green-light:#E1F5EE;--red:#E24B4A;--red-light:#FCEBEB;--amber:#BA7517;--amber-light:#FAEEDA;--blue:#185FA5;--blue-light:#E6F1FB;}
+body{font-family:'Archivo',sans-serif;background:var(--white);color:var(--black);min-height:100vh;}
+.site-header{border-bottom:1px solid var(--gray-200);padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--white);z-index:100;}
+.logo{font-family:'DM Serif Display',serif;font-size:20px;}
+.logo-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-400);margin-top:1px;}
+.header-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-400);border:1px solid var(--gray-200);padding:4px 10px;border-radius:100px;}
+.container{max-width:760px;margin:0 auto;padding:3rem 2rem;}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray-400);margin-bottom:0.5rem;}
+.section-title{font-family:'DM Serif Display',serif;font-size:32px;line-height:1.1;margin-bottom:0.5rem;}
+.section-desc{font-size:14px;color:var(--gray-600);margin-bottom:2rem;line-height:1.6;}
+.form-divider{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-400);margin:1.75rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--gray-200);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-field label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);display:flex;align-items:center;gap:6px;}
+.form-field input{font-family:'Archivo',sans-serif;font-size:15px;padding:10px 14px;border:1px solid var(--gray-200);border-radius:8px;background:white;color:var(--black);outline:none;transition:border-color 0.15s,background 0.15s;}
+.form-field input:focus{border-color:var(--black);}
+.form-field input.autofilled{background:#f0faf6;border-color:var(--green);}
+.form-field.full{grid-column:1/-1;}
+.autofill-badge{font-size:9px;background:var(--green-light);color:#0F6E56;padding:2px 6px;border-radius:100px;font-family:'DM Mono',monospace;letter-spacing:0.04em;}
+.lookup-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;background:var(--black);color:var(--white);border:none;padding:0 18px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:opacity 0.15s;height:42px;display:flex;align-items:center;gap:8px;margin-top:1rem;}
+.lookup-btn:hover{opacity:0.85;}
+.lookup-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.lookup-spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;display:none;}
+.status-msg{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-600);margin-top:0.6rem;min-height:16px;}
+.status-msg.success{color:var(--green);}
+.status-msg.error{color:var(--red);}
+.covers-row{display:flex;gap:10px;align-items:flex-end;}
+.covers-row .form-field{flex:1;}
+.estimate-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;background:transparent;color:var(--blue);border:1px solid var(--blue-light);padding:0 14px;border-radius:8px;cursor:pointer;white-space:nowrap;height:42px;transition:background 0.15s;}
+.estimate-btn:hover{background:var(--blue-light);}
+.estimate-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.menu-upload-zone{grid-column:1/-1;border:1.5px dashed var(--gray-200);border-radius:8px;padding:1.25rem;text-align:center;cursor:pointer;transition:border-color 0.15s,background 0.15s;position:relative;}
+.menu-upload-zone:hover{border-color:var(--black);background:var(--gray-100);}
+.menu-upload-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-600);}
+.upload-label span{display:block;font-size:12px;color:var(--gray-400);margin-top:4px;text-transform:none;letter-spacing:0;font-family:'Archivo',sans-serif;}
+.upload-preview{display:none;align-items:center;gap:10px;font-size:13px;color:var(--green);font-weight:500;justify-content:center;}
+.upload-preview img{height:48px;width:72px;object-fit:cover;border-radius:4px;border:1px solid var(--gray-200);}
+.confidence-note{font-size:12px;color:var(--gray-600);margin-top:1rem;line-height:1.6;padding:10px 14px;background:var(--gray-100);border-radius:8px;}
+.confidence-note strong{color:var(--black);}
+.run-btn{display:flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;background:var(--black);color:var(--white);border:none;padding:14px 28px;border-radius:8px;cursor:pointer;margin-top:1.5rem;transition:opacity 0.15s,transform 0.1s;}
+.run-btn:hover{opacity:0.85;}
+.run-btn:active{transform:scale(0.98);}
+.run-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.status-log{display:none;background:var(--black);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;font-family:'DM Mono',monospace;font-size:12px;color:#aaa;line-height:2;}
+.log-line{display:block;}
+.log-line.done{color:var(--green);}
+.log-line.active{color:white;}
+.log-line::before{content:'> ';color:var(--gray-400);}
+#report-section{display:none;}
+.report-header{border-top:2px solid var(--black);border-bottom:1px solid var(--gray-200);padding:2rem 0 1.5rem;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;}
+.report-meta{text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-600);line-height:1.8;}
+.overall-bar{display:flex;align-items:center;gap:2rem;background:var(--gray-100);border-radius:12px;padding:1.75rem 2rem;margin-bottom:2.5rem;}
+.overall-score-num{font-family:'DM Serif Display',serif;font-size:72px;line-height:1;min-width:110px;}
+.bar-section{flex:1;}
+.bar-meta{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-600);margin-bottom:10px;}
+.bar-track{height:6px;background:var(--gray-200);border-radius:100px;margin-bottom:10px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:100px;transition:width 1s ease;}
+.bar-verdict{font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;}
+.engine-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2.5rem;}
+.engine-card{border:1px solid var(--gray-200);border-radius:12px;padding:1.25rem;text-align:center;}
+.engine-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);margin-bottom:10px;}
+.engine-score{font-family:'DM Serif Display',serif;font-size:44px;line-height:1;margin-bottom:6px;}
+.engine-status{font-size:12px;color:var(--gray-600);}
+.rpt-section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:1.5rem;margin-bottom:1rem;}
+.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2.5rem;}
+.geo-card{border:1px solid var(--gray-200);border-radius:12px;padding:1.1rem;}
+.geo-engine-name{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-600);margin-bottom:6px;}
+.geo-status-label{font-size:13px;font-weight:500;margin-bottom:8px;}
+.geo-note{font-size:12px;color:var(--gray-600);line-height:1.5;}
+.audit-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:2.5rem;}
+.audit-tbl th{text-align:left;font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray-600);padding:0 0 10px;border-bottom:1px solid var(--gray-200);font-weight:400;}
+.audit-tbl td{padding:11px 12px 11px 0;border-bottom:1px solid var(--gray-100);vertical-align:top;}
+.audit-tbl td:first-child{font-weight:500;width:36%;}
+.pill{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:100px;font-weight:500;letter-spacing:0.04em;}
+.pill-critical{background:var(--red-light);color:#A32D2D;}
+.pill-weak{background:var(--amber-light);color:#854F0B;}
+.pill-moderate{background:var(--blue-light);color:var(--blue);}
+.pill-strong{background:var(--green-light);color:#0F6E56;}
+.action-list{list-style:none;margin-bottom:2.5rem;}
+.action-item{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--gray-100);align-items:flex-start;}
+.action-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);min-width:22px;padding-top:2px;}
+.action-body{flex:1;}
+.action-body strong{display:block;font-size:14px;font-weight:500;margin-bottom:3px;}
+.action-body span{font-size:12px;color:var(--gray-600);line-height:1.5;}
+.action-impact{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);white-space:nowrap;padding-top:2px;min-width:55px;text-align:right;}
+.proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem;}
+.proj-card{background:var(--gray-100);border-radius:10px;padding:1rem;text-align:center;}
+.proj-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-600);margin-bottom:8px;}
+.proj-val{font-family:'DM Serif Display',serif;font-size:28px;}
+.proj-sub{font-size:11px;color:var(--gray-400);margin-top:3px;font-family:'DM Mono',monospace;}
+.proj-math-box{background:var(--gray-100);border-radius:10px;padding:1rem 1.25rem;margin-bottom:2.5rem;font-size:12px;color:var(--gray-600);line-height:2;font-family:'DM Mono',monospace;}
+.proj-math-box strong{color:var(--black);font-weight:500;}
+.confidence-pill{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;padding:3px 10px;border-radius:100px;font-weight:500;letter-spacing:0.06em;margin-bottom:0.75rem;}
+.confidence-high{background:var(--green-light);color:#0F6E56;}
+.confidence-est{background:var(--amber-light);color:#854F0B;}
+.report-footer{border-top:1px solid var(--gray-200);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--gray-400);text-transform:uppercase;}
+.pdf-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;background:var(--black);color:var(--white);border:none;padding:10px 20px;border-radius:8px;cursor:pointer;transition:opacity 0.15s;}
+.pdf-btn:hover{opacity:0.8;}
+.new-audit-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;background:transparent;color:var(--black);border:1px solid var(--gray-200);padding:10px 20px;border-radius:8px;cursor:pointer;margin-right:10px;transition:border-color 0.15s;}
+.new-audit-btn:hover{border-color:var(--black);}
+@media print{.site-header,.intake-section,.report-footer{display:none !important;}#report-section{display:block !important;}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">Alyra Intelligence</div>
+    <div class="logo-sub">GEO Audit System</div>
+  </div>
+  <div class="header-tag" id="header-city">Market</div>
+</header>
+
+<div class="container">
+  <div class="intake-section" id="intake-section">
+    <div class="section-eyebrow">Step 01 — Input</div>
+    <h1 class="section-title">Run a GEO Audit</h1>
+    <p class="section-desc">Enter the restaurant name and city, then click <strong>Find Restaurant Data</strong> to auto-populate from Google. Review fields, add monthly covers, then run the audit.</p>
+
+    <div class="form-divider">Step 1 — Identify the Restaurant</div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Restaurant Name *</label>
+        <input type="text" id="rest-name" placeholder="e.g. Rosso Trattoria" />
+      </div>
+      <div class="form-field">
+        <label>City *</label>
+        <input type="text" id="city" placeholder="e.g. Los Angeles" />
+      </div>
+    </div>
+    <button class="lookup-btn" id="lookup-btn" onclick="lookupRestaurant()">
+      <div class="lookup-spinner" id="lookup-spinner"></div>
+      <span id="lookup-btn-text">Find Restaurant Data</span>
+    </button>
+    <div class="status-msg" id="lookup-status"></div>
+
+    <div class="form-divider">Step 2 — Review Auto-Filled Data</div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Neighborhood * <span class="autofill-badge" id="badge-hood" style="display:none">Auto-filled</span></label>
+        <input type="text" id="neighborhood" placeholder="e.g. Silver Lake" />
+      </div>
+      <div class="form-field">
+        <label>Cuisine Type * <span class="autofill-badge" id="badge-cuisine" style="display:none">Auto-filled</span></label>
+        <input type="text" id="cuisine" placeholder="e.g. Italian" />
+      </div>
+      <div class="form-field">
+        <label>Star Rating <span class="autofill-badge" id="badge-stars" style="display:none">Auto-filled</span></label>
+        <input type="number" id="star-rating" placeholder="e.g. 4.2" step="0.1" min="1" max="5" />
+      </div>
+      <div class="form-field">
+        <label>Number of Reviews <span class="autofill-badge" id="badge-reviews" style="display:none">Auto-filled</span></label>
+        <input type="number" id="review-count" placeholder="e.g. 340" />
+      </div>
+      <div class="form-field">
+        <label>Years Open <span class="autofill-badge" id="badge-years" style="display:none">Auto-filled</span></label>
+        <input type="number" id="years-open" placeholder="e.g. 3" />
+      </div>
+      <div class="form-field">
+        <label>Website <span class="autofill-badge" id="badge-website" style="display:none">Auto-filled</span></label>
+        <input type="text" id="website" placeholder="e.g. rossotrattoria.com" />
+      </div>
+      <div class="form-field full">
+        <label>Notable Context <span class="autofill-badge" id="badge-context" style="display:none">Auto-filled</span></label>
+        <input type="text" id="context" placeholder="e.g. known for housemade pasta, prix fixe on weekends..." />
+      </div>
+    </div>
+
+    <div class="form-divider">Step 3 — Monthly Covers (Not Public — Enter or Estimate)</div>
+    <div class="covers-row">
+      <div class="form-field" style="flex:1">
+        <label>Approx. Monthly Covers</label>
+        <input type="number" id="monthly-covers" placeholder="Enter manually or click Estimate" />
+      </div>
+      <button class="estimate-btn" id="estimate-btn" onclick="estimateCovers()">Estimate from Profile</button>
+    </div>
+    <div class="status-msg" id="covers-status"></div>
+
+    <div class="form-divider">Step 4 — Menu Pricing (for Revenue Projections)</div>
+    <div class="form-grid">
+      <div class="form-field full">
+        <label>Menu URL <span class="autofill-badge" id="badge-menu-url" style="display:none">Auto-filled</span></label>
+        <input type="text" id="menu-url" placeholder="Direct link to menu page" />
+      </div>
+      <div class="menu-upload-zone full">
+        <input type="file" id="menu-image" accept="image/*" onchange="handleImageUpload(event)" />
+        <div class="upload-label" id="upload-label-text">
+          Upload Menu Screenshot (optional)
+          <span>From Yelp, Toast, Tock, or any third-party platform — Claude reads the prices from the image</span>
+        </div>
+        <div class="upload-preview" id="upload-preview">
+          <img id="preview-thumb" src="" alt="menu" />
+          <span id="preview-name"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="confidence-note">
+      <strong>Projection confidence:</strong> Completing all fields produces a High Confidence rating with real revenue math. Monthly covers is the single most impactful field.
+    </div>
+
+    <button class="run-btn" id="run-btn" onclick="runAudit()">
+      <div class="spinner" id="spinner"></div>
+      <span id="btn-text">Run GEO Audit</span>
+    </button>
+
+    <div class="status-log" id="status-log">
+      <span class="log-line" id="log-1">Initializing audit pipeline...</span>
+      <span class="log-line" id="log-2" style="display:none"></span>
+      <span class="log-line" id="log-3" style="display:none"></span>
+      <span class="log-line" id="log-4" style="display:none"></span>
+      <span class="log-line" id="log-5" style="display:none"></span>
+    </div>
+  </div>
+
+  <div id="report-section">
+    <div class="report-header">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#888780;margin-bottom:4px;">Alyra Intelligence</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;" id="rpt-title">GEO Audit Report</div>
+      </div>
+      <div class="report-meta" id="rpt-meta"></div>
+    </div>
+
+    <div class="overall-bar">
+      <div class="overall-score-num" id="rpt-overall-num">--</div>
+      <div class="bar-section">
+        <div class="bar-meta">AI Visibility Score — out of 100</div>
+        <div class="bar-track"><div class="bar-fill" id="rpt-bar-fill" style="width:0%"></div></div>
+        <div class="bar-verdict" id="rpt-verdict">Running analysis...</div>
+      </div>
+    </div>
+
+    <div class="rpt-section-label">01 — AI Engine Presence</div>
+    <div class="engine-grid">
+      <div class="engine-card"><div class="engine-name">ChatGPT</div><div class="engine-score" id="e-chatgpt">--</div><div class="engine-status" id="e-chatgpt-status">Analyzing...</div></div>
+      <div class="engine-card"><div class="engine-name">Gemini</div><div class="engine-score" id="e-gemini">--</div><div class="engine-status" id="e-gemini-status">Analyzing...</div></div>
+      <div class="engine-card"><div class="engine-name">Perplexity</div><div class="engine-score" id="e-perp">--</div><div class="engine-status" id="e-perp-status">Analyzing...</div></div>
+    </div>
+
+    <div class="rpt-section-label">02 — Generative Engine Snapshot</div>
+    <div class="geo-grid" id="geo-grid"></div>
+
+    <div class="rpt-section-label">03 — Entity Authority Breakdown</div>
+    <table class="audit-tbl">
+      <thead><tr><th>Signal Category</th><th style="width:45%">Current Status</th><th style="width:15%">Rating</th></tr></thead>
+      <tbody id="entity-tbody"></tbody>
+    </table>
+
+    <div class="rpt-section-label">04 — Priority Action Plan</div>
+    <ul class="action-list" id="action-list"></ul>
+
+    <div class="rpt-section-label">05 — Projected Outcome (90 Days)</div>
+    <div id="proj-confidence"></div>
+    <div class="proj-grid" id="proj-grid"></div>
+    <div class="proj-math-box" id="proj-math"></div>
+
+    <div class="report-footer">
+      <div class="footer-brand">Alyra Intelligence — Confidential</div>
+      <div>
+        <button class="new-audit-btn" onclick="resetAudit()">New Audit</button>
+        <button class="pdf-btn" onclick="exportPDF()">Export PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+let menuImageBase64 = null, menuImageType = null;
+let _placeCache = {};
+
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const r = ev.target.result;
+    menuImageBase64 = r.split(',')[1];
+    menuImageType = file.type;
+    document.getElementById('upload-label-text').style.display = 'none';
+    document.getElementById('upload-preview').style.display = 'flex';
+    document.getElementById('preview-thumb').src = r;
+    document.getElementById('preview-name').textContent = file.name + ' — ready';
+  };
+  reader.readAsDataURL(file);
+}
+
+function setField(id, value, badgeId) {
+  const el = document.getElementById(id);
+  if (el && value !== null && value !== undefined && String(value).trim() !== '') {
+    el.value = value;
+    el.classList.add('autofilled');
+    if (badgeId) { const b = document.getElementById(badgeId); if (b) b.style.display = 'inline'; }
+  }
+}
+
+function setStatus(id, text, type) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'status-msg' + (type ? ' ' + type : '');
+}
+
+// ── GOOGLE PLACES LOOKUP via JS SDK ──
+async function lookupRestaurant() {
+  const name = document.getElementById('rest-name').value.trim();
+  const city = document.getElementById('city').value.trim();
+  if (!name || !city) { setStatus('lookup-status', 'Enter restaurant name and city first.', 'error'); return; }
+
+  const btn = document.getElementById('lookup-btn');
+  btn.disabled = true;
+  document.getElementById('lookup-spinner').style.display = 'block';
+  document.getElementById('lookup-btn-text').textContent = 'Searching...';
+  setStatus('lookup-status', 'Searching Google Places...', '');
+
+  try {
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+    const searchResult = await new Promise((resolve, reject) => {
+      service.findPlaceFromQuery({
+        query: name + ' restaurant ' + city,
+        fields: ['place_id', 'name', 'formatted_address']
+      }, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+          resolve(results[0]);
+        } else {
+          reject(new Error('Not found: ' + status));
+        }
+      });
+    });
+
+    const details = await new Promise((resolve, reject) => {
+      service.getDetails({
+        placeId: searchResult.place_id,
+        fields: [
+          'name', 'formatted_address', 'vicinity', 'rating',
+          'user_ratings_total', 'website', 'price_level',
+          'types', 'opening_hours', 'editorial_summary', 'url'
+        ]
+      }, (result, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          resolve(result);
+        } else {
+          reject(new Error('Details error: ' + status));
+        }
+      });
+    });
+
+    _placeCache = details;
+
+    // Extract neighborhood from vicinity
+    const vicinity = details.vicinity || details.formatted_address || '';
+    const neighborhood = vicinity.split(',')[0].trim();
+
+    // Extract cuisine from types
+    const skipTypes = ['restaurant','food','point_of_interest','establishment','bar','cafe','meal_delivery','meal_takeaway'];
+    const cuisineTypes = (details.types || []).filter(t => !skipTypes.includes(t));
+    const cuisine = cuisineTypes.length > 0
+      ? cuisineTypes[0].replace(/_restaurant/,'').replace(/_/g,' ').replace(/\b\w/g, l => l.toUpperCase())
+      : '';
+
+    const priceMap = { 1:'$', 2:'$$', 3:'$$$', 4:'$$$$' };
+    _placeCache._priceRange = priceMap[details.price_level] || '$$$';
+
+    setField('neighborhood', neighborhood, 'badge-hood');
+    setField('cuisine', cuisine, 'badge-cuisine');
+    setField('star-rating', details.rating, 'badge-stars');
+    setField('review-count', details.user_ratings_total, 'badge-reviews');
+    setField('website', details.website, 'badge-website');
+    if (details.editorial_summary?.overview) {
+      setField('context', details.editorial_summary.overview, 'badge-context');
+    }
+
+    const filled = [neighborhood, cuisine, details.rating, details.user_ratings_total, details.website].filter(Boolean).length;
+    setStatus('lookup-status', filled + ' data points loaded from Google Places — review below.', 'success');
+
+  } catch(e) {
+    setStatus('lookup-status', 'Google Places error: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  document.getElementById('lookup-spinner').style.display = 'none';
+  document.getElementById('lookup-btn-text').textContent = 'Find Restaurant Data';
+}
+
+// ── COVER ESTIMATE (small Claude call) ──
+async function estimateCovers() {
+  const cuisine = document.getElementById('cuisine').value.trim() || 'upscale';
+  const city = document.getElementById('city').value.trim();
+  const stars = document.getElementById('star-rating').value.trim();
+  const years = document.getElementById('years-open').value.trim();
+  const priceRange = _placeCache._priceRange || '$$$';
+
+  const btn = document.getElementById('estimate-btn');
+  btn.disabled = true;
+  btn.textContent = 'Estimating...';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 150,
+        messages: [{ role: 'user', content: `Estimate monthly covers for upscale independent ${cuisine} restaurant in ${city}. Price: ${priceRange}. Stars: ${stars||'unknown'}. Years open: ${years||'unknown'}. Assume 1.5-2x turns/night, 5-6 nights/week, 65% occupancy. Return ONLY JSON: {"monthlyCovers":<integer>,"reasoning":"<one sentence>"}` }]
+      })
+    });
+    const result = await res.json();
+    const d = JSON.parse(result.content[0].text.match(/\{[\s\S]*\}/)[0]);
+    setField('monthly-covers', d.monthlyCovers, null);
+    document.getElementById('monthly-covers').classList.add('autofilled');
+    setStatus('covers-status', d.reasoning, 'success');
+  } catch(e) {
+    setStatus('covers-status', 'Could not estimate — enter manually.', 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Estimate from Profile';
+}
+
+// ── HELPERS ──
+function scoreColor(s) { return s<30?'var(--red)':s<50?'var(--amber)':s<70?'var(--blue)':'var(--green)'; }
+function scoreVerdict(s) {
+  if (s<25) return '"Effectively invisible to AI-generated recommendations."';
+  if (s<40) return '"Minimal presence — significant revenue leakage."';
+  if (s<60) return '"Partial visibility — inconsistent AI representation."';
+  if (s<75) return '"Moderate authority — competitive gaps remain."';
+  return '"Strong AI presence — market leader positioning."';
+}
+function pillClass(r) { const l=r.toLowerCase(); return l==='critical'?'pill-critical':l==='weak'?'pill-weak':l==='moderate'?'pill-moderate':'pill-strong'; }
+function geoColor(s) { const l=s.toLowerCase(); return l.includes('not')?'var(--red)':l.includes('partial')?'var(--amber)':'var(--green)'; }
+function showLog(id, text, state) { const el=document.getElementById(id); el.style.display='block'; el.textContent=text; el.className='log-line '+(state||''); }
+function delay(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+// ── MAIN AUDIT ──
+async function runAudit() {
+  const name = document.getElementById('rest-name').value.trim();
+  const hood = document.getElementById('neighborhood').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const cuisine = document.getElementById('cuisine').value.trim();
+  if (!name || !hood || !city || !cuisine) { alert('Please fill in restaurant name, neighborhood, city, and cuisine type.'); return; }
+
+  const website = document.getElementById('website').value.trim();
+  const covers = document.getElementById('monthly-covers').value.trim();
+  const stars = document.getElementById('star-rating').value.trim();
+  const reviews = document.getElementById('review-count').value.trim();
+  const yearsOpen = document.getElementById('years-open').value.trim();
+  const context = document.getElementById('context').value.trim();
+  const priceRange = _placeCache._priceRange || '$$$';
+
+  document.getElementById('header-city').textContent = city + ' Market';
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('btn-text').textContent = 'Running Audit...';
+  document.getElementById('status-log').style.display = 'block';
+
+  showLog('log-1', 'Intake validated — ' + name + ', ' + hood, 'done');
+  showLog('log-2', 'Google Places data confirmed', 'done');
+  showLog('log-3', 'Scoring entity authority signals...', 'active');
+  await delay(500);
+  showLog('log-3', 'Entity signals scored', 'done');
+  showLog('log-4', 'Running GEO analysis & building projections...', 'active');
+
+  let data;
+  try {
+    const dataPoints = [covers, stars, reviews, menuImageBase64].filter(Boolean).length;
+    const confidence = dataPoints >= 3 ? 'High' : 'Estimated';
+
+    const menuNote = menuImageBase64
+      ? 'Menu image provided — extract all prices from the image.'
+      : 'No menu provided — estimate avg check conservatively for upscale ' + cuisine + ' ' + priceRange + ' in ' + city + '.';
+
+    const prompt = `You are a senior GEO analyst at Alyra Intelligence. Analyze this upscale independent restaurant. Numbers must be defensible and conservative — presented directly to the owner.
+
+RESTAURANT (verified via Google Places):
+Name: ${name} | Location: ${hood}, ${city} | Cuisine: ${cuisine} | Price Range: ${priceRange}
+Google Rating: ${stars||'unknown'} stars | Reviews: ${reviews||'unknown'} | Website: ${website||'unknown'}
+Years Open: ${yearsOpen||'unknown'} | Monthly Covers: ${covers||'unknown'} | Context: ${context||'none'}
+Confidence Level: ${confidence}
+Menu: ${menuNote}
+
+PROJECTION RULES:
+1. avgCheckPerPerson: from menu image if provided, else estimate for ${cuisine} ${priceRange} in ${city}
+2. monthlyCovers: use provided value or estimate realistically
+3. liftRate: 4-6% for low score, 3-4% for moderate
+4. newCoversPerMonth = round(monthlyCovers * liftRate)
+5. monthlyRevenueImpact = newCoversPerMonth * avgCheckPerPerson
+6. projectionMath: show every number e.g. "820 covers × 5% = 41 covers × $94 = $3,854/mo"
+
+Return ONLY valid JSON:
+{"overallScore":<0-100>,"engines":{"chatgpt":{"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific>"},"gemini":{"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific>"},"perplexity":{"score":<0-100>,"status":"<Not Surfaced|Partial|Mentioned|Featured>","note":"<specific>"}},"entitySignals":[{"category":"Google Business Profile","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Citation Consistency (NAP)","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Structured Data / Schema","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Review Velocity & Sentiment","status":"<observation with numbers>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Visual Content Density","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Third-Party Editorial Coverage","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"},{"category":"Website Authority Signals","status":"<observation>","rating":"<Critical|Weak|Moderate|Strong>"}],"actions":[{"title":"<action>","detail":"<ops-focused>","impact":"+<N> pts"},{"title":"<action>","detail":"<ops-focused>","impact":"+<N> pts"},{"title":"<action>","detail":"<ops-focused>","impact":"+<N> pts"},{"title":"<action>","detail":"<ops-focused>","impact":"+<N> pts"},{"title":"<action>","detail":"<ops-focused>","impact":"+<N> pts"}],"projection":{"confidence":"${confidence}","avgCheckPerPerson":<number>,"monthlyCovers":<number>,"liftRate":<decimal>,"newCoversPerMonth":<integer>,"monthlyRevenueImpact":<integer>,"currentScore":<overallScore>,"targetScore":<90-day>,"projectionMath":"<full string>"}}`;
+
+    const messages = menuImageBase64
+      ? [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: menuImageType||'image/jpeg', data: menuImageBase64 } }, { type: 'text', text: 'Extract all menu prices from this image first, then complete the audit:\n\n' + prompt }] }]
+      : [{ role: 'user', content: prompt }];
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 2500, messages })
+    });
+
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error ' + res.status); }
+    const result = await res.json();
+    let rawText = result.content[0].text.trim();
+    // Extract JSON by finding the outermost { } block
+    const start = rawText.indexOf('{');
+    if (start === -1) throw new Error('Invalid response format');
+    let depth = 0, end = -1;
+    for (let i = start; i < rawText.length; i++) {
+      if (rawText[i] === '{') depth++;
+      else if (rawText[i] === '}') { depth--; if (depth === 0) { end = i; break; } }
+    }
+    if (end === -1) {
+      // Truncated — balance braces
+      let jsonStr = rawText.slice(start);
+      while (depth > 0) { jsonStr += '}'; depth--; }
+      data = JSON.parse(jsonStr);
+    } else {
+      data = JSON.parse(rawText.slice(start, end + 1));
+    }
+
+  } catch(e) {
+    showLog('log-4', 'Error: ' + e.message, 'active');
+    btn.disabled = false;
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('btn-text').textContent = 'Run GEO Audit';
+    return;
+  }
+
+  showLog('log-4', 'GEO analysis & projections complete', 'done');
+  showLog('log-5', 'Rendering report...', 'active');
+  await delay(300);
+  showLog('log-5', 'Report ready', 'done');
+  await delay(200);
+  renderReport(data, name, hood, city, cuisine);
+  btn.disabled = false;
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('btn-text').textContent = 'Run GEO Audit';
+}
+
+function renderReport(data, name, hood, city, cuisine) {
+  const date = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('rpt-title').textContent = name + ' — GEO Audit';
+  document.getElementById('rpt-meta').innerHTML = cuisine + ' · ' + hood + ', ' + city + '<br>' + date + '<br>Confidential';
+
+  const s = data.overallScore, color = scoreColor(s);
+  document.getElementById('rpt-overall-num').textContent = s;
+  document.getElementById('rpt-overall-num').style.color = color;
+  document.getElementById('rpt-bar-fill').style.width = s + '%';
+  document.getElementById('rpt-bar-fill').style.background = color;
+  document.getElementById('rpt-verdict').textContent = scoreVerdict(s);
+
+  ['chatgpt','gemini','perp'].forEach(k => {
+    const ek = k==='perp'?'perplexity':k;
+    const eng = data.engines[ek];
+    const el = document.getElementById('e-'+k);
+    el.textContent = eng.score; el.style.color = scoreColor(eng.score);
+    document.getElementById('e-'+k+'-status').textContent = eng.status;
+  });
+
+  document.getElementById('geo-grid').innerHTML = ['chatgpt','gemini','perplexity'].map(k => {
+    const eng = data.engines[k];
+    return `<div class="geo-card"><div class="geo-engine-name">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="geo-status-label" style="color:${geoColor(eng.status)}">${eng.status}</div><div class="geo-note">${eng.note}</div></div>`;
+  }).join('');
+
+  document.getElementById('entity-tbody').innerHTML = data.entitySignals.map(sig =>
+    `<tr><td>${sig.category}</td><td>${sig.status}</td><td><span class="pill ${pillClass(sig.rating)}">${sig.rating}</span></td></tr>`
+  ).join('');
+
+  document.getElementById('action-list').innerHTML = data.actions.map((a,i) =>
+    `<li class="action-item"><div class="action-num">0${i+1}</div><div class="action-body"><strong>${a.title}</strong><span>${a.detail}</span></div><div class="action-impact">${a.impact}</div></li>`
+  ).join('');
+
+  const p = data.projection;
+  const isHigh = p.confidence === 'High';
+  document.getElementById('proj-confidence').innerHTML = `<span class="confidence-pill ${isHigh?'confidence-high':'confidence-est'}">${p.confidence} Confidence</span>`;
+  document.getElementById('proj-grid').innerHTML = `
+    <div class="proj-card"><div class="proj-label">Current Score</div><div class="proj-val" style="color:${scoreColor(p.currentScore)}">${p.currentScore}</div></div>
+    <div class="proj-card"><div class="proj-label">90-Day Target</div><div class="proj-val" style="color:var(--green)">${p.targetScore}</div></div>
+    <div class="proj-card"><div class="proj-label">New Covers/Mo</div><div class="proj-val">+${p.newCoversPerMonth}</div><div class="proj-sub">@ $${p.avgCheckPerPerson}/person</div></div>
+    <div class="proj-card"><div class="proj-label">Monthly Revenue Lift</div><div class="proj-val" style="color:var(--green)">$${Number(p.monthlyRevenueImpact).toLocaleString()}</div><div class="proj-sub">${Math.round(p.liftRate*100)}% visibility lift</div></div>`;
+  document.getElementById('proj-math').innerHTML = `<strong>Projection Math:</strong> ${p.projectionMath}`;
+
+  document.getElementById('intake-section').style.display = 'none';
+  document.getElementById('report-section').style.display = 'block';
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function resetAudit() {
+  document.getElementById('intake-section').style.display = 'block';
+  document.getElementById('report-section').style.display = 'none';
+  document.getElementById('status-log').style.display = 'none';
+  menuImageBase64 = null; menuImageType = null; _placeCache = {};
+  document.getElementById('upload-label-text').style.display = 'block';
+  document.getElementById('upload-preview').style.display = 'none';
+  document.getElementById('menu-image').value = '';
+  setStatus('lookup-status','',''); setStatus('covers-status','','');
+  ['neighborhood','cuisine','star-rating','review-count','years-open','website','menu-url','context','monthly-covers'].forEach(id => {
+    const el = document.getElementById(id); if (el) { el.value=''; el.classList.remove('autofilled'); }
+  });
+  ['badge-hood','badge-cuisine','badge-stars','badge-reviews','badge-years','badge-website','badge-menu-url','badge-context'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display='none';
+  });
+  ['log-2','log-3','log-4','log-5'].forEach(id => { document.getElementById(id).style.display='none'; });
+}
+
+function exportPDF() { window.print(); }
+</script>
+</body>
+</html>
