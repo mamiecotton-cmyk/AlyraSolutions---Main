@@ -961,6 +961,34 @@ footer{
     </div>
   </div>
 </footer>
+<!-- VAPI SDK -->
+<script type="importmap">
+{
+  "imports": {
+    "@vapi-ai/web": "https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.5.2/dist/vapi.mjs"
+  }
+}
+</script>
+<script type="module">
+  import Vapi from '@vapi-ai/web';
+
+  const vapi = new Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
+
+  vapi.on('call-start', () => {
+    document.getElementById('callingState').classList.add('active');
+    document.getElementById('idleState').style.display = 'none';
+  });
+
+  vapi.on('call-end', () => {
+    document.getElementById('callingState').classList.remove('active');
+    document.getElementById('idleState').style.display = 'block';
+  });
+
+  vapi.on('error', (e) => console.error('Vapi error:', e));
+
+  window.startBrowserCall = () => vapi.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+  window.endCall = () => vapi.stop();
+</script>
 
 </body>
 </html>
