@@ -963,34 +963,39 @@ footer{
 </footer>
 
 <!-- VAPI SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web/dist/vapi.umd.js"></script>
 <script>
-(function(d,t){
-  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-  g.defer=true;g.async=true;
-  s.parentNode.insertBefore(g,s);
-  g.onload=function(){
-    window.vapiInstance=window.Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
-    window.vapiInstance.on('call-start',function(){
+  var vapiInstance = null;
+
+  window.addEventListener('load', function() {
+    vapiInstance = new Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
+
+    vapiInstance.on('call-start', function() {
       document.getElementById('callingState').classList.add('active');
-      document.getElementById('idleState').style.display='none';
+      document.getElementById('idleState').style.display = 'none';
     });
-    window.vapiInstance.on('call-end',function(){
+
+    vapiInstance.on('call-end', function() {
       document.getElementById('callingState').classList.remove('active');
-      document.getElementById('idleState').style.display='block';
+      document.getElementById('idleState').style.display = 'block';
     });
-  }
-})(document,'script');
 
-function startBrowserCall(){
-  if(window.vapiInstance){
-    window.vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
-  }
-}
+    vapiInstance.on('error', function(e) {
+      console.error('Vapi error:', e);
+    });
+  });
 
-function endCall(){
-  if(window.vapiInstance){window.vapiInstance.stop();}
-}
+  function startBrowserCall() {
+    if (vapiInstance) {
+      vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+    }
+  }
+
+  function endCall() {
+    if (vapiInstance) {
+      vapiInstance.stop();
+    }
+  }
 </script>
 
 </body>
