@@ -964,39 +964,45 @@ footer{
 
 <!-- VAPI SDK -->
 <script>
-window.addEventListener('load', function() {
-  var script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.min.js';
-  script.onload = function() {
-    var vapiInstance = new Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
-
-    window.startBrowserCall = function() {
-      vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
-    };
-
-    window.endCall = function() {
-      vapiInstance.stop();
-    };
-
-    vapiInstance.on('call-start', function() {
-      document.getElementById('callingState').classList.add('active');
-      document.getElementById('idleState').style.display = 'none';
+(function(d,t){
+  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+  g.defer=true;g.async=true;
+  s.parentNode.insertBefore(g,s);
+  g.onload=function(){
+    window.vapiInstance = window.vapiSDK.run({
+      apiKey: "caa58a1a-fd29-4d33-a173-1456701ce68f",
+      assistant: "3a2b85b5-23df-4144-a380-096e562bdc68",
+      config: {
+        position: "bottom-right",
+        offset: "40px",
+        width: "50px",
+        height: "50px",
+        idle: { color: "rgb(124,58,237)", type: "pill", title: "Talk to AI", subtitle: "Try our receptionist", icon: "https://unpkg.com/lucide-static@0.321.0/icons/phone.svg" },
+        loading: { color: "rgb(124,58,237)", type: "pill", title: "Connecting...", subtitle: "Please wait" },
+        active: { color: "rgb(244,63,94)", type: "pill", title: "Call in progress", subtitle: "Click to end", icon: "https://unpkg.com/lucide-static@0.321.0/icons/phone-off.svg" }
+      }
     });
+  }
+})(document,"script");
 
-    vapiInstance.on('call-end', function() {
-      document.getElementById('callingState').classList.remove('active');
-      document.getElementById('idleState').style.display = 'block';
-    });
+function startBrowserCall(){
+  if(window.vapiInstance){
+    var btn = document.querySelector('.vapi-btn');
+    if(btn) btn.click();
+  }
+  document.getElementById('callingState').classList.add('active');
+  document.getElementById('idleState').style.display='none';
+}
 
-    vapiInstance.on('error', function(e) {
-      console.error('Vapi error:', e);
-    });
-  };
-  script.onerror = function() {
-    console.error('Failed to load Vapi SDK');
-  };
-  document.head.appendChild(script);
-});
+function endCall(){
+  if(window.vapiInstance){
+    var btn = document.querySelector('.vapi-btn');
+    if(btn) btn.click();
+  }
+  document.getElementById('callingState').classList.remove('active');
+  document.getElementById('idleState').style.display='block';
+}
 </script>
 
 </body>
