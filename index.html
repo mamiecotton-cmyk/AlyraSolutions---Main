@@ -34,6 +34,41 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,4.3rem);lin
 .tile p{color:var(--muted);font-size:.86rem}
 footer{margin-top:3.5rem;border-top:1px solid var(--line);padding:2rem 0;color:#8f84af;font-size:.8rem}
 @media (max-width:820px){.logo img{height:48px}.nav-links{gap:.4rem;flex-wrap:wrap;justify-content:flex-end}.nav-links a{font-size:.65rem;padding:.35rem .45rem}}
+
+/* ── BOOK A CALL SECTION ── */
+.book-section{position:relative;padding:6rem 2rem;overflow:hidden;}
+.book-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(244,63,94,.08) 0%,transparent 50%);pointer-events:none;}
+.book-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;}
+.book-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
+.book-eyebrow::before{content:'';display:block;width:24px;height:1px;background:#a78bfa;}
+.book-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.1;margin-bottom:1.25rem;background:linear-gradient(135deg,#e8e6f0 0%,#a78bfa 60%,#d4a853 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.book-desc{font-size:15px;color:#9490b0;line-height:1.8;margin-bottom:2rem;max-width:440px;}
+.book-points{list-style:none;margin-bottom:2.5rem;}
+.book-points li{font-size:13px;color:#9490b0;padding:8px 0;border-bottom:1px solid #1e1e30;display:flex;align-items:center;gap:12px;}
+.book-points li::before{content:'✦';color:#d4a853;font-size:10px;flex-shrink:0;}
+.book-cta{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:16px 32px;border-radius:4px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;}
+.book-cta:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,.4);}
+.book-cta-arrow{font-size:16px;transition:transform .2s;}
+.book-cta:hover .book-cta-arrow{transform:translateX(4px);}
+.cal-card{background:#0f0f1a;border:1px solid #2a2a40;border-radius:16px;overflow:hidden;position:relative;}
+.cal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7c3aed,#f43f5e,#d4a853);}
+.cal-header{padding:1.5rem;border-bottom:1px solid #1e1e30;display:flex;align-items:center;gap:12px;}
+.cal-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#f43f5e);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:white;flex-shrink:0;}
+.cal-name{font-size:14px;font-weight:500;color:#e8e6f0;}
+.cal-role{font-size:11px;color:#5a5575;margin-top:2px;}
+.cal-body{padding:1.5rem;}
+.cal-meeting-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#e8e6f0;margin-bottom:1rem;}
+.cal-details{margin-bottom:1.5rem;}
+.cal-detail{display:flex;align-items:center;gap:10px;font-size:13px;color:#9490b0;margin-bottom:8px;}
+.cal-detail-icon{width:20px;color:#a78bfa;font-size:14px;flex-shrink:0;}
+.cal-divider{height:1px;background:#1e1e30;margin:1.25rem 0;}
+.cal-slots-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#5a5575;margin-bottom:.75rem;}
+.cal-slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem;}
+.cal-slot{padding:10px;border:1px solid #2a2a40;border-radius:6px;font-size:12px;color:#9490b0;text-align:center;cursor:pointer;transition:all .15s;}
+.cal-slot:hover,.cal-slot.selected{border-color:#7c3aed;background:rgba(124,58,237,.1);color:#a78bfa;}
+.cal-book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;border:none;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .15s;}
+.cal-book-btn:hover{opacity:.9;}
+@media(max-width:768px){.book-inner{grid-template-columns:1fr;}.book-title{font-size:38px;}}
 </style>
 </head>
 <body>
@@ -84,6 +119,57 @@ footer{margin-top:3.5rem;border-top:1px solid var(--line);padding:2rem 0;color:#
       <div class="tile"><h4>Restaurant Solutions</h4><p>Online ordering, menu control, table flow, and payment tooling.</p></div>
       <div class="tile"><h4>Barber & Beauty Solutions</h4><p>Chair and station scheduling, waitlist management, and loyalty tracking.</p></div>
       <div class="tile"><h4>Spa Solutions</h4><p>Multi-service booking, memberships, and guest preference tracking.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK A STRATEGY CALL -->
+<section class="book-section">
+  <div class="book-inner">
+    <div class="book-left">
+      <div class="book-eyebrow">Free Strategy Call</div>
+      <h2 class="book-title">30 minutes.<br>Your revenue picture,<br>clearly.</h2>
+      <p class="book-desc">We pull your AI visibility data before the call. You see your score, what it's costing you, and what it looks like in 90 days. No pitch — just the numbers.</p>
+      <ul class="book-points">
+        <li>Your live GEO score across ChatGPT, Gemini &amp; Perplexity</li>
+        <li>Estimated monthly revenue leakage from AI invisibility</li>
+        <li>Top 3 actions that move the needle fastest</li>
+        <li>No obligation — cancel any time before the call</li>
+      </ul>
+      <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="book-cta">
+        Book Your Free Strategy Call
+        <span class="book-cta-arrow">→</span>
+      </a>
+    </div>
+    <div class="book-right">
+      <div class="cal-card">
+        <div class="cal-header">
+          <div class="cal-avatar">A</div>
+          <div class="cal-info">
+            <div class="cal-name">Mamie Cotton</div>
+            <div class="cal-role">Alyra Solutions — GEO Strategy</div>
+          </div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-meeting-title">Free GEO Strategy Call</div>
+          <div class="cal-details">
+            <div class="cal-detail"><span class="cal-detail-icon">◷</span>30 minutes</div>
+            <div class="cal-detail"><span class="cal-detail-icon">◎</span>Google Meet — no download required</div>
+            <div class="cal-detail"><span class="cal-detail-icon">✦</span>Your GEO audit reviewed before the call</div>
+          </div>
+          <div class="cal-divider"></div>
+          <div class="cal-slots-label">Available This Week</div>
+          <div class="cal-slots">
+            <div class="cal-slot selected">Tue · 10:00 AM</div>
+            <div class="cal-slot">Tue · 2:00 PM</div>
+            <div class="cal-slot">Wed · 9:00 AM</div>
+            <div class="cal-slot">Thu · 11:00 AM</div>
+          </div>
+          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" style="text-decoration:none;">
+            <button class="cal-book-btn">Select a Time →</button>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
