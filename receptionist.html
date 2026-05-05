@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Alyra Receptionist — AI phone agent that answers every call, schedules appointments, and never misses a customer. Built for restaurants, salons, spas, auto shops, and law firms." />
+<title>Alyra Receptionist — AI Phone Agent for Service Businesses</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:#0a0a0f;
+  --bg2:#0f0f1a;
+  --bg3:#141420;
+  --border:#1e1e30;
+  --border2:#2a2a40;
+  --purple:#7c3aed;
+  --purple-light:#a78bfa;
+  --rose:#f43f5e;
+  --rose-light:#fb7185;
+  --gold:#d4a853;
+  --gold-light:#fbbf24;
+  --text:#e8e6f0;
+  --text2:#9490b0;
+  --text3:#5a5575;
+  --green:#10b981;
+  --green-light:#34d399;
+}
+
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba(244,63,94,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(212,168,83,0.04) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── NAV ── */
+header{
+  border-bottom:1px solid var(--border);
+  padding:1.25rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(10,10,15,0.95);
+  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;letter-spacing:0.05em;
+  background:linear-gradient(135deg,var(--purple-light),var(--rose-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-decoration:none;
+}
+
+.logo-sub{
+  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--text3);margin-top:2px;
+}
+
+nav{display:flex;align-items:center;gap:2rem;}
+
+nav a{
+  font-size:13px;color:var(--text2);text-decoration:none;
+  transition:color 0.15s;letter-spacing:0.02em;
+}
+
+nav a:hover{color:var(--text);}
+nav a.active{color:var(--purple-light);}
+
+.nav-cta{
+  font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;padding:8px 20px;border-radius:4px;
+  text-decoration:none;transition:opacity 0.15s;
+}
+
+.nav-cta:hover{opacity:0.85;color:white;}
+
+/* ── WRAP ── */
+.wrap{position:relative;z-index:1;}
+
+/* ── HERO ── */
+.hero{
+  padding:7rem 2rem 5rem;
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border2);border-radius:100px;
+  padding:6px 14px;margin-bottom:1.5rem;
+}
+
+.hero-badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.5;transform:scale(1.3);}
+}
+
+.hero-badge-text{
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);
+}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:68px;font-weight:300;line-height:1.0;
+  margin-bottom:1.5rem;
+}
+
+.hero-title .line1{display:block;color:var(--text);}
+.hero-title .line2{
+  display:block;font-style:italic;
+  background:linear-gradient(135deg,var(--purple-light),var(--rose-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-title .line3{display:block;color:var(--text);}
+
+.hero-desc{
+  font-size:16px;color:var(--text2);line-height:1.8;
+  margin-bottom:2.5rem;max-width:480px;
+}
+
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;font-family:'Space Grotesk',sans-serif;
+  font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  padding:14px 28px;border-radius:4px;text-decoration:none;
+  border:none;cursor:pointer;transition:all 0.2s;
+}
+
+.btn-primary:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,0.4);}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  background:transparent;color:var(--text2);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  padding:14px 28px;border-radius:4px;text-decoration:none;
+  border:1px solid var(--border2);cursor:pointer;transition:all 0.2s;
+}
+
+.btn-ghost:hover{border-color:var(--purple);color:var(--purple-light);}
+
+/* HERO RIGHT — LIVE DEMO CARD */
+.hero-demo{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;overflow:hidden;position:relative;
+}
+
+.hero-demo::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--purple),var(--rose),var(--gold));
+}
+
+.demo-header{
+  padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+.demo-header-left{display:flex;align-items:center;gap:10px;}
+
+.demo-live{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);animation:pulse 2s infinite;
+}
+
+.demo-header-title{font-size:12px;font-weight:500;color:var(--text);}
+
+.demo-header-tag{
+  font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--text3);border:1px solid var(--border);
+  padding:3px 8px;border-radius:100px;
+}
+
+.demo-body{padding:1.5rem;}
+
+.demo-number-wrap{
+  text-align:center;padding:1.25rem;
+  background:var(--bg3);border-radius:10px;margin-bottom:1.25rem;
+}
+
+.demo-number-label{
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:0.5rem;
+}
+
+.demo-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;color:var(--text);letter-spacing:0.05em;
+}
+
+.demo-number-sub{font-size:11px;color:var(--text3);margin-top:4px;}
+
+/* CALL STATE */
+.demo-idle{display:block;}
+.demo-calling{display:none;text-align:center;padding:0.5rem 0;}
+.demo-calling.active{display:block;}
+
+.wave{
+  display:flex;align-items:center;justify-content:center;
+  gap:3px;height:36px;margin-bottom:0.75rem;
+}
+
+.wave span{
+  display:block;width:3px;border-radius:100px;
+  background:linear-gradient(180deg,var(--purple-light),var(--rose-light));
+  animation:wave 1.2s ease-in-out infinite;
+}
+
+.wave span:nth-child(1){animation-delay:0s;height:12px;}
+.wave span:nth-child(2){animation-delay:0.1s;height:22px;}
+.wave span:nth-child(3){animation-delay:0.2s;height:30px;}
+.wave span:nth-child(4){animation-delay:0.3s;height:22px;}
+.wave span:nth-child(5){animation-delay:0.4s;height:16px;}
+.wave span:nth-child(6){animation-delay:0.3s;height:22px;}
+.wave span:nth-child(7){animation-delay:0.2s;height:30px;}
+
+@keyframes wave{
+  0%,100%{transform:scaleY(0.4);opacity:0.4;}
+  50%{transform:scaleY(1);opacity:1;}
+}
+
+.calling-label{font-size:11px;color:var(--text3);margin-bottom:3px;}
+.calling-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;margin-bottom:1rem;}
+
+.end-btn{
+  background:transparent;border:1px solid var(--rose);
+  color:var(--rose-light);font-family:'Space Grotesk',sans-serif;
+  font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:8px 20px;border-radius:6px;cursor:pointer;transition:all 0.15s;
+}
+
+.end-btn:hover{background:rgba(244,63,94,0.1);}
+
+.demo-steps-mini{margin-bottom:1.25rem;}
+
+.demo-step-mini{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:var(--text2);padding:6px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.demo-step-mini:last-child{border-bottom:none;}
+
+.step-mini-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;color:var(--text3);min-width:18px;
+}
+
+/* DESKTOP vs MOBILE demo buttons */
+.desktop-only{display:flex;}
+.mobile-only{display:none;}
+
+.demo-browser-btn{
+  width:100%;padding:12px;
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;border:none;border-radius:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+  align-items:center;justify-content:center;gap:8px;
+}
+
+.demo-browser-btn:hover{opacity:0.9;transform:translateY(-1px);}
+
+.demo-call-link{
+  width:100%;padding:12px;
+  background:linear-gradient(135deg,var(--gold),#f59e0b);
+  color:#0a0a0f;border:none;border-radius:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  text-decoration:none;
+}
+
+.demo-call-link:hover{opacity:0.9;}
+.demo-disclaimer{font-size:10px;color:var(--text3);text-align:center;margin-top:8px;}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:2.5rem 2rem;
+}
+
+.stats-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;
+}
+
+.stat{text-align:center;}
+
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;line-height:1;
+  background:linear-gradient(135deg,var(--purple-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:6px;
+}
+
+.stat-label{font-size:12px;color:var(--text3);letter-spacing:0.05em;}
+
+/* ── HOW IT WORKS ── */
+.section{padding:5rem 2rem;}
+
+.section-inner{max-width:1100px;margin:0 auto;}
+
+.section-eyebrow{
+  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--purple-light);margin-bottom:1rem;
+  display:flex;align-items:center;gap:10px;
+}
+
+.section-eyebrow::before{
+  content:'';display:block;width:24px;height:1px;background:var(--purple-light);
+}
+
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;line-height:1.1;margin-bottom:3rem;
+}
+
+.how-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+}
+
+.how-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1.5rem;position:relative;
+  transition:border-color 0.2s;
+}
+
+.how-card:hover{border-color:var(--purple);}
+
+.how-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;color:var(--border2);
+  line-height:1;margin-bottom:1rem;
+}
+
+.how-title{font-size:14px;font-weight:500;margin-bottom:0.5rem;color:var(--text);}
+.how-desc{font-size:12px;color:var(--text3);line-height:1.7;}
+
+/* ── VERTICALS ── */
+.verticals-section{
+  padding:5rem 2rem;
+  border-top:1px solid var(--border);
+}
+
+.verticals-inner{max-width:1100px;margin:0 auto;}
+
+.verticals-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:3rem;
+}
+
+.vertical-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1.5rem;text-align:center;
+  transition:all 0.2s;cursor:default;
+}
+
+.vertical-card:hover{
+  border-color:var(--gold);
+  background:rgba(212,168,83,0.05);
+  transform:translateY(-2px);
+}
+
+.vertical-icon{font-size:28px;margin-bottom:0.75rem;}
+.vertical-name{font-size:13px;font-weight:500;margin-bottom:0.5rem;}
+.vertical-desc{font-size:11px;color:var(--text3);line-height:1.6;}
+
+/* ── FEATURES ── */
+.features-section{
+  padding:5rem 2rem;border-top:1px solid var(--border);
+}
+
+.features-inner{max-width:1100px;margin:0 auto;}
+
+.features-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3rem;
+}
+
+.feature-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:1.5rem;
+  display:flex;gap:1rem;align-items:flex-start;
+  transition:border-color 0.2s;
+}
+
+.feature-card:hover{border-color:var(--purple);}
+
+.feature-icon{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+  background:rgba(124,58,237,0.15);
+}
+
+.feature-body{}
+.feature-title{font-size:14px;font-weight:500;margin-bottom:4px;}
+.feature-desc{font-size:12px;color:var(--text3);line-height:1.7;}
+
+/* ── PRICING ── */
+.pricing-section{
+  padding:5rem 2rem;border-top:1px solid var(--border);
+}
+
+.pricing-inner{max-width:1100px;margin:0 auto;}
+
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-top:3rem;
+}
+
+.pricing-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;position:relative;
+  transition:border-color 0.2s;
+}
+
+.pricing-card.featured{border-color:var(--purple);}
+
+.pricing-card.featured::before{
+  content:'Most Popular';
+  position:absolute;top:0;left:0;right:0;
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  text-align:center;padding:6px;font-weight:500;
+}
+
+.pricing-body{padding:2rem;}
+.pricing-card.featured .pricing-body{padding-top:2.5rem;}
+
+.pricing-tier{
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:0.75rem;
+}
+
+.pricing-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;margin-bottom:0.5rem;
+}
+
+.pricing-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;line-height:1;
+  color:var(--text);margin-bottom:0.25rem;
+}
+
+.pricing-price sup{font-size:24px;vertical-align:top;margin-top:10px;}
+.pricing-price span{font-size:16px;color:var(--text3);}
+
+.pricing-desc{font-size:12px;color:var(--text3);margin-bottom:1.5rem;line-height:1.6;}
+
+.pricing-divider{height:1px;background:var(--border);margin:1.25rem 0;}
+
+.pricing-features{list-style:none;margin-bottom:2rem;}
+
+.pricing-features li{
+  font-size:13px;color:var(--text2);
+  padding:7px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+
+.pricing-features li:last-child{border-bottom:none;}
+
+.pricing-features li::before{
+  content:'✦';color:var(--purple-light);font-size:9px;flex-shrink:0;
+}
+
+.pricing-cta{
+  display:block;width:100%;padding:12px;text-align:center;
+  background:linear-gradient(135deg,var(--purple),var(--rose));
+  color:white;border:none;border-radius:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;transition:opacity 0.15s;
+}
+
+.pricing-cta:hover{opacity:0.9;}
+
+.pricing-cta-ghost{
+  display:block;width:100%;padding:12px;text-align:center;
+  background:transparent;
+  color:var(--text2);border:1px solid var(--border2);border-radius:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;transition:all 0.15s;
+}
+
+.pricing-cta-ghost:hover{border-color:var(--purple);color:var(--purple-light);}
+
+/* LAUNCH BADGE */
+.launch-badge{
+  display:inline-block;
+  background:rgba(212,168,83,0.15);color:var(--gold);
+  border:1px solid rgba(212,168,83,0.3);
+  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;margin-bottom:2rem;
+}
+
+/* ── BUNDLE CTA ── */
+.bundle-section{
+  padding:5rem 2rem;border-top:1px solid var(--border);
+}
+
+.bundle-inner{
+  max-width:800px;margin:0 auto;text-align:center;
+}
+
+.bundle-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;line-height:1.1;margin-bottom:1rem;
+}
+
+.bundle-title em{font-style:italic;color:var(--gold-light);}
+
+.bundle-desc{
+  font-size:15px;color:var(--text2);line-height:1.8;
+  margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto;
+}
+
+.bundle-math{
+  display:inline-flex;align-items:center;gap:1rem;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:1.25rem 2rem;margin-bottom:2.5rem;
+  flex-wrap:wrap;justify-content:center;
+}
+
+.bundle-item{text-align:center;}
+.bundle-item-name{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.bundle-item-price{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;}
+
+.bundle-plus{font-size:20px;color:var(--text3);}
+.bundle-equals{font-size:20px;color:var(--text3);}
+
+.bundle-total{text-align:center;}
+.bundle-total-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.bundle-total-price{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--green-light);}
+
+.bundle-actions{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:3rem 2rem;
+}
+
+.footer-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+
+.footer-brand{
+  font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;
+  background:linear-gradient(135deg,var(--purple-light),var(--rose-light),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.footer-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+
+.footer-links{display:flex;gap:1.5rem;}
+.footer-links a{font-size:12px;color:var(--text3);text-decoration:none;transition:color 0.15s;}
+.footer-links a:hover{color:var(--text2);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .hero-title{font-size:48px;}
+  .how-grid{grid-template-columns:1fr 1fr;}
+  .verticals-grid{grid-template-columns:repeat(3,1fr);}
+  .features-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .stats-inner{grid-template-columns:repeat(2,1fr);}
+  .desktop-only{display:none;}
+  .mobile-only{display:flex;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div>
+    <a href="index.html" class="logo">Alyra Solutions</a>
+    <div class="logo-sub">AI Growth & Service Software</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="growthai.html">GrowthAI</a>
+    <a href="receptionist.html" class="active">Receptionist</a>
+    <a href="platforms.html">Platforms</a>
+    <a href="about.html">About</a>
+    <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="nav-cta">Book a Call</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section style="padding:0 2rem;">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        <div class="hero-badge-text">Live & Available Now</div>
+      </div>
+      <h1 class="hero-title">
+        <span class="line1">Every call.</span>
+        <span class="line2">Answered.</span>
+        <span class="line3">Scheduled.</span>
+      </h1>
+      <p class="hero-desc">Alyra Receptionist is an AI phone agent that answers every inbound call 24/7, schedules appointments, handles FAQs, and transfers complex calls to your team — without missing a customer.</p>
+      <div class="hero-actions">
+        <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="btn-primary">
+          Get Started →
+        </a>
+        <button class="btn-ghost" onclick="startBrowserCall()">
+          ◎ &nbsp;Try It Live
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-demo">
+        <div class="demo-header">
+          <div class="demo-header-left">
+            <div class="demo-live"></div>
+            <div class="demo-header-title">Alyra Receptionist — Live Demo</div>
+          </div>
+          <div class="demo-header-tag">24/7 Active</div>
+        </div>
+        <div class="demo-body">
+          <div class="demo-number-wrap">
+            <div class="demo-number-label">Call from your phone</div>
+            <div class="demo-number">+1 (253) 367-1173</div>
+            <div class="demo-number-sub">Or use the browser demo below</div>
+          </div>
+
+          <!-- CALLING STATE -->
+          <div class="demo-calling" id="callingState">
+            <div class="wave">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+            <div class="calling-label">Connected to</div>
+            <div class="calling-name">Alyra AI Receptionist</div>
+            <button class="end-btn" onclick="endCall()">End Call</button>
+          </div>
+
+          <!-- IDLE STATE -->
+          <div class="demo-idle" id="idleState">
+            <div class="demo-steps-mini">
+              <div class="demo-step-mini"><div class="step-mini-num">01</div>Say you need a brake inspection or appointment</div>
+              <div class="demo-step-mini"><div class="step-mini-num">02</div>Agent schedules and confirms your details</div>
+              <div class="demo-step-mini"><div class="step-mini-num">03</div>Ask to speak to someone — watch the warm transfer</div>
+            </div>
+
+            <!-- Desktop: browser widget -->
+            <button class="demo-browser-btn desktop-only" onclick="startBrowserCall()">
+              ◎ &nbsp;Talk in Your Browser
+            </button>
+
+            <!-- Mobile: phone call -->
+            <a href="tel:+12533671173" class="demo-call-link mobile-only">
+              ☎ &nbsp;Call Now
+            </a>
+
+            <div class="demo-disclaimer">This is a live Alyra demo — not a real shop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Always answering</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Missed call cost</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">&lt;2s</div>
+      <div class="stat-label">Answer time</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Simultaneous calls</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-title">Four steps.<br>Zero missed customers.</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Customer Calls</div>
+        <div class="how-desc">Your Alyra number rings. The AI answers instantly — no hold music, no voicemail, no missed opportunity.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">Agent Qualifies</div>
+        <div class="how-desc">It identifies the need — new appointment, reschedule, service question — and collects the right information in one smooth conversation.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">Books or Transfers</div>
+        <div class="how-desc">Simple requests get scheduled instantly. Complex situations get a warm transfer to your team — with full context already briefed.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-title">Never Drops the Ball</div>
+        <div class="how-desc">If your team can't take the transfer, the agent takes a message and promises a callback — then follows through automatically.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERTICALS -->
+<section class="verticals-section">
+  <div class="verticals-inner">
+    <div class="section-eyebrow">Industries</div>
+    <h2 class="section-title">Built for every<br>service business.</h2>
+    <div class="verticals-grid">
+      <div class="vertical-card">
+        <div class="vertical-icon">🔧</div>
+        <div class="vertical-name">Auto Repair</div>
+        <div class="vertical-desc">Brake inspections, oil changes, HVAC checks — scheduled without pulling your advisor from the bay.</div>
+      </div>
+      <div class="vertical-card">
+        <div class="vertical-icon">🍽️</div>
+        <div class="vertical-name">Restaurants</div>
+        <div class="vertical-desc">Reservations, hours, private dining inquiries — handled before the rush even starts.</div>
+      </div>
+      <div class="vertical-card">
+        <div class="vertical-icon">💅</div>
+        <div class="vertical-name">Nail Salons</div>
+        <div class="vertical-desc">Appointments, pricing, availability — booked while your techs stay focused on clients.</div>
+      </div>
+      <div class="vertical-card">
+        <div class="vertical-icon">🧖</div>
+        <div class="vertical-name">Spas</div>
+        <div class="vertical-desc">Multi-service bookings, memberships, gift card inquiries — managed with the calm your brand demands.</div>
+      </div>
+      <div class="vertical-card">
+        <div class="vertical-icon">⚖️</div>
+        <div class="vertical-name">Law Firms</div>
+        <div class="vertical-desc">Consultation scheduling, intake qualification, urgent call routing — without missing a potential client.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="section-eyebrow">Capabilities</div>
+    <h2 class="section-title">Everything a front desk<br>does. Automated.</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-body">
+          <div class="feature-title">Appointment Scheduling</div>
+          <div class="feature-desc">Books new appointments, reschedules, and handles cancellations — collecting all necessary details in a single natural conversation.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔁</div>
+        <div class="feature-body">
+          <div class="feature-title">Warm Transfer</div>
+          <div class="feature-desc">When a human is needed, the agent briefs your team before connecting the caller — no customer repeats themselves.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌙</div>
+        <div class="feature-body">
+          <div class="feature-title">After Hours Coverage</div>
+          <div class="feature-desc">Takes detailed messages after hours with name, number, reason, and best callback time — delivered to your team instantly.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">❓</div>
+        <div class="feature-body">
+          <div class="feature-title">FAQ Handling</div>
+          <div class="feature-desc">Hours, location, pricing, services — answered instantly without your team lifting a finger.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-body">
+          <div class="feature-title">Unlimited Simultaneous Calls</div>
+          <div class="feature-desc">Five calls at once during lunch rush? No problem. Every caller gets answered immediately regardless of volume.</div>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-body">
+          <div class="feature-title">Smart Escalation</div>
+          <div class="feature-desc">Handles what it can. Escalates what it can't — two transfer attempts before taking a message and promising a 15-minute callback.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="pricing-inner">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Simple pricing.<br>No per-minute surprises.</h2>
+    <div class="launch-badge">✦ Launch Special — 50% off first 10 clients</div>
+    <div class="pricing-grid">
+
+      <!-- IGNITE -->
+      <div class="pricing-card">
+        <div class="pricing-body">
+          <div class="pricing-tier">Receptionist</div>
+          <div class="pricing-name">Ignite</div>
+          <div class="pricing-price"><sup>$</sup>297<span>/mo</span></div>
+          <div class="pricing-desc">For single-location businesses ready to stop missing calls and start converting every inquiry.</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>AI answers every inbound call 24/7</li>
+            <li>Appointment scheduling & confirmation</li>
+            <li>FAQ handling — hours, location, pricing</li>
+            <li>After hours message taking</li>
+            <li>Dedicated Alyra phone number</li>
+            <li>Monthly call summary report</li>
+          </ul>
+          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="pricing-cta-ghost">Get Started →</a>
+        </div>
+      </div>
+
+      <!-- ASCEND -->
+      <div class="pricing-card featured">
+        <div class="pricing-body">
+          <div class="pricing-tier">Receptionist</div>
+          <div class="pricing-name">Ascend</div>
+          <div class="pricing-price"><sup>$</sup>497<span>/mo</span></div>
+          <div class="pricing-desc">For businesses that need warm transfers, escalation logic, and a seamless customer experience end to end.</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Everything in Ignite</li>
+            <li>Warm transfer with caller briefing</li>
+            <li>Two-attempt transfer with fallback</li>
+            <li>15-minute callback promise system</li>
+            <li>Business hours & after hours logic</li>
+            <li>Custom escalation rules</li>
+            <li>Bi-weekly performance review</li>
+          </ul>
+          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="pricing-cta">Get Started →</a>
+        </div>
+      </div>
+
+      <!-- APEX -->
+      <div class="pricing-card">
+        <div class="pricing-body">
+          <div class="pricing-tier">Receptionist</div>
+          <div class="pricing-name">Apex</div>
+          <div class="pricing-price" style="font-size:36px;margin-top:8px;">Custom</div>
+          <div class="pricing-desc">For multi-location operators and businesses needing direct scheduling system integration.</div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Everything in Ascend</li>
+            <li>Direct booking system integration</li>
+            <li>Multi-location routing</li>
+            <li>Custom voice & persona</li>
+            <li>Dedicated account manager</li>
+            <li>Priority support SLA</li>
+            <li>Quarterly business reviews</li>
+          </ul>
+          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="pricing-cta-ghost">Contact for Pricing →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE CTA -->
+<section class="bundle-section">
+  <div class="bundle-inner">
+    <h2 class="bundle-title">Stack it with<br><em>GrowthAI</em> for the<br>complete system.</h2>
+    <p class="bundle-desc">Pair Alyra Receptionist with GrowthAI and you get an AI that answers every call AND makes sure customers find you in the first place — at a price less than what most shops pay for basic text follow-up alone.</p>
+    <div class="bundle-math">
+      <div class="bundle-item">
+        <div class="bundle-item-name">Receptionist Ascend</div>
+        <div class="bundle-item-price">$497</div>
+      </div>
+      <div class="bundle-plus">+</div>
+      <div class="bundle-item">
+        <div class="bundle-item-name">GrowthAI Ignite</div>
+        <div class="bundle-item-price">$600</div>
+      </div>
+      <div class="bundle-equals">=</div>
+      <div class="bundle-total">
+        <div class="bundle-total-label">Complete AI Front End</div>
+        <div class="bundle-total-price">$1,097/mo</div>
+      </div>
+    </div>
+    <div class="bundle-actions">
+      <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="btn-primary">
+        Book a Strategy Call →
+      </a>
+      <a href="growthai.html" class="btn-ghost">
+        Learn About GrowthAI
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Alyra Solutions</div>
+      <div class="footer-sub">AI Growth & Service Industry Software · © 2026</div>
+    </div>
+    <div class="footer-links">
+      <a href="growthai.html">GrowthAI</a>
+      <a href="receptionist.html">Receptionist</a>
+      <a href="platforms.html">Platforms</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="tos.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- VAPI SDK -->
+<script>
+(function(d,t){
+  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src="https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+  g.defer=true;g.async=true;
+  s.parentNode.insertBefore(g,s);
+  g.onload=function(){
+    window.vapiInstance=window.Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
+    window.vapiInstance.on('call-start',function(){
+      document.getElementById('callingState').classList.add('active');
+      document.getElementById('idleState').style.display='none';
+    });
+    window.vapiInstance.on('call-end',function(){
+      document.getElementById('callingState').classList.remove('active');
+      document.getElementById('idleState').style.display='block';
+    });
+  }
+})(document,'script');
+
+function startBrowserCall(){
+  if(window.vapiInstance){
+    window.vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+  }
+}
+
+function endCall(){
+  if(window.vapiInstance){window.vapiInstance.stop();}
+}
+</script>
+
+</body>
+</html>
