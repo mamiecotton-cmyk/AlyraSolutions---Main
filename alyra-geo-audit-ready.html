@@ -280,7 +280,7 @@ body{font-family:'Archivo',sans-serif;background:var(--white);color:var(--black)
 </div>
 
 <script>
-const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+
 let menuImageBase64 = null, menuImageType = null;
 let _placeCache = {};
 
@@ -410,9 +410,9 @@ async function estimateCovers() {
   btn.textContent = 'Estimating...';
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/anthropic', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 150,
@@ -509,9 +509,9 @@ Return ONLY valid JSON:
       ? [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: menuImageType||'image/jpeg', data: menuImageBase64 } }, { type: 'text', text: 'Extract all menu prices from this image first, then complete the audit:\n\n' + prompt }] }]
       : [{ role: 'user', content: prompt }];
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/anthropic', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 2500, messages })
     });
 

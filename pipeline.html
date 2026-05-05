@@ -637,13 +637,7 @@ header{
 </div>
 
 <script>
-const API_KEY = localStorage.getItem('alyra_api_key') || promptForKey();
 
-function promptForKey() {
-  const key = prompt('Enter your Anthropic API key to begin:');
-  if (key) localStorage.setItem('alyra_api_key', key);
-  return key;
-}
 
 let selectedProspect = null;
 let auditData = null;
@@ -683,13 +677,10 @@ async function apiCall(messages, system, maxTokens, useWebSearch){
   if(system) body.system = system;
   if(useWebSearch) body.tools = [{type:'web_search_20250305',name:'web_search'}];
 
-  const res = await fetch('https://api.anthropic.com/v1/messages',{
+  const res = await fetch('/api/anthropic',{
     method:'POST',
     headers:{
-      'Content-Type':'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
+      'Content-Type':'application/json'
     },
     body:JSON.stringify(body)
   });
