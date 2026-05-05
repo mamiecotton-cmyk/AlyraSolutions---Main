@@ -963,12 +963,20 @@ footer{
 </footer>
 
 <!-- VAPI SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web/dist/vapi.umd.js"></script>
 <script>
-  var vapiInstance = null;
+window.addEventListener('load', function() {
+  var script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.umd.js';
+  script.onload = function() {
+    var vapiInstance = new Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
 
-  window.addEventListener('load', function() {
-    vapiInstance = new Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
+    window.startBrowserCall = function() {
+      vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+    };
+
+    window.endCall = function() {
+      vapiInstance.stop();
+    };
 
     vapiInstance.on('call-start', function() {
       document.getElementById('callingState').classList.add('active');
@@ -983,19 +991,12 @@ footer{
     vapiInstance.on('error', function(e) {
       console.error('Vapi error:', e);
     });
-  });
-
-  function startBrowserCall() {
-    if (vapiInstance) {
-      vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
-    }
-  }
-
-  function endCall() {
-    if (vapiInstance) {
-      vapiInstance.stop();
-    }
-  }
+  };
+  script.onerror = function() {
+    console.error('Failed to load Vapi SDK');
+  };
+  document.head.appendChild(script);
+});
 </script>
 
 </body>
