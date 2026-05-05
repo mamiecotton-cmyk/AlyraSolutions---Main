@@ -220,45 +220,42 @@ footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px s
   .nav-links{display:none;}
 }
 
-/* ── BOOK A CALL SECTION ── */
+/* ── BOOK A STRATEGY CALL ── */
 .book-section{position:relative;padding:6rem 2rem;overflow:hidden;}
-.book-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(244,63,94,.08) 0%,transparent 50%);pointer-events:none;}
+.book-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,0.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(244,63,94,0.08) 0%,transparent 50%);pointer-events:none;}
 .book-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;}
-.book-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
+.book-eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
 .book-eyebrow::before{content:'';display:block;width:24px;height:1px;background:#a78bfa;}
 .book-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;line-height:1.1;margin-bottom:1.25rem;background:linear-gradient(135deg,#e8e6f0 0%,#a78bfa 60%,#d4a853 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .book-desc{font-size:15px;color:#9490b0;line-height:1.8;margin-bottom:2rem;max-width:440px;}
 .book-points{list-style:none;margin-bottom:2.5rem;}
 .book-points li{font-size:13px;color:#9490b0;padding:8px 0;border-bottom:1px solid #1e1e30;display:flex;align-items:center;gap:12px;}
 .book-points li::before{content:'✦';color:#d4a853;font-size:10px;flex-shrink:0;}
-.book-cta{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:16px 32px;border-radius:4px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;}
-.book-cta:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,.4);}
-.book-cta-arrow{font-size:16px;transition:transform .2s;}
-.book-cta:hover .book-cta-arrow{transform:translateX(4px);}
+.book-cta{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;padding:16px 32px;border-radius:4px;text-decoration:none;transition:all 0.2s;}
+.book-cta:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,0.4);}
 .cal-card{background:#0f0f1a;border:1px solid #2a2a40;border-radius:16px;overflow:hidden;position:relative;}
 .cal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7c3aed,#f43f5e,#d4a853);}
 .cal-header{padding:1.5rem;border-bottom:1px solid #1e1e30;display:flex;align-items:center;gap:12px;}
 .cal-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#f43f5e);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;color:white;flex-shrink:0;}
-.cal-name{font-size:14px;font-weight:500;color:#e8e6f0;}
+.cal-name{font-size:14px;font-weight:500;}
 .cal-role{font-size:11px;color:#5a5575;margin-top:2px;}
 .cal-body{padding:1.5rem;}
-.cal-meeting-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#e8e6f0;margin-bottom:1rem;}
-.cal-details{margin-bottom:1.5rem;}
+.cal-meeting-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:1rem;}
 .cal-detail{display:flex;align-items:center;gap:10px;font-size:13px;color:#9490b0;margin-bottom:8px;}
-.cal-detail-icon{width:20px;color:#a78bfa;font-size:14px;flex-shrink:0;}
+.cal-detail-icon{width:20px;color:#a78bfa;font-size:14px;}
 .cal-divider{height:1px;background:#1e1e30;margin:1.25rem 0;}
-.cal-slots-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#5a5575;margin-bottom:.75rem;}
+.cal-slots-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#5a5575;margin-bottom:0.75rem;}
 .cal-slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem;}
-.cal-slot{padding:10px;border:1px solid #2a2a40;border-radius:6px;font-size:12px;color:#9490b0;text-align:center;cursor:pointer;transition:all .15s;}
-.cal-slot:hover,.cal-slot.selected{border-color:#7c3aed;background:rgba(124,58,237,.1);color:#a78bfa;}
-.cal-book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;border:none;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .15s;}
-.cal-book-btn:hover{opacity:.9;}
+.cal-slot{padding:10px;border:1px solid #2a2a40;border-radius:6px;font-size:12px;color:#9490b0;text-align:center;cursor:pointer;transition:all 0.15s;}
+.cal-slot:hover,.cal-slot.selected{border-color:#7c3aed;background:rgba(124,58,237,0.1);color:#a78bfa;}
+.cal-book-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;border:none;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:opacity 0.15s;display:block;text-decoration:none;text-align:center;}
+.cal-book-btn:hover{opacity:0.9;}
 /* ── DEMO SECTION ── */
 .demo-section{padding:5rem 2rem;border-top:1px solid #1e1e30;position:relative;overflow:hidden;}
-.demo-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(212,168,83,.06) 0%,transparent 60%);pointer-events:none;}
+.demo-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(212,168,83,0.06) 0%,transparent 60%);pointer-events:none;}
 .demo-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
 .demo-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;}
-.demo-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#d4a853;margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+.demo-eyebrow{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#d4a853;margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
 .demo-eyebrow::before{content:'';display:block;width:24px;height:1px;background:#d4a853;}
 .demo-title{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1.1;max-width:500px;}
 .demo-title em{font-style:italic;color:#fbbf24;}
@@ -266,24 +263,42 @@ footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px s
 .demo-card{background:#0f0f1a;border:1px solid #2a2a40;border-radius:16px;overflow:hidden;position:relative;max-width:600px;margin:0 auto;}
 .demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#d4a853,#f43f5e,#7c3aed);}
 .demo-card-header{padding:1.5rem;border-bottom:1px solid #1e1e30;display:flex;align-items:center;justify-content:space-between;}
-.demo-card-title{font-size:13px;font-weight:500;color:#e8e6f0;display:flex;align-items:center;gap:10px;}
+.demo-card-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;}
 .demo-live-dot{width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.2);}}
-.demo-card-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5a5575;border:1px solid #2a2a40;padding:4px 10px;border-radius:100px;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(1.2);}}
+.demo-card-tag{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#5a5575;border:1px solid #2a2a40;padding:4px 10px;border-radius:100px;}
 .demo-card-body{padding:2rem;}
-.demo-number-display{text-align:center;margin-bottom:2rem;}
-.demo-number-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#5a5575;margin-bottom:.5rem;}
-.demo-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#e8e6f0;letter-spacing:.05em;}
-.demo-number-sub{font-size:12px;color:#5a5575;margin-top:4px;}
 .demo-divider{height:1px;background:#1e1e30;margin:1.5rem 0;}
-.demo-what-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#5a5575;margin-bottom:1rem;}
-.demo-steps{display:flex;flex-direction:column;gap:10px;}
+.demo-what-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#5a5575;margin-bottom:1rem;}
+.demo-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem;}
 .demo-step{display:flex;align-items:center;gap:12px;font-size:13px;color:#9490b0;}
 .demo-step-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#5a5575;min-width:20px;}
-.demo-call-btn{width:100%;padding:14px;background:linear-gradient(135deg,#d4a853,#f59e0b);color:#0a0a0f;border:none;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;}
-.demo-call-btn:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,168,83,.3);}
+.demo-desktop{display:block;}
+.demo-mobile{display:none;}
+.demo-calling-state{display:none;text-align:center;padding:1rem 0;}
+.demo-calling-state.active{display:block;}
+.demo-wave{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:1rem;height:40px;}
+.demo-wave span{display:block;width:4px;border-radius:100px;background:linear-gradient(180deg,#a78bfa,#fb7185);animation:wave 1.2s ease-in-out infinite;}
+.demo-wave span:nth-child(1){animation-delay:0s;height:16px;}
+.demo-wave span:nth-child(2){animation-delay:0.1s;height:28px;}
+.demo-wave span:nth-child(3){animation-delay:0.2s;height:36px;}
+.demo-wave span:nth-child(4){animation-delay:0.3s;height:28px;}
+.demo-wave span:nth-child(5){animation-delay:0.4s;height:20px;}
+.demo-wave span:nth-child(6){animation-delay:0.3s;height:28px;}
+.demo-wave span:nth-child(7){animation-delay:0.2s;height:36px;}
+.demo-wave span:nth-child(8){animation-delay:0.1s;height:28px;}
+.demo-wave span:nth-child(9){animation-delay:0s;height:16px;}
+@keyframes wave{0%,100%{transform:scaleY(0.5);opacity:0.5;}50%{transform:scaleY(1);opacity:1;}}
+.demo-calling-label{font-size:13px;color:#9490b0;margin-bottom:0.5rem;}
+.demo-calling-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#e8e6f0;margin-bottom:1.25rem;}
+.demo-end-btn{background:transparent;border:1px solid #f43f5e;color:#fb7185;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 24px;border-radius:6px;cursor:pointer;transition:all 0.15s;}
+.demo-end-btn:hover{background:rgba(244,63,94,0.1);}
+.demo-browser-btn{width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#f43f5e);color:white;border:none;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.demo-browser-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,0.4);}
+.demo-call-btn{width:100%;padding:14px;background:linear-gradient(135deg,#d4a853,#f59e0b);color:#0a0a0f;border:none;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;}
+.demo-call-btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,168,83,0.3);}
 .demo-disclaimer{text-align:center;font-size:11px;color:#5a5575;margin-top:1rem;}
-@media(max-width:768px){.book-inner{grid-template-columns:1fr;}.book-title{font-size:38px;}.demo-top{flex-direction:column;gap:1.5rem;align-items:flex-start;}.demo-right-text{text-align:left;}.demo-title{font-size:36px;}}
+@media(max-width:768px){.book-inner{grid-template-columns:1fr;}.book-title{font-size:38px;}.demo-top{flex-direction:column;gap:1.5rem;align-items:flex-start;}.demo-right-text{text-align:left;}.demo-title{font-size:36px;}.demo-desktop{display:none;}.demo-mobile{display:block;}}
 </style>
 </head>
 <body>
@@ -627,26 +642,24 @@ footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px s
         <li>No obligation — cancel any time before the call</li>
       </ul>
       <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="book-cta">
-        Book Your Free Strategy Call
-        <span class="book-cta-arrow">→</span>
+        Book Your Free Strategy Call →
       </a>
     </div>
+
     <div class="book-right">
       <div class="cal-card">
         <div class="cal-header">
           <div class="cal-avatar">A</div>
-          <div class="cal-info">
+          <div>
             <div class="cal-name">Mamie Cotton</div>
             <div class="cal-role">Alyra Solutions — GEO Strategy</div>
           </div>
         </div>
         <div class="cal-body">
           <div class="cal-meeting-title">Free GEO Strategy Call</div>
-          <div class="cal-details">
-            <div class="cal-detail"><span class="cal-detail-icon">◷</span>30 minutes</div>
-            <div class="cal-detail"><span class="cal-detail-icon">◎</span>Google Meet — no download required</div>
-            <div class="cal-detail"><span class="cal-detail-icon">✦</span>Your GEO audit reviewed before the call</div>
-          </div>
+          <div class="cal-detail"><span class="cal-detail-icon">◷</span> 30 minutes</div>
+          <div class="cal-detail"><span class="cal-detail-icon">◎</span> Google Meet — no download required</div>
+          <div class="cal-detail"><span class="cal-detail-icon">✦</span> Your GEO audit reviewed before the call</div>
           <div class="cal-divider"></div>
           <div class="cal-slots-label">Available This Week</div>
           <div class="cal-slots">
@@ -655,8 +668,8 @@ footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px s
             <div class="cal-slot">Wed · 9:00 AM</div>
             <div class="cal-slot">Thu · 11:00 AM</div>
           </div>
-          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" style="text-decoration:none;">
-            <button class="cal-book-btn">Select a Time →</button>
+          <a href="https://calendly.com/mamie-alyrasolutions/30min" target="_blank" class="cal-book-btn">
+            Select a Time →
           </a>
         </div>
       </div>
@@ -673,36 +686,70 @@ footer{position:relative;z-index:1;background:rgba(6,3,15,0.95);border-top:1px s
         <h2 class="demo-title">Hear the agent<br>that <em>never misses</em><br>a call.</h2>
       </div>
       <div class="demo-right-text">
-        Call our live AI receptionist right now. It schedules appointments, answers service questions, and transfers to a human when needed — exactly what your customers will experience.
+        Talk to our live AI receptionist right now. It schedules appointments, answers service questions, and transfers to a human when needed — exactly what your customers will experience.
       </div>
     </div>
+
     <div class="demo-card">
       <div class="demo-card-header">
         <div class="demo-card-title">
           <div class="demo-live-dot"></div>
           Alyra AI Receptionist — Live
         </div>
-        <div class="demo-card-tag">Call anytime</div>
+        <div class="demo-card-tag">Available 24/7</div>
       </div>
+
       <div class="demo-card-body">
-        <div class="demo-number-display">
-          <div class="demo-number-label">Call this number from your phone</div>
-          <div class="demo-number">+1 (253) 367-1173</div>
-          <div class="demo-number-sub">Available 24 hours · 7 days a week</div>
-        </div>
-        <div class="demo-divider"></div>
-        <div class="demo-what-happens">
-          <div class="demo-what-label">What happens when you call</div>
-          <div class="demo-steps">
-            <div class="demo-step"><div class="demo-step-num">01</div>The AI answers instantly — no hold music, no voicemail</div>
-            <div class="demo-step"><div class="demo-step-num">02</div>Tell it you need a brake inspection or any service</div>
-            <div class="demo-step"><div class="demo-step-num">03</div>It schedules your appointment and confirms the details</div>
-            <div class="demo-step"><div class="demo-step-num">04</div>Ask to speak to someone — watch the warm transfer work</div>
+
+        <div class="demo-what-label">What to try when you connect</div>
+        <div class="demo-steps">
+          <div class="demo-step">
+            <div class="demo-step-num">01</div>
+            The AI answers instantly — no hold, no voicemail
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num">02</div>
+            Say you need a brake inspection or oil change
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num">03</div>
+            It schedules your appointment and confirms the details
+          </div>
+          <div class="demo-step">
+            <div class="demo-step-num">04</div>
+            Ask to speak to someone — watch the warm transfer work
           </div>
         </div>
+
         <div class="demo-divider"></div>
-        <a href="tel:+12533671173" class="demo-call-btn">☎ Call the AI Agent Now</a>
-        <div class="demo-disclaimer">This is a live Alyra demo agent — not connected to a real shop</div>
+
+        <!-- ACTIVE CALL STATE (hidden until call starts) -->
+        <div class="demo-calling-state" id="callingState">
+          <div class="demo-wave">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="demo-calling-label">Connected to</div>
+          <div class="demo-calling-name">Alyra AI Receptionist</div>
+          <button class="demo-end-btn" onclick="endCall()">End Call</button>
+        </div>
+
+        <!-- DESKTOP: Browser widget button -->
+        <div class="demo-desktop" id="desktopDemo">
+          <button class="demo-browser-btn" onclick="startBrowserCall()">
+            ◎ &nbsp;Talk to the AI Agent — In Your Browser
+          </button>
+          <div class="demo-disclaimer">Click Allow Microphone when prompted · No download required</div>
+        </div>
+
+        <!-- MOBILE: Direct phone call -->
+        <div class="demo-mobile" id="mobileDemo">
+          <a href="tel:+12533671173" class="demo-call-btn">
+            ☎ &nbsp;Call the AI Agent Now
+          </a>
+          <div class="demo-disclaimer">+1 (253) 367-1173 · This is a live Alyra demo agent</div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -791,6 +838,42 @@ window.addEventListener('resize',()=>{resizeCanvas();initStars();});
     });
   });
 })();
+</script>
+
+<!-- VAPI SDK -->
+<script>
+(function(d, t) {
+  var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+  g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g, s);
+  g.onload = function() {
+    window.vapiInstance = window.Vapi("caa58a1a-fd29-4d33-a173-1456701ce68f");
+
+    window.vapiInstance.on('call-start', function() {
+      document.getElementById('callingState').classList.add('active');
+      document.getElementById('desktopDemo').style.display = 'none';
+    });
+
+    window.vapiInstance.on('call-end', function() {
+      document.getElementById('callingState').classList.remove('active');
+      document.getElementById('desktopDemo').style.display = 'block';
+    });
+  }
+})(document, 'script');
+
+function startBrowserCall() {
+  if (window.vapiInstance) {
+    window.vapiInstance.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+  }
+}
+
+function endCall() {
+  if (window.vapiInstance) {
+    window.vapiInstance.stop();
+  }
+}
 </script>
 </body>
 </html>
