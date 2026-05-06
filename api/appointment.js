@@ -13,10 +13,12 @@ export default async function handler(req, res) {
     const { callerName, serviceType, preferredDate, preferredTime, callerPhone, notes } = args;
 
     if (!preferredDate || !preferredTime) {
-      return res.status(200).json([{
-        toolCallId,
-        result: "I'm missing the date or time. Could you confirm those again?"
-      }]);
+      return res.status(200).json({
+        results: [{
+          toolCallId: toolCallId,
+          result: "I'm missing the date or time. Could you confirm those again?"
+        }]
+      });
     }
 
     const startDateTime = new Date(`${preferredDate}T${preferredTime}:00-07:00`);
@@ -68,10 +70,12 @@ export default async function handler(req, res) {
         }
       }
 
-      return res.status(200).json([{
-        toolCallId,
-        result: `I'm sorry — that time slot is already taken. The next available times are ${alternatives[0]}, ${alternatives[1]}, or ${alternatives[2]}. Which works best for you?`
-      }]);
+      return res.status(200).json({
+        results: [{
+          toolCallId: toolCallId,
+          result: `I'm sorry — that time slot is already taken. The next available times are ${alternatives[0]}, ${alternatives[1]}, or ${alternatives[2]}. Which works best for you?`
+        }]
+      });
     }
 
     await fetch('https://hook.us2.make.com/4wti2xfxea2cpodsj1wng1b8exp953im', {
@@ -87,16 +91,20 @@ export default async function handler(req, res) {
       })
     });
 
-    return res.status(200).json([{
-      toolCallId,
-      result: `Perfect — you're all set. I've booked your ${serviceType} for ${preferredDate} at ${preferredTime}. Is there anything else I can help you with?`
-    }]);
+    return res.status(200).json({
+      results: [{
+        toolCallId: toolCallId,
+        result: `Perfect — you're all set. I've booked your ${serviceType} for ${preferredDate} at ${preferredTime}. Is there anything else I can help you with?`
+      }]
+    });
 
   } catch (error) {
     console.error('Appointment error:', error);
-    return res.status(200).json([{
-      toolCallId: req.body?.message?.toolCalls?.[0]?.id,
-      result: "I'm having trouble booking that right now. Let me transfer you to our team who can help."
-    }]);
+    return res.status(200).json({
+      results: [{
+        toolCallId: req.body?.message?.toolCalls?.[0]?.id,
+        result: "I'm having trouble booking that right now. Let me transfer you to our team who can help."
+      }]
+    });
   }
 }
