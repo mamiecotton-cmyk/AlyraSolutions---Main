@@ -22,6 +22,7 @@ export default async function handler(req, res) {
     }
 
     const startDateTime = new Date(`${preferredDate}T${preferredTime}:00-07:00`);
+    const startPlusOne = new Date(startDateTime.getTime() + 60 * 1000); // +1 minute
     const endDateTime = new Date(startDateTime.getTime() + 30 * 60 * 1000);
 
     const credentials = JSON.parse(
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
 
     const conflictCheck = await calendar.events.list({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
-      timeMin: startDateTime.toISOString(),
+      timeMin: startPlusOne.toISOString(), // Use +1 minute to avoid boundary conflicts
       timeMax: endDateTime.toISOString(),
       singleEvents: true,
     });
