@@ -20,9 +20,13 @@ export default async function handler(req, res) {
     const startDateTime = new Date(`${preferredDate}T${preferredTime}:00-07:00`);
     const endDateTime = new Date(startDateTime.getTime() + 30 * 60 * 1000);
 
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GOOGLE_CREDENTIALS, 'base64').toString('utf8')
+    );
+
     const auth = new google.auth.JWT({
-      email: process.env.GOOGLE_CLIENT_EMAIL,
-      key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      email: credentials.client_email,
+      key: credentials.private_key,
       scopes: ['https://www.googleapis.com/auth/calendar'],
     });
 
