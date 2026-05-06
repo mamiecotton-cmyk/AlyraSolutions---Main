@@ -979,7 +979,11 @@ footer{
   vapi.on('error', function(e) { console.error('Vapi error:', e); });
 
   function startBrowserCall() {
-    vapi.start("3a2b85b5-23df-4144-a380-096e562bdc68");
+    vapi.start("3a2b85b5-23df-4144-a380-096e562bdc68", {
+      assistantOverrides: {
+        maxDurationSeconds: 120
+      }
+    });
   }
 
   function endCall() {
