@@ -8,13 +8,15 @@ export default async function handler(req, res) {
   try {
     const toolCall = req.body?.message?.toolCalls?.[0];
     const args = toolCall?.function?.arguments || {};
+    const toolCallId = toolCall?.id;
 
     const { callerName, serviceType, preferredDate, preferredTime, callerPhone, notes } = args;
 
     if (!preferredDate || !preferredTime) {
-      return res.status(200).json({ 
-        result: "I'm missing the date or time. Could you confirm those again?" 
-      });
+      return res.status(200).json([{
+        toolCallId,
+        result: "I'm missing the date or time. Could you confirm those again?"
+      }]);
     }
 
     const startDateTime = new Date(`${preferredDate}T${preferredTime}:00-07:00`);
@@ -44,11 +46,11 @@ export default async function handler(req, res) {
     if (conflicts.length > 0) {
       const alternatives = [];
       let checkTime = new Date(startDateTime);
-      
+
       while (alternatives.length < 3) {
         checkTime = new Date(checkTime.getTime() + 30 * 60 * 1000);
         const checkEnd = new Date(checkTime.getTime() + 30 * 60 * 1000);
-        
+
         const altCheck = await calendar.events.list({
           calendarId: process.env.GOOGLE_CALENDAR_ID,
           timeMin: checkTime.toISOString(),
@@ -66,9 +68,10 @@ export default async function handler(req, res) {
         }
       }
 
-      return res.status(200).json({
+      return res.status(200).json([{
+        toolCallId,
         result: `I'm sorry — that time slot is already taken. The next available times are ${alternatives[0]}, ${alternatives[1]}, or ${alternatives[2]}. Which works best for you?`
-      });
+      }]);
     }
 
     await fetch('https://hook.us2.make.com/4wti2xfxea2cpodsj1wng1b8exp953im', {
@@ -84,14 +87,16 @@ export default async function handler(req, res) {
       })
     });
 
-    return res.status(200).json({
+    return res.status(200).json([{
+      toolCallId,
       result: `Perfect — you're all set. I've booked your ${serviceType} for ${preferredDate} at ${preferredTime}. Is there anything else I can help you with?`
-    });
+    }]);
 
   } catch (error) {
     console.error('Appointment error:', error);
-    return res.status(200).json({
+    return res.status(200).json([{
+      toolCallId: req.body?.message?.toolCalls?.[0]?.id,
       result: "I'm having trouble booking that right now. Let me transfer you to our team who can help."
-    });
+    }]);
   }
 }
